@@ -2,7 +2,7 @@
 from Node import *
 from Common import *
 
-class Vehicle():
+class Player():
     # Update entity
     def Update(self):
         directions = Empty

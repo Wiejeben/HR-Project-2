@@ -25,6 +25,10 @@ def Main():
     start = time.time()
     entities = Empty
 
+    #menu
+    #ingame
+    #paused game
+
     # Start at 5 so entities will spawn on first frame
     step = 5
 
