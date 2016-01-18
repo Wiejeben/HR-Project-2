@@ -25,10 +25,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Boat.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Car.py">
+    <Compile Include="Dice.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common.py">
@@ -37,11 +34,11 @@
     <Compile Include="Node.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tile.py">
+    <Compile Include="Board.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Game.py" />
-    <Compile Include="Vehicle.py">
+    <Compile Include="Player.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
