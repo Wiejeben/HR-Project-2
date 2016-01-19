@@ -1,14 +1,18 @@
 ﻿import pygame
-from * import Entities
+from Entities import *
+from Player import *
 
-class Game(object):
-    def __init__(self, amount_opponents):
+class Game:
+    def __init__(self, background, amount_opponents):
         self.background = background
-        self.Players = {}
-        for i in list(1, amount_opponents):
-            self.Players.insert(Player())
+        self.Players = []
+        for i in range(1, amount_opponents):
+            self.Players.append(Player())
 
         self.setupLayout()
+    def setupLayout(self):
+        pass
+
     def render(self, screen):
         board = GameBoard(Vector2D(0,0), Vector2D(400,400))
         board.render(screen)

@@ -28,7 +28,7 @@ def Main():
     # Create initial game instance
     app = AppState()
     menu = Menu(background)
-    game = Game(background)
+    game = Game(background, 4)
     speed = 0.2
 
     # Event loop
