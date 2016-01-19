@@ -6,7 +6,7 @@ class Vector2D():
         self.Y = y
     def __str__(self):
         return "(" + str(self.X) + ", " + str(self.Y) + ")"
-    
+
 class Dice():
     def __init__(self, position, size):
         self.number = 1
@@ -29,3 +29,28 @@ class Dice():
             (self.size.X, self.size.Y), 
             (self.position.X, self.position.Y)
         )
+
+class GameBoard:
+    def __init__(self, position, size):
+        self.position = position
+        self.size = size
+        self.texture = pygame.image.load("Content/board/game_board.png").convert_alpha()
+    def getTexture(self):
+        return self.texture
+    def render(self, screen):
+        screen.blit(pygame.transform.scale(pself.texture), (self.size.X, self.size.Y), (self.position.X, self.position.Y))
+
+class PlayerBoard:
+    def __init__(self, position, size):
+        self.position = position
+        self.size = size
+        self.texture = pygame.image.load("Content/board/player_board.png").convert_alpha()
+        self.attractions = []
+    def getTexture(self):
+        return self.texture
+    def setAttraction(key, attractionObject):
+        self.attractions[key] = attractionObject
+    def getAttraction(key):
+        return self.attractions[key]
+    def render(self, screen):
+        screen.blit(pygame.transform.scale(pself.texture), (self.size.X, self.size.Y), (self.position.X, self.position.Y))
