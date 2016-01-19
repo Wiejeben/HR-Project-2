@@ -1,6 +1,6 @@
 ﻿import pygame
 
-class Game:
+class AppState:
     def __init__(self):
         self.state = "Menu"
         self.paused = False
@@ -14,9 +14,12 @@ class Game:
         self.state = "Game"
 
     # Interrupt gameplay
-    def pause(self):
+    def togglePause(self):
         if self.state == "Game":
-            self.paused = True
+            self.paused = False
+
+            if not self.paused:
+                self.paused = True
     
     # Resume gameplay
     def resume(self):

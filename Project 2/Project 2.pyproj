@@ -28,7 +28,7 @@
     <Compile Include="Common.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Game.py">
+    <Compile Include="AppState.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Node.py">
