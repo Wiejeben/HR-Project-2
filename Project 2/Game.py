@@ -1,4 +1,4 @@
-﻿from pygame import quit
+﻿import pygame
 
 class Game:
     def __init__(self):

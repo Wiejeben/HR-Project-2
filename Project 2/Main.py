@@ -15,7 +15,7 @@ background = pygame.Surface(screen.get_size())
 background = background.convert()
 
 # Screen title
-pygame.display.set_caption("Buy a Ride")
+pygame.display.set_caption("Groep 3: Buy a Ride")
 
 def Main():
     game = Game()
