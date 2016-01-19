@@ -1,4 +1,4 @@
-import random
+﻿import random
 
 class Vector2D():
     def __init__(self, x, y):
@@ -6,7 +6,7 @@ class Vector2D():
         self.Y = y
     def __str__(self):
         return "(" + str(self.X) + ", " + str(self.Y) + ")"
-
+    
 class Dice():
     def __init__(self, position, size):
         self.number = 1
