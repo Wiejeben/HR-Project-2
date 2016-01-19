@@ -25,13 +25,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Boat.py">
+    <Compile Include="Vector2D.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Car.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Common.py">
+    <Compile Include="Dice.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Node.py">
@@ -41,9 +38,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Game.py" />
-    <Compile Include="Vehicle.py">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.4" />
