@@ -28,13 +28,13 @@ def Main():
             if event.type == QUIT:
                 game.exit()
 
-            if event.type == K_ESCAPE:
-                game.pause()
-                print("test")
-
-            # DEBUG
             if event.type == MOUSEBUTTONDOWN:
                 game.start()
+
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    game.pause()
+
 
         if game.state == "Menu":
             # Render menu
