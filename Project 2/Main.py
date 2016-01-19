@@ -1,16 +1,23 @@
 ﻿import pygame
 from time import sleep
 from pygame.locals import *
+from AppState import *
 from Game import *
+from Menu import *
 
-pygame.init()
-size = width, height = 600, 600
+canvasSize = width, height = 600, 600
+
 white = 255, 255, 255
 green = 50, 255, 100
 yellow = 255, 255, 0
-screen = pygame.display.set_mode(size)
+orange = 255, 100, 0
+
 offset = 50
 size = 10
+
+pygame.init()
+screen = pygame.display.set_mode(canvasSize)
+
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 
@@ -18,7 +25,11 @@ background = background.convert()
 pygame.display.set_caption("Groep 3: Buy a Ride")
 
 def Main():
-    game = Game()
+    # Create initial game instance
+    app = AppState()
+    menu = Menu(background)
+    game = Game(background)
+    speed = 0.2
 
     # Event loop
     while True:
@@ -26,41 +37,32 @@ def Main():
         # Events
         for event in pygame.event.get():
             if event.type == QUIT:
-                game.exit()
+                app.exit()
 
-            if event.type == K_ESCAPE:
-                game.pause()
-                print("test")
-
-            # DEBUG
             if event.type == MOUSEBUTTONDOWN:
-                game.start()
+                app.start()
 
-        if game.state == "Menu":
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    app.togglePause()
+
+
+        if app.state == "Menu":
             # Render menu
-            background.fill(green)
-            font = pygame.font.Font(None, 36)
-            text = font.render("Menu", 1, (10, 10, 10))
-            textpos = text.get_rect()
-            textpos.centerx = background.get_rect().centerx
-            background.blit(text, textpos)
+            menu.load()
 
-        if game.state == "Game":
+        elif app.state == "Game":
             # Show game
-            background.fill(yellow)
-            font = pygame.font.Font(None, 36)
-            text = font.render("Game", 1, (10, 10, 10))
-            textpos = text.get_rect()
-            textpos.centerx = background.get_rect().centerx
-            background.blit(text, textpos)
-
-            if game.paused == True:
-                pass
+            if app.paused:
+                game.pause()
+            else:
+                game.load()
 
         # Render
         screen.blit(background, (0, 0))
         pygame.display.flip()
 
-        sleep(0.2)
+        # Run at 5 FPS
+        sleep(speed)
 
 Main()

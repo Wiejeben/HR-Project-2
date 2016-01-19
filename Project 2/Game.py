@@ -1,23 +1,27 @@
 ﻿import pygame
 
-class Game:
-    def __init__(self):
-        self.state = "Menu"
-        self.paused = False
+class Game(object):
+    def __init__(self, background):
+        self.background = background
 
-    # Close game
-    def exit(self):
-        pygame.quit()
-    
-    # Get inside game
-    def start(self):
-        self.state = "Game"
+    def load(self):
+        yellow = 255, 255, 0
+        self.background.fill(yellow)
+        font = pygame.font.Font(None, 36)
+        text = font.render("Game", 1, (10, 10, 10))
+        textpos = text.get_rect()
+        textpos.centerx = self.background.get_rect().centerx
+        self.background.blit(text, textpos)
 
-    # Interrupt gameplay
     def pause(self):
-        if self.state == "Game":
-            self.paused = True
-    
-    # Resume gameplay
-    def resume(self):
-        self.paused = False
+        print("Paused")
+        
+        orange = 255, 100, 0 
+        self.background.fill(orange)
+        font = pygame.font.Font(None, 36)
+        text = font.render("Paused!", 1, (10, 10, 10))
+        textpos = text.get_rect()
+        textpos.centerx = self.background.get_rect().centerx
+        self.background.blit(text, textpos)
+
+
