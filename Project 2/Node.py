@@ -62,18 +62,3 @@ class Node:
             return Node(self.Value, Empty)
         else:
             return self.Tail.index(index-1)
-
-def AUX_length(l, acc):
-  if l.IsEmpty: return acc
-  else: return AUX_length(l.Tail, acc + 1)
-
-def length(l):
-  return AUX_length(l, 0)
-
-def select_one_random(l):
-  _length = length(l)
-  rnd_num = int(uniform(0, _length ))
-  while(rnd_num > 0):
-    l = l.Tail
-    rnd_num -= 1
-  return l.Value

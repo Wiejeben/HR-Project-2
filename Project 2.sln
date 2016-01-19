@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DEV 2 Game template", "DEV 2 Game template\DEV 2 Game template.pyproj", "{1CABFBF1-30D8-44C6-8DAE-16742C860A86}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Project 2", "Project 2\Project 2.pyproj", "{CA74E5B7-F99D-4131-99B9-C0A6BE186A7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,8 +11,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1CABFBF1-30D8-44C6-8DAE-16742C860A86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CABFBF1-30D8-44C6-8DAE-16742C860A86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA74E5B7-F99D-4131-99B9-C0A6BE186A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA74E5B7-F99D-4131-99B9-C0A6BE186A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

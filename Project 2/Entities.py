@@ -1,4 +1,9 @@
-﻿import random
+import random
+
+class Vector2D():
+    def __init__(self, positionX, positionY):
+        self.X = positionX
+        self.Y = positionY
 
 class Dice():
     def __init__(self, Position, Size):
@@ -22,5 +27,3 @@ class Dice():
             (self.Size.X, self.Size.Y), 
             (self.Position.X, self.Position.Y)
         )
-
-
