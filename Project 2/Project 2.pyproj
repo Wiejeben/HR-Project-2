@@ -31,6 +31,12 @@
     <Compile Include="AppState.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Game.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Menu.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Node.py">
       <SubType>Code</SubType>
     </Compile>

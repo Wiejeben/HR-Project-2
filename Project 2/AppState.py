@@ -15,10 +15,12 @@ class AppState:
 
     # Interrupt gameplay
     def togglePause(self):
+        print("Toggle pause")
         if self.state == "Game":
-            self.paused = False
 
-            if not self.paused:
+            if self.paused:
+                self.paused = False
+            else:
                 self.paused = True
     
     # Resume gameplay
