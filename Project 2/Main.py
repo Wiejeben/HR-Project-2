@@ -5,7 +5,7 @@ from AppState import *
 from Game import *
 from Menu import *
 
-canvasSize = width, height = 600, 600
+canvasSize = width, height = 1024, 768
 
 white = 255, 255, 255
 green = 50, 255, 100
@@ -29,11 +29,12 @@ def Main():
     app = AppState()
     menu = Menu(background)
     game = Game(background, 4)
-    speed = 0.2
+    game.renderBoard(screen)
+    speed = 0.1
 
     # Event loop
     while True:
-
+        
         # Events
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -55,10 +56,12 @@ def Main():
             if app.paused:
                 game.pause()
             else:
-                game.load()
+                game.renderBoard(screen)
+                game.update()
+                game.drawPlayers(screen)
 
         # Render
-        screen.blit(background, (0, 0))
+        #screen.blit(background, (0, 0))
         pygame.display.flip()
 
         # Run at 5 FPS

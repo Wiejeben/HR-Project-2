@@ -1,4 +1,5 @@
 ﻿import random
+import pygame
 
 class Vector2D():
     def __init__(self, x, y):
@@ -38,8 +39,12 @@ class GameBoard:
     def getTexture(self):
         return self.texture
     def render(self, screen):
-        screen.blit(pygame.transform.scale(pself.texture), (self.size.X, self.size.Y), (self.position.X, self.position.Y))
+        screen.blit(pygame.transform.scale(self.texture, (self.size.X, self.size.Y)), (self.position.X, self.position.Y))
 
+class GameTile:
+    def __init__(self, pawnPosition):
+        self.position = pawnPosition
+ 
 class PlayerBoard:
     def __init__(self, position, size):
         self.position = position
@@ -53,4 +58,4 @@ class PlayerBoard:
     def getAttraction(key):
         return self.attractions[key]
     def render(self, screen):
-        screen.blit(pygame.transform.scale(pself.texture), (self.size.X, self.size.Y), (self.position.X, self.position.Y))
+        screen.blit(pygame.transform.scale(self.texture, (self.size.X, self.size.Y)), (self.position.X, self.position.Y))
