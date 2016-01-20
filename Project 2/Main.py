@@ -27,7 +27,7 @@ pygame.display.set_caption("Groep 3: Buy a Ride")
 def Main():
     # Create initial game instance
     app = AppState()
-    menu = Menu(background)
+    menu = Menu(background, app)
     game = Game(background, 4)
     speed = 0.2
 
@@ -36,19 +36,15 @@ def Main():
 
         # Events
         for event in pygame.event.get():
-            if event.type == QUIT:
-                app.exit()
-
-            if event.type == MOUSEBUTTONDOWN:
-                app.start()
-
-            elif event.type == KEYDOWN:
+            if app.state == "Menu":
+                menu.handleInputs(event)
+            if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     app.togglePause()
 
         if app.state == "Menu":
             # Render menu
-            menu.load()
+            menu.draw()
 
         elif app.state == "Game":
             # Show game
@@ -58,7 +54,8 @@ def Main():
                 game.load()
 
         # Render
-        screen.blit(background, (0, 0))
+        if(app.state == "Game"):
+            screen.blit(background, (0, 0))
         pygame.display.flip()
 
         # Run at 5 FPS
