@@ -6,7 +6,7 @@
     <ProjectGuid>{ca74e5b7-f99d-4131-99b9-c0a6be186a7f}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>Game.py</StartupFile>
+    <StartupFile>Main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,20 +25,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Dice.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Common.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AppState.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entities.py" />
+    <Compile Include="Game.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Menu.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Node.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Board.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Game.py" />
-    <Compile Include="Player.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UIToolKit\Button.py">
@@ -52,6 +52,12 @@
     </Compile>
     <Compile Include="UIToolKit\__init__.py">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Main.py">
+   	<SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Player.py">
+   	<SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

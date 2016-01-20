@@ -1,28 +1,40 @@
-﻿import time
-from threading import Thread
-import os, pygame
-import time
-from UIToolKit.MainMenu import *
-from UIToolKit.ImageUtils import *
+﻿import pygame
+from Entities import *
+from Player import *
 
-pygame.init()
+class Game:
+    def __init__(self, background, amount_opponents):
+        self.background = background
+        self.Players = []
+        for i in range(1, amount_opponents):
+            self.Players.append(Player())
 
-def Main():
-    start = time.time()
-    mainMenu = MainMenu()
-    #menu
-    #ingame
-    #paused game
+        self.setupLayout()
+    def setupLayout(self):
+        pass
+
+    def render(self, screen):
+        board = GameBoard(Vector2D(0,0), Vector2D(400,400))
+        board.render(screen)
+
+    def load(self):
+        yellow = 255, 255, 0
+        self.background.fill(yellow)
+        font = pygame.font.Font(None, 36)
+        text = font.render("Game", 1, (10, 10, 10))
+        textpos = text.get_rect()
+        textpos.centerx = self.background.get_rect().centerx
+        self.background.blit(text, textpos)
+
+    def pause(self):
+        print("Paused")
+        
+        orange = 255, 100, 0 
+        self.background.fill(orange)
+        font = pygame.font.Font(None, 36)
+        text = font.render("Paused!", 1, (10, 10, 10))
+        textpos = text.get_rect()
+        textpos.centerx = self.background.get_rect().centerx
+        self.background.blit(text, textpos)
 
 
-
-    while True:
-        for event in pygame.event.get(): # event handling loop
-            mainMenu.handleInputs(event)
-
-        mainMenu.draw()
-
-        pygame.display.flip()
-        time.sleep(0.2)
-    
-Main()
