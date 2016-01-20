@@ -50,7 +50,8 @@ class Button:
                 if self.PrevMouseOverButton:
                     doMouseClick = True
                 self.PrevMouseOverButton = False
-                self.FunctionToExecute()
+                if self.FunctionToExecute != None:
+                    self.FunctionToExecute()
                 if self.MouseDown:
                     self.MouseDown = False
 

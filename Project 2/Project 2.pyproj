@@ -47,7 +47,7 @@
     <Compile Include="UIToolKit\ImageUtils.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UIToolKit\Menu.py">
+    <Compile Include="UIToolKit\MainMenu.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UIToolKit\__init__.py">
