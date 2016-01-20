@@ -16,6 +16,7 @@ class Game:
     def render(self, screen):
         board = GameBoard(Vector2D(0,0), Vector2D(400,400))
         board.render(screen)
+
     def load(self):
         yellow = 255, 255, 0
         self.background.fill(yellow)

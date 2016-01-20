@@ -46,7 +46,6 @@ def Main():
                 if event.key == K_ESCAPE:
                     app.togglePause()
 
-
         if app.state == "Menu":
             # Render menu
             menu.load()
