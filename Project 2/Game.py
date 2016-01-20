@@ -1,4 +1,5 @@
 ﻿import pygame
+from time import sleep
 from Entities import *
 from Player import *
 from Node import *
@@ -7,8 +8,9 @@ class Game:
     def __init__(self, background, amount_opponents):
         self.background = background
         self.loaded = False
-        self.players = []
+        
         self.board = GameBoard(Vector2D(0,0), Vector2D(768,768))
+        self.dice = Dice(Vector2D(850,350), Vector2D(64, 64))
         self.tiles = [
             GameTile(Vector2D(710,720)), 
             GameTile(Vector2D(630,720)), 
@@ -58,15 +60,17 @@ class Game:
             GameTile(Vector2D(710,550)),
             GameTile(Vector2D(710,610))
         ]
-        
-        for i in range(1, amount_opponents):
-            self.players.append(Player(0))
 
+        self.players = []
+        self.active_player_id = 0
+
+        self.players.append(Player(0, True, "blue")) # The Player
+
+        self.players.append(Player(0, False, "red")) # AI player
+        self.players.append(Player(0, False, "green")) # AI player
+        self.players.append(Player(0, False, "yellow")) # AI player
         for player in self.players:
             player.position = 1
-
-    def renderBoard(self, screen):
-        self.board.render(screen)
 
     def load(self):
         yellow = 255, 255, 0
@@ -76,18 +80,37 @@ class Game:
         textpos = text.get_rect()
         textpos.centerx = self.background.get_rect().centerx
         self.background.blit(text, textpos)
+
+    def getActivePlayer(self):
+        return self.players[self.active_player_id]
+
+    def nextTurn(self):
+        self.active_player_id = (self.active_player_id + 1) % len(self.players)
+
     def update(self):
-        for player in self.players:
-           if player.position < 39:
-               player.position = player.position + 1
-           else:
-               player.position = 0
-    def drawPlayers(self, screen):
+
+        # Get the player who's turn it is
+        player = self.getActivePlayer()
+        if player.isRealPlayer:
+            # Let the player click on dice roll 
+
+            self.dice.roll()
+        else:
+            self.dice.roll()
+
+        # Move player for the amount rolled
+        player.position = (player.position + self.dice.number) % 39
+        self.nextTurn()
+
+    def draw(self, screen):
+        self.board.render(screen)
+        self.dice.render(screen)
+
         for player in self.players:
             player.drawPawn(screen, self.tiles[player.position].position)
+
     def pause(self):
         print("Paused")
-        
         orange = 255, 100, 0 
         self.background.fill(orange)
         font = pygame.font.Font(None, 36)

@@ -29,8 +29,7 @@ def Main():
     app = AppState()
     menu = Menu(background)
     game = Game(background, 4)
-    game.renderBoard(screen)
-    speed = 0.1
+    speed = 0.5
 
     # Event loop
     while True:
@@ -56,9 +55,8 @@ def Main():
             if app.paused:
                 game.pause()
             else:
-                game.renderBoard(screen)
                 game.update()
-                game.drawPlayers(screen)
+                game.draw(screen)
 
         # Render
         #screen.blit(background, (0, 0))

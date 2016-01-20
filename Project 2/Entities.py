@@ -16,20 +16,16 @@ class Dice():
     def roll(self): 
         self.number = random.randint(1,6)
     def getTexture(self):
-        return {
+        return pygame.image.load({
             1: "Content/dice/dice_1.png", 
             2: "Content/dice/dice_2.png",
             3: "Content/dice/dice_3.png",
             4: "Content/dice/dice_4.png",
             5: "Content/dice/dice_5.png",
             6: "Content/dice/dice_6.png"
-        }.get(self.number, 1)
+        }.get(self.number, 1)).convert_alpha()
     def render(self, screen):
-        screen.blit(
-            pygame.transform.scale(pygame.image.load(self.getTexture).convert_alpha()), 
-            (self.size.X, self.size.Y), 
-            (self.position.X, self.position.Y)
-        )
+        screen.blit(pygame.transform.scale(self.getTexture(), (self.size.X, self.size.Y)), (self.position.X, self.position.Y))
 
 class GameBoard:
     def __init__(self, position, size):
