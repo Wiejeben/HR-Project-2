@@ -1,6 +1,7 @@
 ﻿import random
 import pygame
 from time import sleep
+from Library.Image import *
 
 class Vector2D():
     def __init__(self, x, y):
@@ -14,29 +15,20 @@ class Dice():
         self.number = 1
         self.position = position
         self.size = size
+        self.texture = [
+            "dice/dice_1.png", 
+            "dice/dice_2.png",
+            "dice/dice_3.png",
+            "dice/dice_4.png",
+            "dice/dice_5.png",
+            "dice/dice_6.png"
+        ]
+
     def roll(self): 
         self.number = random.randint(1,6)
-    def getTexture(self):
-        return pygame.image.load({
-            1: "Content/dice/dice_1.png", 
-            2: "Content/dice/dice_2.png",
-            3: "Content/dice/dice_3.png",
-            4: "Content/dice/dice_4.png",
-            5: "Content/dice/dice_5.png",
-            6: "Content/dice/dice_6.png"
-        }.get(self.number, 1)).convert_alpha()
-    def render(self, screen):
-        screen.blit(pygame.transform.scale(self.getTexture(), (self.size.X, self.size.Y)), (self.position.X, self.position.Y))
 
-class GameBoard:
-    def __init__(self, position, size):
-        self.position = position
-        self.size = size
-        self.texture = pygame.image.load("Content/board/game_board.png").convert_alpha()
-    def getTexture(self):
-        return self.texture
     def render(self, screen):
-        screen.blit(pygame.transform.scale(self.texture, (self.size.X, self.size.Y)), (self.position.X, self.position.Y))
+        Image(self.texture[self.number - 1], (self.position.X, self.position.Y)).draw()
 
 class GameTile:
     def __init__(self, pawnPosition):

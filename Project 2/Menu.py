@@ -1,41 +1,39 @@
 ﻿import pygame
-from UIToolKit.Button import *
-from UIToolKit.ImageUtils import *
+from Library.Image import *
 
-class Menu(object):
+class Menu:
+    def __init__(self, app):
+        self.buttons_index = [
+            Image("buttons/Start.png", ('center', 300)).hover("buttons/Start_Active.png").click(app.start),
+            Image("buttons/Options.png", ('center', 400)).hover("buttons/Options_Active.png").click(app.options),
+            Image("buttons/Exit.png", ('center', 500)).hover("buttons/Exit_Active.png").click(app.exit)
+        ]
 
-    
-    def __init__(self, background, appstate):        
-        self.background = background
-        self.ButtonList = []  
-        #Can't we do this better?
-        self.App = appstate
-        self.load()
+        self.buttons_rules = [
+            Image("buttons/Exit.png", ('center', 300)).hover("buttons/Options_Active.png")
+        ]
 
-    def load(self):
-        startButton = Button(ImageUtils.Screen.get_width() / 2 - 100, 50, 200, 100, "normal_example.png", "hover_example.png", "pressed_example.png", self.startGameFunc)
-        self.ButtonList.append(startButton)
-        settingsButton = Button(ImageUtils.Screen.get_width() / 2 - 100, startButton.PositionY + 200, 200, 100, "normal_example.png", "hover_example.png", "pressed_example.png", self.settingsFunc)
-        self.ButtonList.append(settingsButton)
-        quitButton = Button(ImageUtils.Screen.get_width() / 2 - 100, settingsButton.PositionY + 200, 200, 100, "normal_example.png", "hover_example.png", "pressed_example.png", self.quitFunc)
-        self.ButtonList.append(quitButton)
+        self.buttons_options = [
+            Image("buttons/Options.png", ('center', 300)).hover("buttons/Exit_Active.png")
+        ]
 
-    def startGameFunc(self):
-        self.App.start()
+    def index(self):
+        # Set background color
+        pygame.display.get_surface().fill((255, 255, 255))
 
-    def settingsFunc(self):
-        print("Open Settings menu here :D")
-
-    def quitFunc(self):
-        self.App.exit()
-       
-
-    def draw(self):
-        for button in self.ButtonList:
+        for button in self.buttons_index:
             button.draw()
 
-    def handleInputs(self, event):
-        for button in self.ButtonList:
-            button.handleInputEvents(event)
+    def rules(self):
+        # Set background color
+        pygame.display.get_surface().fill((255, 255, 255))
 
+        for button in self.buttons_rules:
+            button.draw()
 
+    def options(self):
+        # Set background color
+        pygame.display.get_surface().fill((255, 255, 255))
+
+        for button in self.buttons_options:
+            button.draw()

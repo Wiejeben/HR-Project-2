@@ -3,13 +3,14 @@ from time import sleep
 from Entities import *
 from Player import *
 from Node import *
+from Library.Image import *
 
 class Game:
-    def __init__(self, background, amount_opponents):
-        self.background = background
+    def __init__(self, amount_opponents):
+        self.screen = pygame.display.get_surface()
         self.loaded = False
         
-        self.board = GameBoard(Vector2D(0,0), Vector2D(768,768))
+        self.board = Image("board/game_board.png")
         self.dice = Dice(Vector2D(850,350), Vector2D(64, 64))
         self.tiles = [
             GameTile(Vector2D(710,720)), 
@@ -65,21 +66,19 @@ class Game:
         self.active_player_id = 0
 
         self.players.append(Player(0, True, "blue")) # The Player
-
         self.players.append(Player(0, False, "red")) # AI player
         self.players.append(Player(0, False, "green")) # AI player
         self.players.append(Player(0, False, "yellow")) # AI player
+
         for player in self.players:
             player.position = 1
 
     def load(self):
-        yellow = 255, 255, 0
-        self.background.fill(yellow)
         font = pygame.font.Font(None, 36)
         text = font.render("Game", 1, (10, 10, 10))
         textpos = text.get_rect()
-        textpos.centerx = self.background.get_rect().centerx
-        self.background.blit(text, textpos)
+        textpos.centerx = self.screen.get_rect().centerx
+        self.screen.blit(text, textpos)
 
     def getActivePlayer(self):
         return self.players[self.active_player_id]
@@ -87,7 +86,7 @@ class Game:
     def nextTurn(self):
         self.active_player_id = (self.active_player_id + 1) % len(self.players)
 
-    def run(self, screen):
+    def run(self):
 
         # Get the player who's turn it is
         player = self.getActivePlayer()
@@ -97,7 +96,7 @@ class Game:
         else:
             for i in range(1,10):
                 self.dice.roll()
-                self.draw(screen)
+                self.draw()
                 sleep(0.05)
                
         for i in range(1, self.dice.number):
@@ -105,24 +104,24 @@ class Game:
                 player.position = player.position + 1
             else:
                 player.position = 0
-            self.draw(screen)
+            self.draw()
             sleep(0.2)
 
             
-        self.draw(screen)
+        self.draw()
 
         # Move player for the amount rolled
         
         self.nextTurn()
 
-    def draw(self, screen):
-        self.board.render(screen)
-        self.dice.render(screen)
+    def draw(self):
+        self.board.draw()
+
+        self.dice.render(self.screen)
         for player in self.players:
-            player.drawPawn(screen, self.tiles[player.position].position)
-        player = self.getActivePlayer()
-        screen.blit(pygame.transform.scale(player.texture, (player.size.X * 2, player.size.Y * 2)), (840 , 150))
-        pygame.display.flip()
+            player.drawPawn(self.tiles[player.position].position)
+
+        self.getActivePlayer().drawPawn(Vector2D(840 , 150))
 
     def pause(self):
         print("Paused")

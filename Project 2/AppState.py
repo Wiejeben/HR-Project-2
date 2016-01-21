@@ -5,6 +5,15 @@ class AppState:
         self.state = "Menu"
         self.paused = False
 
+    def menu(self):
+        self.state = "Menu"
+
+    def rules(self):
+        self.state = "Rules"
+
+    def options(self):
+        self.state = "Options"
+
     # Close game
     def exit(self):
         pygame.quit()
