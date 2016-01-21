@@ -1,6 +1,8 @@
 ﻿import pygame
 from time import sleep
 from Entities import *
+from UIToolKit.Button import *
+from UIToolKit.ImageUtils import *
 from Player import *
 from Node import *
 
@@ -61,14 +63,16 @@ class Game:
             GameTile(Vector2D(710,610))
         ]
 
-        self.players = []
+        # Buttons uitoolkit?
+        self.ButtonList = []
+
         self.active_player_id = 0
+        self.players = []
+        self.players.append(Player(0, True, "blue", 0)) # The Player
 
-        self.players.append(Player(0, True, "blue")) # The Player
-
-        self.players.append(Player(0, False, "red")) # AI player
-        self.players.append(Player(0, False, "green")) # AI player
-        self.players.append(Player(0, False, "yellow")) # AI player
+        self.players.append(Player(0, False, "red", 1)) # AI player
+        self.players.append(Player(0, False, "green", 2)) # AI player
+        self.players.append(Player(0, False, "yellow", 3)) # AI player
         for player in self.players:
             player.position = 1
 
@@ -85,22 +89,37 @@ class Game:
         return self.players[self.active_player_id]
 
     def nextTurn(self):
+        self.players[self.active_player_id].turn_state = 0
         self.active_player_id = (self.active_player_id + 1) % len(self.players)
+    
+        
+    # ???
+    def playerRolledDice():
+        #self.players[self.active_player_id].turn_state = 1
+        for i in range(1,10):
+            self.dice.roll()
+            self.draw(screen)
+            pygame.time.delay(500)
+            
 
     def run(self, screen):
 
         # Get the player who's turn it is
         player = self.getActivePlayer()
-        if player.isRealPlayer:
-            # Let the player click on dice roll 
+        if player.isRealPlayer: #and player.turn_state == 0:
+            #player.turn_state = 1
+            # ????
+            #diceButton = Button(ImageUtils.Screen.get_width() / 2 - 100, 200, 200, 100, "normal_example.png", "hover_example.png", "pressed_example.png", self.playerRolledDice)
+            #self.ButtonList.append(diceButton)
             self.dice.roll()
+            self.draw(screen)
         else:
             for i in range(1,10):
                 self.dice.roll()
                 self.draw(screen)
-                sleep(0.05)
+                pygame.time.delay(50)
                
-        for i in range(1, self.dice.number):
+        for i in range(0, self.dice.number):
             if player.position < 39:
                 player.position = player.position + 1
             else:
@@ -108,11 +127,7 @@ class Game:
             self.draw(screen)
             sleep(0.2)
 
-            
-        self.draw(screen)
 
-        # Move player for the amount rolled
-        
         self.nextTurn()
 
     def draw(self, screen):
@@ -121,7 +136,9 @@ class Game:
         for player in self.players:
             player.drawPawn(screen, self.tiles[player.position].position)
         player = self.getActivePlayer()
-        screen.blit(pygame.transform.scale(player.texture, (player.size.X * 2, player.size.Y * 2)), (840 , 150))
+
+        screen.blit(pygame.transform.scale(player.texture, (player.size.X, player.size.Y)), (840 , 150))
+
         pygame.display.flip()
 
     def pause(self):
@@ -134,4 +151,7 @@ class Game:
         textpos.centerx = self.background.get_rect().centerx
         self.background.blit(text, textpos)
 
+    def handleInputs(self, event):
+        for button in self.ButtonList:
+            button.handleInputEvents(event)
 

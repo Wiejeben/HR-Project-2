@@ -15,7 +15,7 @@ class Dice():
         self.position = position
         self.size = size
     def roll(self): 
-        self.number = random.randint(1,6)
+        self.number = random.randint(2,3)
     def getTexture(self):
         return pygame.image.load({
             1: "Content/dice/dice_1.png", 
