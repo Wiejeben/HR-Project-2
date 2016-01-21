@@ -87,27 +87,42 @@ class Game:
     def nextTurn(self):
         self.active_player_id = (self.active_player_id + 1) % len(self.players)
 
-    def update(self):
+    def run(self, screen):
 
         # Get the player who's turn it is
         player = self.getActivePlayer()
         if player.isRealPlayer:
             # Let the player click on dice roll 
-
             self.dice.roll()
         else:
-            self.dice.roll()
+            for i in range(1,10):
+                self.dice.roll()
+                self.draw(screen)
+                sleep(0.05)
+               
+        for i in range(1, self.dice.number):
+            if player.position < 39:
+                player.position = player.position + 1
+            else:
+                player.position = 0
+            self.draw(screen)
+            sleep(0.2)
+
+            
+        self.draw(screen)
 
         # Move player for the amount rolled
-        player.position = (player.position + self.dice.number) % 39
+        
         self.nextTurn()
 
     def draw(self, screen):
         self.board.render(screen)
         self.dice.render(screen)
-
         for player in self.players:
             player.drawPawn(screen, self.tiles[player.position].position)
+        player = self.getActivePlayer()
+        screen.blit(pygame.transform.scale(player.texture, (player.size.X * 2, player.size.Y * 2)), (840 , 150))
+        pygame.display.flip()
 
     def pause(self):
         print("Paused")

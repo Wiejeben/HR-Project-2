@@ -1,5 +1,6 @@
 ﻿import random
 import pygame
+from time import sleep
 
 class Vector2D():
     def __init__(self, x, y):

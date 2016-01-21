@@ -4,7 +4,7 @@ class Player:
     def __init__(self, tile, isRealPlayer, color):
         self.isRealPlayer = isRealPlayer
         self.tile = tile
-        self.size = Vector2D(64, 64)
+        self.size = Vector2D(128, 128)
         self.color = color
         self.texture = pygame.image.load("Content/pieces/"+color+"/piece.png").convert_alpha()
 
