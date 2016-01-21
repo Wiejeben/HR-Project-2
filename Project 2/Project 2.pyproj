@@ -35,17 +35,45 @@
     <Compile Include="Game.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Init.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Menu.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Node.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Main.py" />
-    <Compile Include="Player.py" />
+    <Compile Include="UIToolKit\Button.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIToolKit\EventHandler.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIToolKit\Image.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIToolKit\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Player.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="UIToolKit\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\hover_example.png" />
+    <Content Include="Content\normal_example.png" />
+    <Content Include="Content\pressed_example.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

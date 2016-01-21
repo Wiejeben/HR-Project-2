@@ -13,9 +13,12 @@ class AppState:
     def start(self):
         self.state = "Game"
 
+    # Go inside settings page
+    def settings(self):
+        self.state = "Settings"
+
     # Interrupt gameplay
-    def togglePause(self):
-        print("Toggle pause")
+    def toggle_pause(self):
         if self.state == "Game":
 
             if self.paused:

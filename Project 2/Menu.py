@@ -1,16 +1,20 @@
 ﻿import pygame
+from UIToolKit.Image import *
 
-class Menu(object):
-    def __init__(self, background):
-        self.background = background
+class Menu:
+    def __init__(self, app):
 
-    def load(self):
-        green = 50, 255, 100
-        self.background.fill(green)
-        font = pygame.font.Font(None, 36)
-        text = font.render("Menu", 1, (10, 10, 10))
-        textpos = text.get_rect()
-        textpos.centerx = self.background.get_rect().centerx
-        self.background.blit(text, textpos)
+        self.buttons = [
+            Image("buttons/Start.png", ('center', 100)).hover("buttons/Start_Active.png").click(app.start),
+            Image("buttons/Options.png", ('center', 200)).hover("buttons/Options_Active.png"),
+            Image("buttons/Exit.png", ('center', 300)).hover("buttons/Exit_Active.png").click(app.exit)
+        ]
+
+    def draw(self):
+        # Set background color
+        pygame.display.get_surface().fill((255, 255, 255))
+
+        for button in self.buttons:
+            button.draw()
 
 
