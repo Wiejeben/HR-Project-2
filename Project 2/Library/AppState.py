@@ -7,12 +7,19 @@ class AppState:
 
     def menu(self):
         self.state = "Menu"
+        self.next()
 
     def rules(self):
         self.state = "Rules"
+        self.next()
 
     def options(self):
         self.state = "Options"
+        self.next()
+
+    # Go to next frame
+    def next(self):
+        pygame.event.post(pygame.event.Event(pygame.locals.USEREVENT))
 
     # Close game
     def exit(self):

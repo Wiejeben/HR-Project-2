@@ -55,7 +55,6 @@ class Event():
             return True
 
         elif trigger == 'click' and type == MOUSEBUTTONUP:
-            print('click')
             return True
 
         return False
