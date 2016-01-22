@@ -1,5 +1,4 @@
 ﻿import pygame
-from sys import exit
 
 class AppState:
     def __init__(self):
