@@ -17,6 +17,7 @@ def Main():
 
     # Event loop
     while True:
+        # Calculate
         # Background white
         pygame.display.get_surface().fill((255, 255, 255))
 

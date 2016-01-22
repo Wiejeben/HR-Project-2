@@ -13,18 +13,25 @@ class EventHandler():
     def begin(self):
             
         if self.mode == 'get':
-            for event in pygame.event.get():
+            events = pygame.event.get()
+
+            if len(events) == 0:
+                self._check_events()
+
+            for event in events:
                 self._check_events(event)
         else:
             self._check_events(pygame.event.wait())
         
-    def _check_events(self, event):
-        # Prevent events that got no POS on it
-        if event.type not in (MOUSEMOTION, MOUSEBUTTONUP, MOUSEBUTTONDOWN):
-            return False
+    def _check_events(self, event = None):
 
         for action in self.actions:
-            if action.region.collidepoint(event.pos) and action.type(event.type):
+            event_type = None
+
+            if event != None:
+                event_type = event.type
+
+            if action.region.collidepoint(pygame.mouse.get_pos()) and action.type(event_type):
                 for function in action.functions:
                     if function != None:
                         function()
