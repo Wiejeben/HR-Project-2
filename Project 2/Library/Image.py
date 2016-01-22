@@ -82,12 +82,6 @@ class Image:
 
     # Show image
     def draw(self, state = None):
-        if self.path == "buttons/Start.png":
-            if state == 'hover':
-                print('hover')
-            else:
-                print('else')
-
         if state == 'hover':
             image = self.image_hover
         else:

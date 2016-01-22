@@ -24,13 +24,11 @@ class EventHandler():
             self._check_events(pygame.event.wait())
         
     def _check_events(self, event = None):
+        event_type = None
+        if event != None:
+            event_type = event.type
 
         for action in self.actions:
-            event_type = None
-
-            if event != None:
-                event_type = event.type
-
             if action.region.collidepoint(pygame.mouse.get_pos()) and action.type(event_type):
                 for function in action.functions:
                     if function != None:

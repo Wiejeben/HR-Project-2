@@ -1,4 +1,5 @@
 ﻿import pygame
+import sys
 
 class AppState:
     def __init__(self):
@@ -17,6 +18,7 @@ class AppState:
     # Close game
     def exit(self):
         pygame.quit()
+        sys.exit()
     
     # Get inside game
     def start(self):
