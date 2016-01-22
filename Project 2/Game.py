@@ -2,7 +2,6 @@
 from time import sleep
 from Entities import *
 from Player import *
-from Node import *
 from Library.Image import *
 
 class Game:

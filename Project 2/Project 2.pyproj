@@ -25,10 +25,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Common.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AppState.py">
+    <Compile Include="Library\AppState.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Entities.py" />
@@ -38,9 +35,6 @@
     <Compile Include="Init.py" />
     <Compile Include="Library\Image.py" />
     <Compile Include="Menu.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Node.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Library\EventHandler.py">

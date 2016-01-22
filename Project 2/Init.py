@@ -1,6 +1,6 @@
 ﻿import pygame
 from Library.EventHandler import *
-from AppState import *
+from Library.AppState import *
 
 pygame.init()
 pygame.display.set_mode((1024, 768))

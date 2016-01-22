@@ -3,7 +3,7 @@
 from Library.Image import *
 from Init import *
 from Library.EventHandler import *
-from AppState import *
+from Library.AppState import *
 from Game import *
 from Menu import *
 
