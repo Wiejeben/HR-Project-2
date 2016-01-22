@@ -35,25 +35,16 @@
     <Compile Include="Game.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Init.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Menu.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Node.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UIToolKit\Button.py">
+    <Compile Include="Library\EventHandler.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UIToolKit\EventHandler.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UIToolKit\Image.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UIToolKit\__init__.py">
+    <Compile Include="Library\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Main.py">
@@ -68,12 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
-    <Folder Include="UIToolKit\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\hover_example.png" />
-    <Content Include="Content\normal_example.png" />
-    <Content Include="Content\pressed_example.png" />
+    <Folder Include="Library\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

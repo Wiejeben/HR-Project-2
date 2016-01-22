@@ -5,6 +5,15 @@ class AppState:
         self.state = "Menu"
         self.paused = False
 
+    def menu(self):
+        self.state = "Menu"
+
+    def rules(self):
+        self.state = "Rules"
+
+    def options(self):
+        self.state = "Options"
+
     # Close game
     def exit(self):
         pygame.quit()
@@ -13,12 +22,9 @@ class AppState:
     def start(self):
         self.state = "Game"
 
-    # Go inside settings page
-    def settings(self):
-        self.state = "Settings"
-
     # Interrupt gameplay
-    def toggle_pause(self):
+    def togglePause(self):
+        print("Toggle pause")
         if self.state == "Game":
 
             if self.paused:

@@ -1,39 +1,41 @@
 ﻿import pygame
 
-from time import sleep
-from pygame.locals import *
-
-from UIToolKit.Image import *
+from Library.Image import *
 from Init import *
-from UIToolKit.EventHandler import *
+from Library.EventHandler import *
 from AppState import *
-#from Game import *
+from Game import *
 from Menu import *
 
-
-# Colors
-white = 255, 255, 255
-green = 50, 255, 100
-yellow = 255, 255, 0
-orange = 255, 100, 0
-
+# Screen title
 pygame.display.set_caption("Groep 3: Buy a Ride")
-
 
 def Main():
     # Create initial game instance
-    app = AppState()
-    menu = Menu(app)
-    #game = Game(4)
-    
+    menu = Menu()
+    game = Game(4)
 
     # Event loop
     while True:
-        event_handler.event()
+        # Background white
+        pygame.display.get_surface().fill((255, 255, 255))
 
-        if app.state == "Menu":
-            menu.draw()
+        if app_state.state == "Menu":
+            menu.index()
 
-        pygame.display.flip()
+        elif app_state.state == "Rules":
+            menu.rules()
+
+        elif app_state.state == "Options":
+            menu.options()
+
+        elif app_state.state == "Game":
+            if app_state.paused:  
+                game.pause()
+            else:
+                game.run()
+
+        event_handler.begin()
+        event_handler.end()
 
 Main()
