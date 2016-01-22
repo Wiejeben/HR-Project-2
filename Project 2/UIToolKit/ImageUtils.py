@@ -1,4 +1,4 @@
-import pygame
+﻿import pygame
 
 class ImageUtils:
     #Bah ugly as shit
@@ -7,5 +7,6 @@ class ImageUtils:
     def scale(image, rectangle):
         return pygame.transform.smoothscale(image, rectangle.size)
 
+     
     def loadImage(image):
         return pygame.image.load("Content/" + image).convert_alpha()

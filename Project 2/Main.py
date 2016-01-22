@@ -4,6 +4,7 @@ from pygame.locals import *
 from AppState import *
 from Game import *
 from Menu import *
+from Rules import *
 
 canvasSize = width, height = 600, 600
 
@@ -28,6 +29,7 @@ def Main():
     # Create initial game instance
     app = AppState()
     menu = Menu(background, app)
+    rules = Rules(background, app)
     game = Game(background, 4)
     speed = 0.2
 
@@ -38,6 +40,8 @@ def Main():
         for event in pygame.event.get():
             if app.state == "Menu":
                 menu.handleInputs(event)
+            elif app.state == "Rules":
+                rules.handleInputs(event)
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     app.togglePause()
@@ -45,7 +49,8 @@ def Main():
         if app.state == "Menu":
             # Render menu
             menu.draw()
-
+        elif app.state == "Rules":        
+            rules.draw()
         elif app.state == "Game":
             # Show game
             if app.paused:
@@ -54,8 +59,6 @@ def Main():
                 game.load()
 
         # Render
-        if(app.state == "Game"):
-            screen.blit(background, (0, 0))
         pygame.display.flip()
 
         # Run at 5 FPS
