@@ -9,7 +9,7 @@ class Game:
         self.screen = pygame.display.get_surface()
         self.loaded = False
         
-        self.board = Image("board/game_board.png")
+        self.board = Image("board/game_board.png", 'Game')
         self.dice = Dice(Vector2D(850,350), Vector2D(64, 64))
         self.tiles = [
             GameTile(Vector2D(710,720)), 
@@ -73,6 +73,9 @@ class Game:
             player.position = 1
 
     def load(self):
+        global event_handler
+        event_handler.mode = 'get'
+
         font = pygame.font.Font(None, 36)
         text = font.render("Game", 1, (10, 10, 10))
         textpos = text.get_rect()

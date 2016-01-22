@@ -24,6 +24,7 @@ class EventHandler():
             self._check_events(pygame.event.wait())
         
     def _check_events(self, event = None):
+        print('event')
         event_type = None
         if event != None:
             event_type = event.type

@@ -7,20 +7,20 @@ class Menu:
         global app_state
 
         self.buttons_index = [
-            Image("buttons/Start.png", ('center', 300)).hover("buttons/Start_Active.png", 'Menu').click(app_state.start),
-            Image("buttons/Rules.png", ('center', 400)).hover("buttons/Rules_Active.png", 'Menu').click(app_state.rules),
-            Image("buttons/Options.png", ('center', 500)).hover("buttons/Options_Active.png", 'Menu').click(app_state.options),
-            Image("buttons/Exit.png", ('center', 600)).hover("buttons/Exit_Active.png", 'Menu').click(app_state.exit)
+            Image("buttons/Start.png", 'Menu', ('center', 300)).hover("buttons/Start_Active.png").click(None, app_state.start),
+            Image("buttons/Rules.png", 'Menu', ('center', 400)).hover("buttons/Rules_Active.png").click(None, app_state.rules),
+            Image("buttons/Options.png", 'Menu', ('center', 500)).hover("buttons/Options_Active.png").click(None, app_state.options),
+            Image("buttons/Exit.png", 'Menu', ('center', 600)).hover("buttons/Exit_Active.png").click(None, app_state.exit)
         ]
 
         self.buttons_rules = [
-            Image("buttons/Rules.png", ('center', 300)).hover("buttons/Rules_Active.png", 'Rules'),
-            Image("buttons/Return.png", ('center', 400)).hover("buttons/Return_Active.png", 'Rules').click(app_state.menu)
+            Image("buttons/Rules.png", 'Rules', ('center', 300)).hover("buttons/Rules_Active.png"),
+            Image("buttons/Return.png", 'Rules', ('center', 400)).hover("buttons/Return_Active.png").click(None, app_state.menu)
         ]
 
         self.buttons_options = [
-            Image("buttons/Options.png", ('center', 300)).hover("buttons/Options_Active.png", 'Options'),
-            Image("buttons/Return.png", ('center', 400)).hover("buttons/Return_Active.png", 'Options').click(app_state.menu)
+            Image("buttons/Options.png", 'Options', ('center', 300)).hover("buttons/Options_Active.png"),
+            Image("buttons/Return.png",  'Options', ('center', 400)).hover("buttons/Return_Active.png").click(None, app_state.menu)
         ]
 
     def index(self):
@@ -34,12 +34,26 @@ class Menu:
         # Set background color
         pygame.display.get_surface().fill((255, 255, 255))
 
+        screen.fill((255, 100, 0))
+        font = pygame.font.Font(None, 36)
+        text = font.render("Opties", 1, (100, 10, 10))
+        textpos = text.get_rect()
+        textpos.centerx = screen.get_rect().centerx
+        screen.blit(text, textpos)
+
         for button in self.buttons_rules:
             button.draw()
 
     def options(self):
         # Set background color
-        pygame.display.get_surface().fill((255, 255, 255))
+        screen = pygame.display.get_surface()
+
+        screen.fill((255, 100, 0))
+        font = pygame.font.Font(None, 36)
+        text = font.render("Opties", 1, (100, 10, 10))
+        textpos = text.get_rect()
+        textpos.centerx = screen.get_rect().centerx
+        screen.blit(text, textpos)
 
         for button in self.buttons_options:
             button.draw()

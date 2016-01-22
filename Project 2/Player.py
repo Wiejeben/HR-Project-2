@@ -8,4 +8,4 @@ class Player:
         self.color = color
 
     def drawPawn(self, position):
-        Image("pieces/" + self.color + "/piece.png", (position.X, position.Y)).draw()
+        Image("pieces/" + self.color + "/piece.png", 'Game', (position.X, position.Y)).draw()

@@ -7,10 +7,12 @@ class AppState:
 
     def menu(self):
         self.state = "Menu"
+        print('menu')
         self.next()
 
     def rules(self):
         self.state = "Rules"
+        print('rules')
         self.next()
 
     def options(self):
@@ -28,6 +30,7 @@ class AppState:
     # Get inside game
     def start(self):
         self.state = "Game"
+        self.next()
 
     # Interrupt gameplay
     def togglePause(self):
