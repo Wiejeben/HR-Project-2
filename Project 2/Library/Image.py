@@ -51,7 +51,7 @@ class Image:
         self.filename['hover'] = filename
 
         # add to event listener
-        event_handler.on('hover', [self._set_hover, function], self.rect)
+        event_handler.on('hover', [self._set_hover, function], self.rect, self.application_state)
 
         return self
 
@@ -64,7 +64,7 @@ class Image:
         self.filename['click'] = filename
 
         # add to event listener
-        event_handler.on('click', [self._set_hover, function], self.rect)
+        event_handler.on('click', [self._set_hover, function], self.rect, self.application_state)
 
         return self
 
