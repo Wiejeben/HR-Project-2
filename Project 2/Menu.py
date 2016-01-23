@@ -34,10 +34,10 @@ class Menu:
 
     def rules(self):
         # Set background color
-        self.screen.fill((255, 100, 0))
+        self.screen.fill((0, 255, 0))
 
         font = pygame.font.Font(None, 36)
-        text = font.render("Opties", 1, (100, 10, 10))
+        text = font.render("Rules", 1, (100, 10, 10))
         textpos = text.get_rect()
         textpos.centerx = self.screen.get_rect().centerx
         self.screen.blit(text, textpos)

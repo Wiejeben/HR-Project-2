@@ -72,10 +72,8 @@ class Game:
         for player in self.players:
             player.position = 1
 
+    # Game bootstrap (inactive)
     def load(self):
-        global event_handler
-        event_handler.mode = 'get'
-
         font = pygame.font.Font(None, 36)
         text = font.render("Game", 1, (10, 10, 10))
         textpos = text.get_rect()
@@ -89,6 +87,9 @@ class Game:
         self.active_player_id = (self.active_player_id + 1) % len(self.players)
 
     def run(self):
+        # Set application mode to continuously run
+        global event_handler
+        event_handler.mode = 'get'
 
         # Get the player who's turn it is
         player = self.getActivePlayer()

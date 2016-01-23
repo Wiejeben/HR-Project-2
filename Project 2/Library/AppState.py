@@ -12,17 +12,14 @@ class AppState:
     def switch_state(self):
         if self.temp_state != None:
             self.state = self.temp_state
-            print("Set: " + self.temp_state)
             self.temp_state = None
 
     def menu(self):
         self.set_state("Menu")
-        print("menu")
         self.next()
 
     def rules(self):
         self.set_state("Rules")
-        print("rules set")
         self.next()
 
     def options(self):
