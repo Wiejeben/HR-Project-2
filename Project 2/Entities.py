@@ -28,7 +28,7 @@ class Dice():
         self.number = random.randint(1,6)
 
     def render(self, screen):
-        Image(self.texture[self.number - 1], (self.position.X, self.position.Y)).draw()
+        Image(self.texture[self.number - 1], 'Game', (self.position.X, self.position.Y)).draw()
 
 class GameTile:
     def __init__(self, pawnPosition):

@@ -2,87 +2,100 @@
 from Init import *
 
 class Image:
-    def __init__(self, path, pos = (0, 0), size = None):
+    def __init__(self, filename, application_state = None, position = (0,0), size = None):
+        global event_handler
+        global app_state
+        
+        self.event_handler = event_handler
+        self.global_state = app_state
+
         self.folder = "Content/"
         self.screen = pygame.display.get_surface()
-
-        global event_handler
-        self.event_handler = event_handler
-
         
         self.size = size
-        self._pos = pos
-        self.image = None
-        self.image_hover = None
+        self._position = position
+        self.application_state = application_state
 
-        # Set default image and render it
-        self.path = path
+        self.filename = {'default': filename}
+        self.image = {}
+
+        self.rect = None
         self.src()
 
     # Load image
-    def src(self, path = None, state = None):
-        #print(path)
-        # Set element
-        if path == None:
-            path = self.path
+    def src(self, filename = None, state = 'default'):
+        # Fallback to default image
+        if filename == None:
+            filename = self.filename['default']
+        else:
+            filename = self.filename[state]
 
-        # Load image
-        image = pygame.image.load(self.folder + path).convert_alpha()
+        # Load image and allow opacity
+        image = pygame.image.load(self.folder + filename).convert_alpha()
 
-        # Set size and position
+        # Set size
         if self.size == None:
             self.size = image.get_rect().size
 
         image = pygame.transform.smoothscale(image, self.size)
+        self.image[state] = image
 
-        if state == 'hover':
-            self.image_hover = image
-        else:
-            self.image = image
-
-        self.position = self._position(self._pos)
-        self.rect = pygame.Rect(self.position[0], self.position[1], image.get_rect().width, image.get_rect().height)
+        # only setup on initial load
+        if state == 'default':
+            self.position(self._position)
+            self.rect = pygame.Rect(self._position[0], self._position[1], image.get_rect().width, image.get_rect().height)
 
         return self
 
-    def hover(self, path, action = None):
+    def hover(self, filename = None, function = None):
+        self.filename['hover'] = filename
+
         # add to event listener
-        self.path_hover = path
-        event_handler.on('hover', [self._set_hover, action], self.rect)
+        event_handler.on('hover', [self._set_hover, function], self.rect, self.application_state)
 
         return self
 
     def _set_hover(self):
-        self.src(self.path_hover, 'hover').draw('hover')
+        self._set_image('hover')
 
         return self
 
-    def click(self, function):
+    def click(self, filename = None, function = None):
+        self.filename['click'] = filename
+
         # add to event listener
-        event_handler.on('click', [function], self.rect)
+        event_handler.on('click', [self._set_hover, function], self.rect, self.application_state)
 
         return self
 
-    def _position(self, pos):
-        x = pos[0]
-        y = pos[1]
+    def _set_click(self):
+        self._set_image('click')
+
+        return self
+
+    def _set_image(self, state):
+        self.src(self.filename[state], state).draw(state)
+
+        return self
+
+    def position(self, position):
+        x = position[0]
+        y = position[1]
 
         if x == 'center':
-            x = (self.screen.get_width() - self.image.get_rect().width) / 2
+            x = (self.screen.get_width() - self.image['default'].get_rect().width) / 2
         
         if y == 'center':
-            y = (self.screen.get_height() - self.image.get_rect().height) / 2
+            y = (self.screen.get_height() - self.image['default'].get_rect().height) / 2
 
-        return (x, y)
+        self._position = (x, y)
+        return self
 
     # Show image
-    def draw(self, state = None):
-        if state == 'hover':
-            image = self.image_hover
-        else:
-            image = self.image
+    def draw(self, state = 'default'):
 
-        if image != None:
-            self.screen.blit(image, self.position)
+        if self.image[state] != None:
+            if self.application_state == self.global_state.state:
+                self.screen.blit(self.image[state], self._position)
 
         return self
