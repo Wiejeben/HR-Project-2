@@ -1,67 +1,40 @@
 ﻿import pygame
-from time import sleep
-from pygame.locals import *
-from AppState import *
+from Library.Image import *
+from Init import *
+from Library.EventHandler import *
+from Library.AppState import *
 from Game import *
 from Menu import *
-from Rules import *
-
-canvasSize = width, height = 600, 600
-
-white = 255, 255, 255
-green = 50, 255, 100
-yellow = 255, 255, 0
-orange = 255, 100, 0
-
-offset = 50
-size = 10
-
-pygame.init()
-screen = pygame.display.set_mode(canvasSize)
-
-background = pygame.Surface(screen.get_size())
-background = background.convert()
 
 # Screen title
 pygame.display.set_caption("Groep 3: Buy a Ride")
 
 def Main():
     # Create initial game instance
-    app = AppState()
-    menu = Menu(background, app)
-    rules = Rules(background, app)
-    game = Game(background, 4)
-    speed = 0.2
+    menu = Menu()
+    game = Game(4)
 
     # Event loop
     while True:
+        # Calculate
+        # Background white
+        pygame.display.get_surface().fill((255, 255, 255))
 
-        # Events
-        for event in pygame.event.get():
-            if app.state == "Menu":
-                menu.handleInputs(event)
-            elif app.state == "Rules":
-                rules.handleInputs(event)
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    app.togglePause()
+        if app_state.state == "Menu":
+            menu.index()
 
-        if app.state == "Menu":
-            # Render menu
-            menu.draw()
-        elif app.state == "Rules":        
-            rules.draw()
-        elif app.state == "Game":
-            # Show game
-            if app.paused:
+        elif app_state.state == "Rules":
+            menu.rules()
+
+        elif app_state.state == "Options":
+            menu.options()
+
+        elif app_state.state == "Game":
+            if app_state.paused:  
                 game.pause()
             else:
-                game.load()
+                game.run()
 
-        # Render
-        pygame.display.flip()
-
-        # Run at 5 FPS
-        sleep(speed)
+        event_handler.run()
 
 Main()
