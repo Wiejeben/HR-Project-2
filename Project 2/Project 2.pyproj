@@ -35,6 +35,9 @@
     </Compile>
     <Compile Include="Init.py" />
     <Compile Include="Library\Image.py" />
+    <Compile Include="Library\Text.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Menu.py">
       <SubType>Code</SubType>
     </Compile>
