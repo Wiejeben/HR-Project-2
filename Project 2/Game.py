@@ -2,15 +2,14 @@
 from time import sleep
 from Entities import *
 from Player import *
-from Node import *
 from Library.Image import *
 
 class Game:
     def __init__(self, amount_opponents):
         self.screen = pygame.display.get_surface()
         self.loaded = False
-        
-        self.board = Image("board/game_board.png")
+
+        self.board = Image("board/game_board.png", 'Game')
         self.dice = Dice(Vector2D(850,350), Vector2D(64, 64))
         self.tiles = [
             GameTile(Vector2D(710,720)), 
@@ -73,6 +72,7 @@ class Game:
         for player in self.players:
             player.position = 1
 
+    # Game bootstrap (inactive)
     def load(self):
         font = pygame.font.Font(None, 36)
         text = font.render("Game", 1, (10, 10, 10))
@@ -87,6 +87,9 @@ class Game:
         self.active_player_id = (self.active_player_id + 1) % len(self.players)
 
     def run(self):
+        # Set application mode to continuously run
+        global event_handler
+        event_handler.mode = 'get'
 
         # Get the player who's turn it is
         player = self.getActivePlayer()
