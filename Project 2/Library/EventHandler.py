@@ -12,8 +12,8 @@ class EventHandler():
         self.app_state = app_state
 
     # When something happens
-    def begin(self):
-            
+    def run(self):
+        # Perform actions
         if self.mode == 'get':
             events = pygame.event.get()
 
@@ -24,6 +24,12 @@ class EventHandler():
                 self._check_events(event)
         else:
             self._check_events(pygame.event.wait())
+
+
+        # End frame
+        pygame.display.flip()
+        self.app_state.switch_state()
+        sleep(self.speed)
         
     def _check_events(self, event = None):
         event_type = None
@@ -35,11 +41,7 @@ class EventHandler():
                 for function in action.functions:
                     if function != None:
                         function()
-
-    def end(self):
-        pygame.display.flip()
-        self.app_state.switch_state()
-        sleep(self.speed)
+        
 
     # Add new event
     def on(self, trigger, action, region, state):

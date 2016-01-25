@@ -35,7 +35,6 @@ def Main():
             else:
                 game.run()
 
-        event_handler.begin()
-        event_handler.end()
+        event_handler.run()
 
 Main()
