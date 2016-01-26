@@ -9,8 +9,6 @@ class Game:
         self.screen = pygame.display.get_surface()
         self.loaded = False
 
-        self.board = Image("board/game_board.png", 'Game', (160,80), (600,600))
-        self.dice = Dice(Vector2D(850,350), Vector2D(64, 64))
         self.tiles = [
             GameTile(Vector2D(710,720)), 
             GameTile(Vector2D(630,720)), 
@@ -61,15 +59,22 @@ class Game:
             GameTile(Vector2D(710,610))
         ]
 
-        self.players = []
+       
         self.active_player_id = 0
 
-        self.players.append(Player(0, True, "blue")) # The Player
-        self.players.append(Player(0, False, "red")) # AI player
-        self.players.append(Player(0, False, "green")) # AI player
-        self.players.append(Player(0, False, "yellow")) # AI player
+        players = []
+        players.append(Player(0, True, "blue")) # The Player
+        players.append(Player(0, False, "red")) # AI player
+        players.append(Player(0, False, "green")) # AI player
+        players.append(Player(0, False, "yellow")) # AI player
 
-        for player in self.players:
+        self.entities = {
+            'board': Image("board/game_board.png", 'Game', (160,80), (600,600)),
+            'players': players,
+            'dice': Dice(Vector2D(850,350), Vector2D(64, 64))
+        }
+
+        for player in self.entities['players']:
             player.position = 1
 
     # DEPRECATED            Game bootstrap (inactive)
@@ -81,14 +86,14 @@ class Game:
         self.screen.blit(text, textpos)
 
     def getActivePlayer(self):
-        return self.players[self.active_player_id]
+        return self.entities['players'][self.active_player_id]
 
     def nextTurn(self):
-        self.active_player_id = (self.active_player_id + 1) % len(self.players)
+        self.active_player_id = (self.active_player_id + 1) % len(self.entities['players'])
 
     def draw_dice_roll(self):
         for i in range(1,10):
-            self.dice.roll()
+            self.entities['dice'].roll()
             self.draw()
             sleep(0.05)
 
@@ -102,12 +107,11 @@ class Game:
         player = self.getActivePlayer()
         if player.isRealPlayer:
             # Let the player click on dice roll 
-            Image("buttons/Start.png", 'Game', ('center', 300)).hover("buttons/Start_Active.png").click(None, self.draw_dice_roll),
-            app_state.togglePause()
+            self.entities['buttons'] = Image("buttons/Start.png", 'Game', ('center', 300)).hover("buttons/Start_Active.png").click(None, self.draw_dice_roll),
         else:
             self.draw_dice_roll()
                
-        for i in range(1, self.dice.number):
+        for i in range(1, self.entities['dice'].number):
             if player.position < 39:
                 player.position = player.position + 1
             else:
@@ -123,13 +127,19 @@ class Game:
         self.nextTurn()
 
     def draw(self):
-        self.board.draw()
+        for x in self.entities:
+            if type(x) is not list:
+                self.entities[x].draw()
 
-        self.dice.render(self.screen)
-        for player in self.players:
-            player.drawPawn(self.tiles[player.position].position)
+            
 
-        self.getActivePlayer().drawPawn(Vector2D(840 , 150))
+        #self.board.draw()
+
+        #self.dice.render(self.screen)
+        #for player in self.players:
+            #player.drawPawn(self.tiles[player.position].position)
+
+        #self.getActivePlayer().drawPawn(Vector2D(840 , 150))
 
     def pause(self):
         print("Paused")

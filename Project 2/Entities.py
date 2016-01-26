@@ -15,20 +15,16 @@ class Dice():
         self.number = 1
         self.position = position
         self.size = size
-        self.texture = [
-            "dice/dice_1.png", 
-            "dice/dice_2.png",
-            "dice/dice_3.png",
-            "dice/dice_4.png",
-            "dice/dice_5.png",
-            "dice/dice_6.png"
-        ]
+        self.texture = []
+
+        for i in range(1, 6):
+            self.texture.append(Image("dice/dice_" + str(i) + ".png", 'Game', (self.position.X, self.position.Y)))
 
     def roll(self): 
         self.number = random.randint(1,6)
 
-    def render(self, screen):
-        Image(self.texture[self.number - 1], 'Game', (self.position.X, self.position.Y)).draw()
+    def draw(self):
+        self.texture[self.number - 1].draw()
 
 class GameTile:
     def __init__(self, pawnPosition):
