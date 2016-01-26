@@ -5,7 +5,8 @@ from Library.Text import *
 class Menu:
     def __init__(self):
         global app_state
-        self.amount_of_players = 1
+        self.amount_of_human_players = 0
+        self.human_players = [False, False, False, False]
 
         self.buttons_index = [
             Image("buttons/Start.png", 'Menu', ('center', 300)).hover("buttons/Start_Active.png").click(None, app_state.player_select),
@@ -28,10 +29,10 @@ class Menu:
 
         self.elements_player_select = {
             'checkboxes': (
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 200)).toggle("buttons/checkbox_unchecked.png", self.select_players, 1),                
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 260)).toggle("buttons/checkbox_unchecked.png", self.select_players, 2),
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 320)).toggle("buttons/checkbox_unchecked.png", self.select_players, 3),
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 380)).toggle("buttons/checkbox_unchecked.png", self.select_players, 4)
+                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (210, 200)).toggle("buttons/checkbox_checked.png", self.select_players, 0),                
+                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (210, 260)).toggle("buttons/checkbox_checked.png", self.select_players, 1),
+                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (210, 320)).toggle("buttons/checkbox_checked.png", self.select_players, 2),
+                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (210, 380)).toggle("buttons/checkbox_checked.png", self.select_players, 3)
             ),
 
             'checkboxes_labels': (
@@ -41,14 +42,13 @@ class Menu:
                 Text("Player 4: ", 60, (0,0,0), (10, 385))
             ),
 
-            #TODO: Give argument for #of players
             'buttons': (
                 Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start),
                 Image("buttons/Return.png", 'PlayerSelect', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu)
             ),
-            'amount': Text("Amount of players: " + str(self.amount_of_players), 50, (100,10,10), (330, 690)),
+            'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), (330, 690)),
 
-            'misc': (Text("Select amount of AI players", 50, (100,10,10), ('center', 5)))
+            'misc': (Text("Select amount of Human players", 50, (100,10,10), ('center', 5)))
         }        
 
         self.screen = pygame.display.get_surface()
@@ -74,11 +74,25 @@ class Menu:
         for element in self.elements_options:
             element.draw()
 
-    def select_players(self, amount_of_players):
-        self.amount_of_players = amount_of_players
+    def select_players(self, player_joined):
+       if(player_joined == 0):
+           self.human_players[0] = not self.human_players[0]
+       elif(player_joined == 1):
+           self.human_players[1] = not self.human_players[1]
+       elif(player_joined == 2):
+           self.human_players[2] = not self.human_players[2]
+       elif(player_joined == 3):
+           self.human_players[3] = not self.human_players[3]
+      
+       counter = 0 
+       for elem in self.human_players:
+           if(elem):
+               counter += 1
 
-       # self.elements_player_select['checkboxes'][amount_of_players-1].src("buttons/Rules.png")
-        self.elements_player_select['amount'].set_text("Amount of players: " + str(amount_of_players))
+       self.amount_of_human_players = counter
+
+       self.elements_player_select['amount'].set_text("Human players: " + str(self.amount_of_human_players))
+
 
     def playerSelect(self):
         self.screen.fill((255,230,200))
