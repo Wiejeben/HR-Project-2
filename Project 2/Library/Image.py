@@ -11,6 +11,7 @@ class Image:
 
         self.folder = "Content/"
         self.screen = pygame.display.get_surface()
+        self.visible = True
         
         self.size = size
         self._position = position
@@ -64,7 +65,7 @@ class Image:
         self.filename['click'] = filename
 
         # add to event listener
-        event_handler.on('click', [self._set_hover, function], self.rect, self.application_state)
+        event_handler.on('click', [self._set_click, function], self.rect, self.application_state)
 
         return self
 
@@ -77,6 +78,9 @@ class Image:
         self.src(self.filename[state], state).draw(state)
 
         return self
+
+    def visible(self, visibility):
+        self.visible = visibility
 
     def position(self, position):
         x = position[0]
@@ -94,7 +98,7 @@ class Image:
     # Show image
     def draw(self, state = 'default'):
 
-        if self.image[state] != None:
+        if self.image[state] != None and self.visible == True:
             if self.application_state == self.global_state.state:
                 self.screen.blit(self.image[state], self._position)
 
