@@ -7,5 +7,5 @@ class Player:
         self.tile = tile
         self.color = color
 
-    def drawPawn(self, position):
+    def draw(self, position):
         Image("pieces/" + self.color + "/piece.png", 'Game', (position.X, position.Y)).draw()

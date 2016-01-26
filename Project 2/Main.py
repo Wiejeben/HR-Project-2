@@ -33,7 +33,7 @@ def Main():
             if app_state.paused:  
                 game.pause()
             else:
-                game.run()
+                game.update()
 
         event_handler.run()
 
