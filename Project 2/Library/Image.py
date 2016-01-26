@@ -3,8 +3,7 @@ from Init import *
 
 class Image:
     def __init__(self, filename, application_state = None, position = (0,0), size = None):
-        global event_handler
-        global app_state
+        global event_handler, app_state
         
         self.event_handler = event_handler
         self.global_state = app_state
@@ -22,6 +21,8 @@ class Image:
 
         self.click_parameter = None
         self.hover_parameter = None
+        self.toggle_parameter = None
+        self.toggled_state = False
 
         self.rect = None
         self.src()
@@ -82,6 +83,25 @@ class Image:
 
         return self
 
+    def toggle(self, filename = None, function = None, parameter = None):
+        self.filename['toggle'] = filename
+        event_handler.on('toggle', [self._set_toggle, function], self.rect, self.application_state, parameter)
+
+        return self
+    
+    def _set_toggle(self, parameter = None):
+        if(self.toggled_state == True):
+            self._set_image('default')
+            self.toggle_parameter = parameter
+            self.toggled_state = False
+        else:
+            self._set_image('toggle')
+            self.toggle_parameter = parameter
+            self.toggled_state = True
+
+        app_state.next()
+        return self
+
     def visible(self, visibility):
         self.visible = visibility
 
@@ -100,6 +120,9 @@ class Image:
 
     # Show image
     def draw(self, state = 'default'):
+
+        if self.toggled_state:
+            state = 'toggle'
 
         if self.image[state] != None and self.visible == True:
             if self.application_state == self.global_state.state:

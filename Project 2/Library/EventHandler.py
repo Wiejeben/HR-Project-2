@@ -68,5 +68,7 @@ class Event():
             return True
         elif trigger == 'click' and type == MOUSEBUTTONUP:
             return True
+        elif trigger == 'toggle' and type == MOUSEBUTTONUP:
+            return True
 
         return False

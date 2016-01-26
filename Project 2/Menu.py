@@ -28,10 +28,10 @@ class Menu:
 
         self.elements_player_select = {
             'checkboxes': (
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 200)).click(None, self.select_players, 1),                
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 260)).click(None, self.select_players, 2),
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 320)).click(None, self.select_players, 3),
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 380)).click(None, self.select_players, 4)
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 200)).toggle("buttons/checkbox_unchecked.png", self.select_players, 1),                
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 260)).toggle("buttons/checkbox_unchecked.png", self.select_players, 2),
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 320)).toggle("buttons/checkbox_unchecked.png", self.select_players, 3),
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 380)).toggle("buttons/checkbox_unchecked.png", self.select_players, 4)
             ),
 
             'checkboxes_labels': (
@@ -77,7 +77,7 @@ class Menu:
     def select_players(self, amount_of_players):
         self.amount_of_players = amount_of_players
 
-        self.elements_player_select['checkboxes'][amount_of_players-1].src("buttons/Rules.png").draw()
+       # self.elements_player_select['checkboxes'][amount_of_players-1].src("buttons/Rules.png")
         self.elements_player_select['amount'].set_text("Amount of players: " + str(amount_of_players))
 
     def playerSelect(self):
