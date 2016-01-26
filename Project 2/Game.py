@@ -1,17 +1,15 @@
 ﻿import pygame
 from time import sleep
 from Entities import *
-from UIToolKit.Button import *
-from UIToolKit.ImageUtils import *
 from Player import *
-from Node import *
+from Library.Image import *
 
 class Game:
-    def __init__(self, background, amount_opponents):
-        self.background = background
+    def __init__(self, amount_opponents):
+        self.screen = pygame.display.get_surface()
         self.loaded = False
-        
-        self.board = GameBoard(Vector2D(0,0), Vector2D(768,768))
+
+        self.board = Image("board/game_board.png", 'Game', (160,80), (600,600))
         self.dice = Dice(Vector2D(850,350), Vector2D(64, 64))
         self.tiles = [
             GameTile(Vector2D(710,720)), 
@@ -63,95 +61,84 @@ class Game:
             GameTile(Vector2D(710,610))
         ]
 
-        # Buttons uitoolkit?
-        self.ButtonList = []
-
-        self.active_player_id = 0
         self.players = []
-        self.players.append(Player(0, True, "blue", 0)) # The Player
+        self.active_player_id = 0
 
-        self.players.append(Player(0, False, "red", 1)) # AI player
-        self.players.append(Player(0, False, "green", 2)) # AI player
-        self.players.append(Player(0, False, "yellow", 3)) # AI player
+        self.players.append(Player(0, True, "blue")) # The Player
+        self.players.append(Player(0, False, "red")) # AI player
+        self.players.append(Player(0, False, "green")) # AI player
+        self.players.append(Player(0, False, "yellow")) # AI player
+
         for player in self.players:
             player.position = 1
 
+    # DEPRECATED            Game bootstrap (inactive)
     def load(self):
-        yellow = 255, 255, 0
-        self.background.fill(yellow)
         font = pygame.font.Font(None, 36)
         text = font.render("Game", 1, (10, 10, 10))
         textpos = text.get_rect()
-        textpos.centerx = self.background.get_rect().centerx
-        self.background.blit(text, textpos)
+        textpos.centerx = self.screen.get_rect().centerx
+        self.screen.blit(text, textpos)
 
     def getActivePlayer(self):
         return self.players[self.active_player_id]
 
     def nextTurn(self):
-        self.players[self.active_player_id].turn_state = 0
         self.active_player_id = (self.active_player_id + 1) % len(self.players)
-    
-        
-    # ???
-    def playerRolledDice():
-        #self.players[self.active_player_id].turn_state = 1
+
+    def draw_dice_roll(self):
         for i in range(1,10):
             self.dice.roll()
-            self.draw(screen)
-            pygame.time.delay(500)
-            
+            self.draw()
+            sleep(0.05)
 
-    def run(self, screen):
+    def run(self):
+        # Set application mode to continuously run
+        global event_handler, app_state
+        event_handler.mode = 'get'
 
+        
         # Get the player who's turn it is
         player = self.getActivePlayer()
-        if player.isRealPlayer: #and player.turn_state == 0:
-            #player.turn_state = 1
-            # ????
-            #diceButton = Button(ImageUtils.Screen.get_width() / 2 - 100, 200, 200, 100, "normal_example.png", "hover_example.png", "pressed_example.png", self.playerRolledDice)
-            #self.ButtonList.append(diceButton)
-            self.dice.roll()
-            self.draw(screen)
+        if player.isRealPlayer:
+            # Let the player click on dice roll 
+            Image("buttons/Start.png", 'Game', ('center', 300)).hover("buttons/Start_Active.png").click(None, self.draw_dice_roll),
+            app_state.togglePause()
         else:
-            for i in range(1,10):
-                self.dice.roll()
-                self.draw(screen)
-                pygame.time.delay(50)
+            self.draw_dice_roll()
                
-        for i in range(0, self.dice.number):
+        for i in range(1, self.dice.number):
             if player.position < 39:
                 player.position = player.position + 1
             else:
                 player.position = 0
-            self.draw(screen)
+            self.draw()
             sleep(0.2)
 
+            
+        self.draw()
 
+        # Move player for the amount rolled
+        
         self.nextTurn()
 
-    def draw(self, screen):
-        self.board.render(screen)
-        self.dice.render(screen)
+    def draw(self):
+        self.board.draw()
+
+        self.dice.render(self.screen)
         for player in self.players:
-            player.drawPawn(screen, self.tiles[player.position].position)
-        player = self.getActivePlayer()
+            player.drawPawn(self.tiles[player.position].position)
 
-        screen.blit(pygame.transform.scale(player.texture, (player.size.X, player.size.Y)), (840 , 150))
-
-        pygame.display.flip()
+        self.getActivePlayer().drawPawn(Vector2D(840 , 150))
 
     def pause(self):
         print("Paused")
         orange = 255, 100, 0 
-        self.background.fill(orange)
+        self.screen.fill(orange)
         font = pygame.font.Font(None, 36)
         text = font.render("Paused!", 1, (10, 10, 10))
         textpos = text.get_rect()
-        textpos.centerx = self.background.get_rect().centerx
-        self.background.blit(text, textpos)
+        textpos.centerx = self.screen.get_rect().centerx
+        self.screen.blit(text, textpos)
 
-    def handleInputs(self, event):
-        for button in self.ButtonList:
-            button.handleInputEvents(event)
 

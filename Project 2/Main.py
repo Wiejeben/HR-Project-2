@@ -1,63 +1,40 @@
 ﻿import pygame
-from time import sleep
-from pygame.locals import *
-from AppState import *
+from Library.Image import *
+from Init import *
+from Library.EventHandler import *
+from Library.AppState import *
 from Game import *
 from Menu import *
-
-canvasSize = width, height = 1024, 768
-
-white = 255, 255, 255
-green = 50, 255, 100
-yellow = 255, 255, 0
-orange = 255, 100, 0
-
-offset = 50
-size = 10
-
-pygame.init()
-screen = pygame.display.set_mode(canvasSize)
-
-background = pygame.Surface(screen.get_size())
-background = background.convert()
 
 # Screen title
 pygame.display.set_caption("Groep 3: Buy a Ride")
 
 def Main():
     # Create initial game instance
-    app = AppState()
-    menu = Menu(background, app)
-    game = Game(background, 4)
-    speed = 0.3
+    menu = Menu()
+    game = Game(4)
 
     # Event loop
     while True:
-        
-        # Events
-        for event in pygame.event.get():
-            if app.state == "Menu":
-                menu.handleInputs(event)
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    app.togglePause()
+        # Calculate
+        # Background white
+        pygame.display.get_surface().fill((255, 255, 255))
 
-        if app.state == "Menu":
-            # Render menu
-            menu.draw()
+        if app_state.state == "Menu":
+            menu.index()
 
-        elif app.state == "Game":
-            # Show game
-            if app.paused:
+        elif app_state.state == "Rules":
+            menu.rules()
+
+        elif app_state.state == "Options":
+            menu.options()
+
+        elif app_state.state == "Game":
+            if app_state.paused:  
                 game.pause()
             else:
-                game.run(screen)
+                game.run()
 
-        # Render
-        #screen.blit(background, (0, 0))
-        pygame.display.flip()
-
-        # Run at 5 FPS
-        sleep(speed)
+        event_handler.run()
 
 Main()

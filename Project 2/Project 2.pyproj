@@ -25,29 +25,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Common.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AppState.py">
+    <Compile Include="Library\AppState.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Entities.py" />
     <Compile Include="Game.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Init.py" />
+    <Compile Include="Library\Image.py" />
     <Compile Include="Menu.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Node.py">
+    <Compile Include="Library\EventHandler.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UIToolKit\Button.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UIToolKit\ImageUtils.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UIToolKit\__init__.py">
+    <Compile Include="Library\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Main.py">
@@ -56,18 +49,93 @@
     <Compile Include="Player.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlayerBoard.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.4" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
-    <Folder Include="UIToolKit\" />
+    <Folder Include="Content\attractions\" />
+    <Folder Include="Content\board\" />
+    <Folder Include="Content\buttons\" />
+    <Folder Include="Content\cards\" />
+    <Folder Include="Content\dice\" />
+    <Folder Include="Content\pieces\" />
+    <Folder Include="Content\pieces\blue\" />
+    <Folder Include="Content\pieces\green\" />
+    <Folder Include="Content\pieces\red\" />
+    <Folder Include="Content\pieces\yellow\" />
+    <Folder Include="Library\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\hover_example.png" />
-    <Content Include="Content\normal_example.png" />
-    <Content Include="Content\pressed_example.png" />
+    <Content Include="Content\attractions\gentle_rides.png" />
+    <Content Include="Content\attractions\rollercoaster.png" />
+    <Content Include="Content\attractions\shops_and_stalls.png" />
+    <Content Include="Content\attractions\thrill_rides.png" />
+    <Content Include="Content\attractions\Thumbs.db" />
+    <Content Include="Content\attractions\transport_rides.png" />
+    <Content Include="Content\attractions\water_rides.png" />
+    <Content Include="Content\board\game_board.png" />
+    <Content Include="Content\board\player_board.png" />
+    <Content Include="Content\buttons\Exit.png" />
+    <Content Include="Content\buttons\Exit_Active.png" />
+    <Content Include="Content\buttons\Options.png" />
+    <Content Include="Content\buttons\Options_Active.png" />
+    <Content Include="Content\buttons\Resume.png" />
+    <Content Include="Content\buttons\Resume_Active.png" />
+    <Content Include="Content\buttons\Return.png" />
+    <Content Include="Content\buttons\Return_Active.png" />
+    <Content Include="Content\buttons\Rules.png" />
+    <Content Include="Content\buttons\Rules_Active.png" />
+    <Content Include="Content\buttons\Start.png" />
+    <Content Include="Content\buttons\Start_Active.png" />
+    <Content Include="Content\cards\blank_card.png" />
+    <Content Include="Content\cards\card01.png" />
+    <Content Include="Content\cards\card02.png" />
+    <Content Include="Content\cards\card03.png" />
+    <Content Include="Content\cards\card04.png" />
+    <Content Include="Content\cards\card05.png" />
+    <Content Include="Content\cards\card06.png" />
+    <Content Include="Content\cards\card07.png" />
+    <Content Include="Content\cards\card08.png" />
+    <Content Include="Content\cards\card09.png" />
+    <Content Include="Content\cards\card10.png" />
+    <Content Include="Content\cards\card11.png" />
+    <Content Include="Content\cards\card12.png" />
+    <Content Include="Content\cards\card13.png" />
+    <Content Include="Content\cards\card14.png" />
+    <Content Include="Content\cards\card15.png" />
+    <Content Include="Content\cards\card16.png" />
+    <Content Include="Content\cards\card17.png" />
+    <Content Include="Content\cards\card18.png" />
+    <Content Include="Content\cards\card19.png" />
+    <Content Include="Content\cards\card20.png" />
+    <Content Include="Content\cards\card21.png" />
+    <Content Include="Content\cards\card22.png" />
+    <Content Include="Content\cards\card23.png" />
+    <Content Include="Content\cards\card24.png" />
+    <Content Include="Content\cards\card25.png" />
+    <Content Include="Content\cards\card26.png" />
+    <Content Include="Content\cards\card27.png" />
+    <Content Include="Content\cards\card28.png" />
+    <Content Include="Content\cards\kaart_01.png" />
+    <Content Include="Content\cards\Thumbs.db" />
+    <Content Include="Content\dice\dice_1.png" />
+    <Content Include="Content\dice\dice_2.png" />
+    <Content Include="Content\dice\dice_3.png" />
+    <Content Include="Content\dice\dice_4.png" />
+    <Content Include="Content\dice\dice_5.png" />
+    <Content Include="Content\dice\dice_6.png" />
+    <Content Include="Content\dice\Thumbs.db" />
+    <Content Include="Content\pieces\blue\piece.png" />
+    <Content Include="Content\pieces\blue\Thumbs.db" />
+    <Content Include="Content\pieces\green\piece.png" />
+    <Content Include="Content\pieces\green\Thumbs.db" />
+    <Content Include="Content\pieces\red\piece.png" />
+    <Content Include="Content\pieces\red\Thumbs.db" />
+    <Content Include="Content\pieces\yellow\piece.png" />
+    <Content Include="Content\pieces\yellow\Thumbs.db" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
