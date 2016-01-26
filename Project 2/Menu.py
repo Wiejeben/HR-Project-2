@@ -28,10 +28,17 @@ class Menu:
 
         self.elements_player_select = {
             'checkboxes': (
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 200)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 1),
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 260)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 2),
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 320)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 3),
-                Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 380)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 4)
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 200)).click(None, self.select_players, 1),                
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 260)).click(None, self.select_players, 2),
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 320)).click(None, self.select_players, 3),
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (210, 380)).click(None, self.select_players, 4)
+            ),
+
+            'checkboxes_labels': (
+                Text("Player 1: ", 60, (0,0,0), (10, 205)),
+                Text("Player 2: ", 60, (0,0,0), (10, 265)),
+                Text("Player 3: ", 60, (0,0,0), (10, 325)),
+                Text("Player 4: ", 60, (0,0,0), (10, 385))
             ),
 
             #TODO: Give argument for #of players
@@ -70,6 +77,7 @@ class Menu:
     def select_players(self, amount_of_players):
         self.amount_of_players = amount_of_players
 
+        self.elements_player_select['checkboxes'][amount_of_players-1].src("buttons/Rules.png").draw()
         self.elements_player_select['amount'].set_text("Amount of players: " + str(amount_of_players))
 
     def playerSelect(self):

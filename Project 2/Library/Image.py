@@ -32,7 +32,7 @@ class Image:
         if filename == None:
             filename = self.filename['default']
         else:
-            filename = self.filename[state]
+            self.filename[state] = filename
 
         # Load image and allow opacity
         image = pygame.image.load(self.folder + filename).convert_alpha()
