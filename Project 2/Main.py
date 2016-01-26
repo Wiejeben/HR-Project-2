@@ -28,6 +28,9 @@ def Main():
 
         elif app_state.state == "Options":
             menu.options()
+        
+        elif app_state.state == "PlayerSelect":
+            menu.playerSelect()
 
         elif app_state.state == "Game":
             game.run()

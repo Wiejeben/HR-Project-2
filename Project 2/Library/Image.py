@@ -11,6 +11,7 @@ class Image:
 
         self.folder = "Content/"
         self.screen = pygame.display.get_surface()
+        self.visible = True
         
         self.size = size
         self._position = position
@@ -18,6 +19,9 @@ class Image:
 
         self.filename = {'default': filename}
         self.image = {}
+
+        self.click_parameter = None
+        self.hover_parameter = None
 
         self.rect = None
         self.src()
@@ -28,7 +32,7 @@ class Image:
         if filename == None:
             filename = self.filename['default']
         else:
-            filename = self.filename[state]
+            self.filename[state] = filename
 
         # Load image and allow opacity
         image = pygame.image.load(self.folder + filename).convert_alpha()
@@ -47,36 +51,39 @@ class Image:
 
         return self
 
-    def hover(self, filename = None, function = None):
+    def hover(self, filename = None, function = None, parameter = None):
         self.filename['hover'] = filename
 
         # add to event listener
-        event_handler.on('hover', [self._set_hover, function], self.rect, self.application_state)
+        event_handler.on('hover', [self._set_hover, function], self.rect, self.application_state, parameter)
 
         return self
 
-    def _set_hover(self):
+    def _set_hover(self, parameter = None):
         self._set_image('hover')
-
+        self.hover_parameter = parameter
         return self
 
-    def click(self, filename = None, function = None):
+    def click(self, filename = None, function = None, parameter = None):
         self.filename['click'] = filename
 
         # add to event listener
-        event_handler.on('click', [self._set_hover, function], self.rect, self.application_state)
+        event_handler.on('click', [self._set_click, function], self.rect, self.application_state, parameter)
 
         return self
 
-    def _set_click(self):
+    def _set_click(self, parameter = None):
         self._set_image('click')
-
+        self.click_parameter = parameter
         return self
 
     def _set_image(self, state):
         self.src(self.filename[state], state).draw(state)
 
         return self
+
+    def visible(self, visibility):
+        self.visible = visibility
 
     def position(self, position):
         x = position[0]
@@ -94,7 +101,7 @@ class Image:
     # Show image
     def draw(self, state = 'default'):
 
-        if self.image[state] != None:
+        if self.image[state] != None and self.visible == True:
             if self.application_state == self.global_state.state:
                 self.screen.blit(self.image[state], self._position)
 
