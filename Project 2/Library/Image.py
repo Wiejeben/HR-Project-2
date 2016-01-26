@@ -20,6 +20,9 @@ class Image:
         self.filename = {'default': filename}
         self.image = {}
 
+        self.click_parameter = None
+        self.hover_parameter = None
+
         self.rect = None
         self.src()
 
@@ -48,30 +51,30 @@ class Image:
 
         return self
 
-    def hover(self, filename = None, function = None):
+    def hover(self, filename = None, function = None, parameter = None):
         self.filename['hover'] = filename
 
         # add to event listener
-        event_handler.on('hover', [self._set_hover, function], self.rect, self.application_state)
+        event_handler.on('hover', [self._set_hover, function], self.rect, self.application_state, parameter)
 
         return self
 
-    def _set_hover(self):
+    def _set_hover(self, parameter = None):
         self._set_image('hover')
-
+        self.hover_parameter = parameter
         return self
 
-    def click(self, filename = None, function = None):
+    def click(self, filename = None, function = None, parameter = None):
         self.filename['click'] = filename
 
         # add to event listener
-        event_handler.on('click', [self._set_click, function], self.rect, self.application_state)
+        event_handler.on('click', [self._set_click, function], self.rect, self.application_state, parameter)
 
         return self
 
-    def _set_click(self):
+    def _set_click(self, parameter = None):
         self._set_image('click')
-
+        self.click_parameter = parameter
         return self
 
     def _set_image(self, state):
