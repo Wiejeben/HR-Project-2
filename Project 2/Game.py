@@ -3,6 +3,7 @@ from time import sleep
 from Entities import *
 from Player import *
 from Library.Image import *
+from Library.Text import *
 
 class Game:
     def __init__(self, amount_opponents):
@@ -127,13 +128,7 @@ class Game:
         self.getActivePlayer().drawPawn(Vector2D(840 , 150))
 
     def pause(self):
-        print("Paused")
-        orange = 255, 100, 0 
-        self.background.fill(orange)
-        font = pygame.font.Font(None, 36)
-        text = font.render("Paused!", 1, (10, 10, 10))
-        textpos = text.get_rect()
-        textpos.centerx = self.background.get_rect().centerx
-        self.background.blit(text, textpos)
+        self.screen.fill((255, 100, 0))
+        Text("Paused!", 40, (0,0,0), ('center', 0))
 
 

@@ -32,12 +32,13 @@ class EventHandler():
         sleep(self.speed)
         
     def _check_events(self, event = None):
-        event_type = None
-        if event != None:
-            event_type = event.type
+        if Event('esc').type(event):
+            self.app_state.togglePause()
+        elif Event('close').type(event):
+            self.app_state.exit()
 
         for action in self.actions:
-            if action.region.collidepoint(pygame.mouse.get_pos()) and action.type(event_type):
+            if action.region.collidepoint(pygame.mouse.get_pos()) and action.type(event):
                 for function in action.functions:
                     if function != None:
                         function()
@@ -55,15 +56,23 @@ class Event():
         self.element_state = element_state
         self.app_state = app_state
 
-    def type(self, type):
-        if self.element_state != self.app_state.state:
-            return False
+    def type(self, event):
+        if self.element_state != None:
+            if self.element_state != self.app_state.state:
+                return False
 
         trigger = self.trigger
 
         if trigger == 'hover':
             return True
-        elif trigger == 'click' and type == MOUSEBUTTONUP:
-            return True
+
+        if event != None:
+            if trigger == 'click' and event.type == MOUSEBUTTONUP:
+                return True
+            elif trigger == 'close' and event.type == QUIT:
+                return True
+            elif event.type == KEYDOWN:
+                if trigger == 'esc' and event.key == K_ESCAPE:
+                    return True
 
         return False
