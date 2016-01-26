@@ -77,7 +77,8 @@ class Menu:
     def select_players(self, amount_of_players):
         self.amount_of_players = amount_of_players
 
-        self.elements_player_select['checkboxes'][amount_of_players-1].src("buttons/Rules.png").draw()
+        self.elements_player_select['checkboxes'][amount_of_players-1].src("buttons/Rules.png"
+
         self.elements_player_select['amount'].set_text("Amount of players: " + str(amount_of_players))
 
     def playerSelect(self):
