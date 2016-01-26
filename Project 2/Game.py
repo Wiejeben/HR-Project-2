@@ -60,26 +60,30 @@ class Game:
         ]
 
         players = []
-        players.append(Player(0, True, "blue")) # The Player
+        players.append(Player(0, False, "blue")) # The Player
         players.append(Player(0, False, "red")) # AI player
-        players.append(Player(0, False, "green")) # AI player
+        players.append(Player(0, True, "green")) # AI player
         players.append(Player(0, False, "yellow")) # AI player
 
         self.settings = {
             'pawn_speed' : 500,
-            'dice_roll_duration' : 250
+            'dice_roll_duration' : 500
         }
 
         self.entities = {
-            'board': Image("board/game_board.png", 'Game', (160,80), (600,600)),
+            'board': Image("board/game_board.png", 'Game', (0,0), (800,800)),
             'players': players,
-            'dice': Dice(Vector2D(850,350), Vector2D(64, 64))
+            'dice': Dice(Vector2D(850,350), Vector2D(64, 64)),
+            'buttons' : {
+                'button_roll_dice' : Image("buttons/Start.png", 'Game', (200,200)).hover("buttons/Start_Active.png").click(None, self.dice_click),
+            },
         }
 
         self.turn_state = {
             'active_player_id' : 0,
             'dice_rolled_tickstart' : 0,
             'dice_rolled_finished' : False,
+            'dice_score' : 0,
             'steps_taken' : 0,
             'steps_taken_tickstart' : 0
         }
@@ -95,9 +99,13 @@ class Game:
             'active_player_id' : (self.turn_state['active_player_id'] + 1) % len(self.entities['players']),
             'dice_rolled_tickstart' : 0,
             'dice_rolled_finished' : False,
+            'dice_score' : 0,
             'steps_taken' : 0,
-            'steps_taken_tickstart' : 0
+            'steps_taken_tickstart' : 0,
         }
+
+    def dice_click(self):
+        self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
 
     def update(self):
         # Set application mode to continuously run
@@ -109,20 +117,25 @@ class Game:
 
         if self.turn_state['dice_rolled_finished'] == False:
 
-            if self.turn_state['dice_rolled_tickstart'] == 0:
-                self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
 
-            self.entities['dice'].roll()
+            if not player.isRealPlayer: # IF AI
+                if self.turn_state['dice_rolled_tickstart'] == 0:
+                    self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
+                self.entities['dice'].roll()
+                
+            if player.isRealPlayer:
+                if self.turn_state['dice_rolled_tickstart'] > 0:
+                    self.entities['dice'].roll()
 
-            if pygame.time.get_ticks() - self.turn_state['dice_rolled_tickstart'] > self.settings['dice_roll_duration']:
+            if self.turn_state['dice_rolled_tickstart'] > 0 and pygame.time.get_ticks() - self.turn_state['dice_rolled_tickstart'] > self.settings['dice_roll_duration']:
+                self.turn_state['dice_score'] = self.entities['dice'].number
                 self.turn_state['dice_rolled_finished'] = True
-
         else:
 
             if self.turn_state['steps_taken_tickstart'] == 0:
                 self.turn_state['steps_taken_tickstart'] = pygame.time.get_ticks()
 
-            if self.turn_state['steps_taken'] < self.entities['dice'].number:
+            if self.turn_state['steps_taken'] < self.turn_state['dice_score']:
                 if pygame.time.get_ticks() - self.turn_state['steps_taken_tickstart'] > self.settings['pawn_speed'] * self.turn_state['steps_taken']:
                     self.turn_state['steps_taken'] = self.turn_state['steps_taken'] + 1
                     if player.position < 39:
@@ -137,8 +150,13 @@ class Game:
 
     def draw(self):
         self.entities['board'].draw()
+        
         for player in self.entities['players']:
             player.draw(self.tiles[player.position].position)
+        
+        if self.getActivePlayer().isRealPlayer and self.turn_state['dice_rolled_tickstart'] == False:
+            self.entities['buttons']['button_roll_dice'].draw()
+        
         self.entities['dice'].draw()
 
     def pause(self):
