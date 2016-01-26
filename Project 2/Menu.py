@@ -26,18 +26,23 @@ class Menu:
             Text("Opties", 50, (100, 10, 10), ('center', 0))
         ]
 
-        self.elements_player_select = [
+        self.elements_player_select = {
+            'checkboxes': (
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 200)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 1),
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 260)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 2),
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 320)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 3),
+                Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 380)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 4)
+            ),
+
             #TODO: Give argument for #of players
-            Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start),
-            Image("buttons/Return.png", 'PlayerSelect', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu),
-            Text("Select amount of AI players", 50, (100,10,10), ('center', 0)),
-            Text("Amount of players: " + str(self.amount_of_players), 50, (100,10,10), (330, 690)),
-            Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 200)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 1),
-            Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 260)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 2),
-            Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 320)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 3),
-            Image("buttons/checkbox_checked.png", 'PlayerSelect', (60, 380)).hover("buttons/checkbox_checked.png").click(None, self.select_players, 4)
-            
-        ]        
+            'buttons': (
+                Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start),
+                Image("buttons/Return.png", 'PlayerSelect', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu)
+            ),
+            'amount': Text("Amount of players: " + str(self.amount_of_players), 50, (100,10,10), (330, 690)),
+
+            'misc': (Text("Select amount of AI players", 50, (100,10,10), ('center', 5)))
+        }        
 
         self.screen = pygame.display.get_surface()
 
@@ -64,10 +69,15 @@ class Menu:
 
     def select_players(self, amount_of_players):
         self.amount_of_players = amount_of_players
-        self.elements_player_select[3].set_text("Amount of players: " + str(amount_of_players))
+
+        self.elements_player_select['amount'].set_text("Amount of players: " + str(amount_of_players))
 
     def playerSelect(self):
         self.screen.fill((255,230,200))
 
-        for element in self.elements_player_select:
-            element.draw()
+        for key, val in self.elements_player_select.items():
+            if type(val) is tuple:
+                for val in val:
+                    val.draw()
+            else:
+                val.draw()
