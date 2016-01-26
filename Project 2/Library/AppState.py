@@ -3,7 +3,6 @@
 class AppState:
     def __init__(self):
         self.state = "Menu"
-        self.paused = False
         self.temp_state = None
 
     def set_state(self, state):
@@ -39,15 +38,14 @@ class AppState:
         self.set_state("Game")
         self.next()
 
-    # Interrupt gameplay
-    def togglePause(self):
-        print("Toggle pause")
+    def pause(self):
         if self.state == "Game":
+            self.set_state("Pause")
 
-            if self.paused:
-                self.paused = False
-            else:
-                self.paused = True
+        if self.state == "Pause":
+            self.set_state("Game")
+
+        self.next()
     
     # Resume gameplay
     def resume(self):

@@ -33,7 +33,8 @@ class EventHandler():
         
     def _check_events(self, event = None):
         if Event('esc').type(event):
-            self.app_state.togglePause()
+            self.app_state.pause()
+
         elif Event('close').type(event):
             self.app_state.exit()
 

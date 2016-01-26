@@ -5,6 +5,7 @@ from Library.Text import *
 class Menu:
     def __init__(self):
         global app_state
+        self.screen = pygame.display.get_surface()
 
         self.buttons_index = [
             Image("buttons/Start.png", 'Menu', ('center', 300)).hover("buttons/Start_Active.png").click(None, app_state.start),
@@ -24,8 +25,6 @@ class Menu:
             Image("buttons/Return.png",  'Options', ('center', 400)).hover("buttons/Return_Active.png").click(None, app_state.menu),
             Text("Opties", 50, (100, 10, 10), ('center', 0))
         ]
-
-        self.screen = pygame.display.get_surface()
 
     def index(self):
         # Set background color

@@ -12,6 +12,7 @@ class Game:
 
         self.board = Image("board/game_board.png", 'Game')
         self.dice = Dice(Vector2D(850,350), Vector2D(64, 64))
+
         self.tiles = [
             GameTile(Vector2D(710,720)), 
             GameTile(Vector2D(630,720)), 
@@ -60,6 +61,12 @@ class Game:
             GameTile(Vector2D(710,490)), 
             GameTile(Vector2D(710,550)),
             GameTile(Vector2D(710,610))
+        ]
+
+        self.elements_pause = [
+            Image("buttons/Options.png", 'Pause', ('center', 300)).hover("buttons/Options_Active.png"),
+            Image("buttons/Resume.png",  'Pause', ('center', 400)).hover("buttons/Resume_Active.png").click(None, app_state.pause),
+            Text("Pause menu", 50, (100, 10, 10), ('center', 0))
         ]
 
         self.players = []
@@ -128,7 +135,11 @@ class Game:
         self.getActivePlayer().drawPawn(Vector2D(840 , 150))
 
     def pause(self):
+        event_handler.mode = 'wait'
         self.screen.fill((255, 100, 0))
-        Text("Paused!", 40, (0,0,0), ('center', 0))
+
+        # Draw elements
+        for element in self.elements_pause:
+            element.draw()
 
 

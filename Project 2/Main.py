@@ -30,10 +30,10 @@ def Main():
             menu.options()
 
         elif app_state.state == "Game":
-            if app_state.paused:  
-                game.pause()
-            else:
-                game.run()
+            game.run()
+
+        elif app_state.state == "Pause":
+            game.pause()
 
         event_handler.run()
 
