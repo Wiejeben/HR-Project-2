@@ -60,6 +60,39 @@ class Game:
             GameTile(Vector2D(710,610))
         ]
 
+        self.attractions = {
+            'ThrillRides' : {
+                
+            },
+            'WaterRides' : {
+                
+            },
+            'TransportRides' : {
+                Attraction('Train', 5000),
+                Attraction('Monorail', 12000),
+                Attraction('Chairlift', 8000),
+            },
+            'GentleRides' : {
+                Attraction('Haunted House', 3500),
+                Attraction('Ferriswheel', 6000),
+                Attraction('Merrie-go-round', 3000),
+                Attraction('Maze', 7500),
+                Attraction('Dodgems', 7000),
+                Attraction('Monster Trucks', 10000),
+                Attraction('Racing Cars', 11000),
+                Attraction('Circus', 4000),
+                Attraction('Minigold', 8000),
+                Attraction('Observation Tower', 15000),
+                Attraction('Spiral Slide', 2500),
+            },
+            'ShopsAndStalls' : {
+                
+            },
+            'Rollercoasters' : {
+                
+            }
+        }
+
         players = []
         players.append(Player(0, False, "blue")) # The Player
         players.append(Player(0, False, "red")) # AI player

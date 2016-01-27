@@ -23,3 +23,8 @@ class PlayerBoard:
         return self.attractions[key]
     def draw(self):
         self.texture.draw()
+
+class Attraction:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
