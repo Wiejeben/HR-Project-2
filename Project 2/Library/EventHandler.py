@@ -41,21 +41,24 @@ class EventHandler():
         for action in self.actions:
             if action.region.collidepoint(pygame.mouse.get_pos()) and action.type(event):
                 for function in action.functions:
-                    if function != None:
+                    if function != None and action.parameter != None:
+                        function(action.parameter)
+                    elif function != None:
                         function()
         
 
     # Add new event
-    def on(self, trigger, action, region, state):
-        self.actions.append(Event(trigger, action, region, state, self.app_state))
+    def on(self, trigger, action, region, state, parameter):
+        self.actions.append(Event(trigger, action, region, state, self.app_state, parameter))
 
 class Event():
-    def __init__(self, trigger, functions = [], region = None, element_state = None, app_state = None):
+    def __init__(self, trigger, functions = [], region = None, element_state = None, app_state = None, parameter = None):
         self.trigger = trigger
         self.functions = functions
         self.region = region
         self.element_state = element_state
         self.app_state = app_state
+        self.parameter = parameter
 
     def type(self, event):
         if self.element_state != None:
@@ -75,5 +78,7 @@ class Event():
             elif event.type == KEYDOWN:
                 if trigger == 'esc' and event.key == K_ESCAPE:
                     return True
+            elif trigger == 'toggle' and type == MOUSEBUTTONUP:
+                return True
 
         return False
