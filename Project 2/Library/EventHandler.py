@@ -45,7 +45,6 @@ class EventHandler():
                         function(action.parameter)
                     elif function != None:
                         function()
-        
 
     # Add new event
     def on(self, trigger, action, region, state, parameter):
@@ -78,7 +77,6 @@ class Event():
             elif event.type == KEYDOWN:
                 if trigger == 'esc' and event.key == K_ESCAPE:
                     return True
-            elif trigger == 'toggle' and type == MOUSEBUTTONUP:
-                return True
+            
 
         return False

@@ -91,12 +91,10 @@ class Menu:
        elif(player_joined == 3):
            self.human_players[3] = not self.human_players[3]
       
-       counter = 0 
+       self.amount_of_human_players = 0 
        for elem in self.human_players:
            if(elem):
-               counter += 1
-
-       self.amount_of_human_players = counter
+               self.amount_of_human_players += 1
 
        self.elements_player_select['amount'].set_text("Human players: " + str(self.amount_of_human_players))
 

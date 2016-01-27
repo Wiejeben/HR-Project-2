@@ -84,7 +84,7 @@ class Image:
 
     def toggle(self, filename = None, function = None, parameter = None):
         self.filename['toggle'] = filename
-        event_handler.on('toggle', [self._set_toggle, function], self.rect, self.application_state, parameter)
+        event_handler.on('click', [self._set_toggle, function], self.rect, self.application_state, parameter)
 
         return self
     
