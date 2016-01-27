@@ -27,6 +27,9 @@ class Text():
 
         if x == 'center':
             x = (self.screen.get_width() - self._text.get_rect().width) / 2
+
+        if y == 'bottom':
+            y = self.screen.get_height() - self._text.get_rect().height
         
         if y == 'center':
             y = (self.screen.get_height() - self._text.get_rect().height) / 2

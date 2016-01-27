@@ -49,6 +49,7 @@ class AppState:
     def pause(self):
         if self.state == "Game":
             self.set_state("Pause")
+            print('pause app state')
 
         if self.state == "Pause":
             self.set_state("Game")

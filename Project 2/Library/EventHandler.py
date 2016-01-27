@@ -25,7 +25,6 @@ class EventHandler():
         else:
             self._check_events(pygame.event.wait())
 
-
         # End frame
         pygame.display.flip()
         self.app_state.switch_state()
@@ -33,6 +32,7 @@ class EventHandler():
         
     def _check_events(self, event = None):
         if Event('esc').type(event):
+            print('Pause')
             self.app_state.pause()
 
         elif Event('close').type(event):
