@@ -3,6 +3,7 @@ from time import sleep
 from Entities import *
 from Player import *
 from Library.Image import *
+from Library.Text import *
 
 class Game:
     def __init__(self, amount_opponents):
@@ -162,13 +163,10 @@ class Game:
         self.entities['dice'].draw()
 
     def pause(self):
-        print("Paused")
-        orange = 255, 100, 0 
-        self.screen.fill(orange)
-        font = pygame.font.Font(None, 36)
-        text = font.render("Paused!", 1, (10, 10, 10))
-        textpos = text.get_rect()
-        textpos.centerx = self.screen.get_rect().centerx
-        self.screen.blit(text, textpos)
+        event_handler.mode = 'wait'
+        self.screen.fill((255, 100, 0))
 
+        # Draw elements
+        for element in self.elements_pause:
+            element.draw()
 
