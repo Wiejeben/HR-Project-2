@@ -29,7 +29,7 @@ class Menu:
 
         self.elements_options = [
             Image("buttons/Return.png",  'Options', ('center', 400)).hover("buttons/Return_Active.png").click(None, app_state.menu),
-            Text("Opties", 50, (100, 10, 10), ('center', 0))
+            Text("Opties", 50, (100, 10, 10), ('center', 10))
         ]
 
         self.screen = pygame.display.get_surface()
@@ -44,6 +44,9 @@ class Menu:
     def rules(self):
         # Set background color
         self.screen.fill((255, 255, 255))
+
+        pygame.mixer.music.load("coasterscream.wav")
+        pygame.mixer.music.play()
 
         for element in self.elements_rules:
             element.draw()
