@@ -1,4 +1,4 @@
-﻿import pygame
+import pygame
 
 class Text():
     def __init__(self, content, size = 25, color = (0, 0, 0), position = (0, 0), background = None):
@@ -30,9 +30,6 @@ class Text():
 
         self._position = (x, y)
         return self
-
-    def set_text(self, text):
-        self._text = pygame.font.Font(None, self.size).render(str(text), 1, self.color, self.background)
 
     def draw(self):
         return self.screen.blit(self._text, self._position)

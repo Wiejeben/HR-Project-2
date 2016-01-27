@@ -22,9 +22,6 @@ class AppState:
     def start(self):
         self.state = "Game"
 
-    def rules(self):
-        self.state = "Rules"
-
     # Interrupt gameplay
     def togglePause(self):
         print("Toggle pause")

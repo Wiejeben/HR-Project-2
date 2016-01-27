@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.4" />
+    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.5" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -82,8 +83,6 @@
     <Content Include="Content\attractions\water_rides.png" />
     <Content Include="Content\board\game_board.png" />
     <Content Include="Content\board\player_board.png" />
-    <Content Include="Content\buttons\checkbox_checked.png" />
-    <Content Include="Content\buttons\checkbox_unchecked.png" />
     <Content Include="Content\buttons\Exit.png" />
     <Content Include="Content\buttons\Exit_Active.png" />
     <Content Include="Content\buttons\Options.png" />

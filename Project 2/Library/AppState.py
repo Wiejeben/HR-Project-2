@@ -25,8 +25,6 @@ class AppState:
         self.set_state("Options")
         self.next()
 
-    def player_select(self):
-        self.set_state("PlayerSelect")
     # Go to next frame
     def next(self):
         pygame.event.post(pygame.event.Event(pygame.locals.USEREVENT))
