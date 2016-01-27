@@ -58,7 +58,7 @@ class Menu:
                 Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start, self.amount_of_human_players),
                 Image("buttons/Return.png", 'PlayerSelect', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu)
             ),
-            'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), ('center', 'bottom')),
+            'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), ('center', 690)),
 
             'misc': (Text("Select amount of Human players", 50, (100,10,10), ('center', 5)))
         }        

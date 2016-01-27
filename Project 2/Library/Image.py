@@ -108,20 +108,25 @@ class Image:
         x = position[0]
         y = position[1]
 
+        # Horizontal
         if x == 'left':
-
+            x = 0
 
         if x == 'center':
             x = (self.screen.get_width() - self.image['default'].get_rect().width) / 2
 
+        if x == 'right':
+            x = self.screen.get_width() - self.image['default'].get_rect().width
+
+        # Vertical
         if y == 'top':
-            x = 0
+            y = 0
+
+        if y == 'center':
+            y = (self.screen.get_height() - self.image['default'].get_rect().height) / 2
 
         if y == 'bottom':
             y = self.screen.get_height() - self.image['default'].get_rect().height
-        
-        if y == 'center':
-            y = (self.screen.get_height() - self.image['default'].get_rect().height) / 2
 
         self._position = (x, y)
         return self
