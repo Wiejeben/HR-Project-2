@@ -18,17 +18,20 @@ class Menu:
         ]
 
         self.elements_rules = [
-            Image("buttons/Return.png", 'Rules', ('center', 500)).hover("buttons/Return_Active.png").click(None, app_state.menu),
-            Text("Rules", 50, (100, 10, 10), ('center', 10)),
-            Text("This game is a strategy, competitive, chance and class/level based board game.", 22, (0, 0, 0), ('center', 60)),
-            Text("The mainboard has some elements of Monopoly in it, but we changed it up so much that you can’t call it’s a Monopoly rip-off.", 22, (0, 0, 0), ('center', 80)),
-            Text("It’s actually a game with elements of RollercoasterTycoon and Levensweg in it as well.", 22, (0, 0, 0), ('center', 100)),
-            Text("That makes it a game that is appealing for people that like to sit down for a nice board game and really get involved in", 22, (0, 0, 0), ('center', 120)), 
-            Text("-what they are building but it’s also a great game to play with the family.", 22, (0, 0, 0), ('center', 140)),
-            Text("Yes, you “build” your own amusement park in this board game.", 22, (0, 0, 0), ('center', 160)),
-            Text("Including all the categories from RollercoasterTycoon, income based on guests, challenges and much, much more.", 22, (0, 0, 0), ('center', 180)),
-            Text("Dive into the world of The Ultimate Combination.", 22, (0, 0, 0), ('center', 200)),
-            Text("Have Fun!", 30, (0, 0, 0), ('center', 250))
+            Text("Rules", 50, (100, 10, 10), ('center', 210)),
+
+            # Rules text
+            Text("This game is a strategy, competitive, chance and class/level based board game.", 22, (0, 0, 0), ('center', 260)),
+            Text("The mainboard has some elements of Monopoly in it, but we changed it up so much that you can’t call it’s a Monopoly rip-off.", 22, (0, 0, 0), ('center', 280)),
+            Text("It’s actually a game with elements of RollercoasterTycoon and Levensweg in it as well.", 22, (0, 0, 0), ('center', 300)),
+            Text("That makes it a game that is appealing for people that like to sit down for a nice board game and really get involved in", 22, (0, 0, 0), ('center', 320)), 
+            Text("-what they are building but it’s also a great game to play with the family.", 22, (0, 0, 0), ('center', 340)),
+            Text("Yes, you “build” your own amusement park in this board game.", 22, (0, 0, 0), ('center', 360)),
+            Text("Including all the categories from RollercoasterTycoon, income based on guests, challenges and much, much more.", 22, (0, 0, 0), ('center', 380)),
+            Text("Dive into the world of The Ultimate Combination.", 22, (0, 0, 0), ('center', 400)),
+            Text("Have Fun!", 30, (0, 0, 0), ('center', 450)),
+
+            Image("buttons/Return.png", 'Rules', ('center', 500)).hover("buttons/Return_Active.png").click(None, app_state.menu)
         ]
 
         self.elements_options = [
@@ -71,8 +74,8 @@ class Menu:
         # Set background color
         self.screen.fill((255, 255, 255))
 
-        pygame.mixer.music.load("coasterscream.wav")
-        pygame.mixer.music.play()
+        #pygame.mixer.music.load("coasterscream.wav")
+        #pygame.mixer.music.play()
 
         for element in self.elements_rules:
             element.draw()
