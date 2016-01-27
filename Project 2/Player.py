@@ -7,40 +7,14 @@ class Player:
         self.tile = tile
         self.color = color
         self.position = 0
+        self.money = 10000
         self.board = PlayerBoard()
 
-    def interact(self, interaction):
-        if interaction == 'ThrillRides':
-            print ("ThrillRides")
-            pass
-        elif interaction == 'ShopsAndStalls':
-            print ("ShopsAndStalls")
-            pass
-        elif interaction == 'TransportRides':
-            print ("TransportRides")
-            pass
-        elif interaction == 'WaterRides':
-            print ("WaterRides")
-            pass
-        elif interaction == 'GentleRides':
-            print ("GentleRides")
-            pass
-        elif interaction == 'Rollercoasters':
-            print ("Rollercoasters")
-            pass
-        elif interaction == 'QuestionMark':
-            print ("QuestionMark")
-            pass
-        elif interaction == 'CashFine':
-            pass
-        elif interaction == 'Start':
-            pass
-        elif interaction == 'Spectator':
-            pass
-        elif interaction == 'CashPrize':
-            pass
-        elif interaction == 'Defect':
-            pass
+    def calc_salary(self):
+        salary = 0
+        for i, value in self.board.attractions:
+            salary += (value.price / 20)
+        print(salary)
 
     def draw(self, position):
         Image("pieces/" + self.color + "/piece.png", 'Game', (position.X, position.Y)).draw()
@@ -51,9 +25,9 @@ class PlayerBoard:
         self.attractions = []
     def getTexture(self):
         return self.texture
-    def setAttraction(key, attractionObject):
+    def set_attraction(key, attractionObject):
         self.attractions[key] = attractionObject
-    def getAttraction(key):
+    def get_attraction(key):
         return self.attractions[key]
     def draw(self):
         self.texture.draw()

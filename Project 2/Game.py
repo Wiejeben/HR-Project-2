@@ -6,7 +6,7 @@ from Library.Image import *
 from Library.Text import *
 
 class Game:
-    def __init__(self, amount_opponents):
+    def __init__(self, human_players):
         self.screen = pygame.display.get_surface()
         self.loaded = False
 
@@ -61,11 +61,11 @@ class Game:
         ]
 
         self.attractions = {
-            'ThrillRides' : {
-                
+            'ThrillRides' : { # NOT COMPLETE
+                Attraction('3D Cinema', 10000),
             },
-            'WaterRides' : {
-                
+            'WaterRides' : { # NOT COMPLETE
+                Attraction('Boat Hire', 3000),
             },
             'TransportRides' : {
                 Attraction('Train', 5000),
@@ -85,8 +85,8 @@ class Game:
                 Attraction('Observation Tower', 15000),
                 Attraction('Spiral Slide', 2500),
             },
-            'ShopsAndStalls' : {
-                
+            'Balloon Stall' : { # NOT COMPLETE
+                Attraction('Balloon Stall', 1900),
             },
             'Rollercoasters' : {
                 Attraction('Bobsleigh Coaster', 18000),
@@ -103,15 +103,36 @@ class Game:
         }
 
         players = []
-        players.append(Player(0, False, "blue")) # The Player
-        players.append(Player(0, False, "red")) # AI player
-        players.append(Player(0, True, "green")) # AI player
-        players.append(Player(0, False, "yellow")) # AI player
+        print("Human players: " + str(human_players))
+        if human_players > 0:
+            players.append(Player(0, True, "green")) # The Player
+        else:
+            players.append(Player(0, False, "green")) # AI player
+        if human_players > 1:
+            players.append(Player(0, False, "blue")) # The Player
+        else:
+            players.append(Player(0, False, "blue")) # AI player
+        if human_players > 2:
+            players.append(Player(0, False, "red")) # The Player
+        else:
+            players.append(Player(0, False, "red")) # AI player
+        if human_players > 3:
+            players.append(Player(0, False, "yellow")) # The Player
+        else:
+            players.append(Player(0, False, "yellow")) # AI player
 
         self.settings = {
             'pawn_speed' : 500,
             'dice_roll_duration' : 500
         }
+
+        self.elements_pause = [
+            Text("Pause menu", 50, (100, 10, 10), ('center', 10)),
+
+            Image("buttons/Menu.png",  'Pause', ('center', 300)).hover("buttons/Menu_Active.png").click(None, app_state.menu),
+            Image("buttons/Resume.png",  'Pause', ('center', 400)).hover("buttons/Resume_Active.png").click(None, app_state.pause),
+            Image("buttons/Exit.png", 'Pause', ('center', 500)).hover("buttons/Exit_Active.png").click(None, app_state.exit)
+        ]
 
         self.entities = {
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
@@ -148,6 +169,45 @@ class Game:
     def dice_click(self):
         self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
 
+    
+    def tile_interact(self, interaction):
+        player = self.getActivePlayer()
+        if interaction == 'ThrillRides':
+            print ("ThrillRides")
+            player.board.attractions.append(self.attractions['ThrillRides']['Train'])
+
+        elif interaction == 'ShopsAndStalls':
+            print ("ShopsAndStalls")
+            player.board.attractions.append(self.attractions['ShopsAndStalls']['Balloon Stall'])
+            pass
+        elif interaction == 'TransportRides':
+            print ("TransportRides")
+            player.board.attractions.append(self.attractions['TransportRides']['Train'])
+            pass
+        elif interaction == 'WaterRides':
+            print ("WaterRides")
+            player.board.attractions.append(self.attractions['WaterRides']['WaterRides'])
+            pass
+        elif interaction == 'GentleRides':
+            print ("GentleRides")
+            pass
+        elif interaction == 'Rollercoasters':
+            print ("Rollercoasters")
+            pass
+        elif interaction == 'QuestionMark':
+            print ("QuestionMark")
+            pass
+        elif interaction == 'CashFine':
+            pass
+        elif interaction == 'Start':
+            pass
+        elif interaction == 'Spectator':
+            pass
+        elif interaction == 'CashPrize':
+            pass
+        elif interaction == 'Defect':
+            pass
+
     def update(self):
         # Set application mode to continuously run
         global event_handler, app_state
@@ -157,7 +217,7 @@ class Game:
         player = self.getActivePlayer()
 
         if self.turn_state['dice_rolled_finished'] == False:
-
+            # BELOW IS RAN WHEN DICE HAS TO BE ROLLED
 
             if not player.isRealPlayer: # IF AI
                 if self.turn_state['dice_rolled_tickstart'] == 0:
@@ -167,12 +227,12 @@ class Game:
             if player.isRealPlayer:
                 if self.turn_state['dice_rolled_tickstart'] > 0:
                     self.entities['dice'].roll()
-
+            
             if self.turn_state['dice_rolled_tickstart'] > 0 and pygame.time.get_ticks() - self.turn_state['dice_rolled_tickstart'] > self.settings['dice_roll_duration']:
                 self.turn_state['dice_score'] = self.entities['dice'].number
                 self.turn_state['dice_rolled_finished'] = True
-        else:
-
+        else: 
+            # BELOW IS RAN WHEN DICE ROLL IS FINISHED
             if self.turn_state['steps_taken_tickstart'] == 0:
                 self.turn_state['steps_taken_tickstart'] = pygame.time.get_ticks()
 
@@ -185,9 +245,7 @@ class Game:
                         player.position = 0
                     
             else:
-
-                
-
+                # BELLOW IS RAN WHEN THE PAWN HAS FINISHED MOVING
                 player.interact(self.tiles[player.position].interaction)
 
 

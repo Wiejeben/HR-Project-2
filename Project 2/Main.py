@@ -12,7 +12,7 @@ pygame.display.set_caption("Groep 3: Buy a Ride")
 def Main():
     # Create initial game instance
     menu = Menu()
-    game = Game(4)
+    game = None
 
     # Event loop
     while True:
@@ -31,6 +31,10 @@ def Main():
 
         elif app_state.state == "PlayerSelect":
             menu.playerSelect()
+
+        elif app_state.state == "GameStart":
+            game = Game(app_state.player_amount)
+            app_state.state = "Game"
 
         elif app_state.state == "Game":
             game.update()
