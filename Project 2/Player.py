@@ -6,7 +6,41 @@ class Player:
         self.isRealPlayer = isRealPlayer
         self.tile = tile
         self.color = color
+        self.position = 0
         self.board = PlayerBoard()
+
+    def interact(self, interaction):
+        if interaction == 'ThrillRides':
+            print ("ThrillRides")
+            pass
+        elif interaction == 'ShopsAndStalls':
+            print ("ShopsAndStalls")
+            pass
+        elif interaction == 'TransportRides':
+            print ("TransportRides")
+            pass
+        elif interaction == 'WaterRides':
+            print ("WaterRides")
+            pass
+        elif interaction == 'GentleRides':
+            print ("GentleRides")
+            pass
+        elif interaction == 'Rollercoasters':
+            print ("Rollercoasters")
+            pass
+        elif interaction == 'QuestionMark':
+            print ("QuestionMark")
+            pass
+        elif interaction == 'CashFine':
+            pass
+        elif interaction == 'Start':
+            pass
+        elif interaction == 'Spectator':
+            pass
+        elif interaction == 'CashPrize':
+            pass
+        elif interaction == 'Defect':
+            pass
 
     def draw(self, position):
         Image("pieces/" + self.color + "/piece.png", 'Game', (position.X, position.Y)).draw()

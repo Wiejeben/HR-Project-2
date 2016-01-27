@@ -34,32 +34,3 @@ class GameTile:
     def __init__(self, pawnPosition, interaction):
         self.position = pawnPosition
         self.interaction = interaction
-
-    def interact(self):
-        if self.interaction == 'ThrillRides':
-            pass
-        elif self.interaction == 'ShopsAndStalls':
-            pass
-        elif self.interaction == 'TransportRides':
-            pass
-        elif self.interaction == 'WaterRides':
-            pass
-        elif self.interaction == 'GentleRides':
-            pass
-        elif self.interaction == 'Rollercoasters':
-            pass
-        elif self.interaction == 'QuestionMark':
-            pass
-        elif self.interaction == 'CashFine':
-            pass
-        elif self.interaction == 'Start':
-            pass
-        elif self.interaction == 'Spectator':
-            pass
-        elif self.interaction == 'CashCard':
-            pass
-        elif self.interaction == 'Defect':
-            pass
-
-
- 
