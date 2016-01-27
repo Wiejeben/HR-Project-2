@@ -1,9 +1,12 @@
 ﻿import pygame
+from Library.Image import *
+from Init import *
 
 class AppState:
     def __init__(self):
         self.state = "Menu"
         self.temp_state = None
+        self.player_amount = 0
 
     def set_state(self, state):
         self.temp_state = state
@@ -38,8 +41,9 @@ class AppState:
         exit()
     
     # Get inside game
-    def start(self):
-        self.set_state("Game")
+    def start(self, player_amount):
+        self.player_amount = player_amount
+        self.set_state("GameStart")
         self.next()
 
     def pause(self):

@@ -52,7 +52,7 @@ class Menu:
             ),
 
             'buttons': (
-                Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start),
+                Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start, self.amount_of_human_players),
                 Image("buttons/Return.png", 'PlayerSelect', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu)
             ),
             'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), (330, 690)),
@@ -82,14 +82,7 @@ class Menu:
             element.draw()
 
     def select_players(self, player_joined):
-       if(player_joined == 0):
-           self.human_players[0] = not self.human_players[0]
-       elif(player_joined == 1):
-           self.human_players[1] = not self.human_players[1]
-       elif(player_joined == 2):
-           self.human_players[2] = not self.human_players[2]
-       elif(player_joined == 3):
-           self.human_players[3] = not self.human_players[3]
+       self.human_players[player_joined] = not self.human_players[player_joined]
       
        self.amount_of_human_players = 0 
        for elem in self.human_players:
