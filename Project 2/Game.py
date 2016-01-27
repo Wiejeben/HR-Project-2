@@ -71,11 +71,11 @@ class Game:
         }
 
         self.entities = {
-            'board': Image("board/game_board.png", 'Game', (0,0), (800,800)),
+            'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
             'dice': Dice(Vector2D(850,350), Vector2D(64, 64)),
             'buttons' : {
-                'button_roll_dice' : Image("buttons/Start.png", 'Game', (200,200)).hover("buttons/Start_Active.png").click(None, self.dice_click),
+                'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,450)).hover("buttons/Start_Active.png").click(None, self.dice_click),
             },
         }
 
@@ -156,7 +156,9 @@ class Game:
         
         if self.getActivePlayer().isRealPlayer and self.turn_state['dice_rolled_tickstart'] == False:
             self.entities['buttons']['button_roll_dice'].draw()
-        
+
+        self.getActivePlayer().board.draw()
+
         self.entities['dice'].draw()
 
     def pause(self):
