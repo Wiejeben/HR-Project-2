@@ -3,14 +3,13 @@ from time import sleep
 from Entities import *
 from Player import *
 from Library.Image import *
+from Library.Text import *
 
 class Game:
     def __init__(self, amount_opponents):
         self.screen = pygame.display.get_surface()
         self.loaded = False
 
-        self.board = Image("board/game_board.png", 'Game')
-        self.dice = Dice(Vector2D(850,350), Vector2D(64, 64))
         self.tiles = [
             GameTile(Vector2D(710,720)), 
             GameTile(Vector2D(630,720)), 
@@ -61,79 +60,113 @@ class Game:
             GameTile(Vector2D(710,610))
         ]
 
-        self.players = []
-        self.active_player_id = 0
+        players = []
+        players.append(Player(0, False, "blue")) # The Player
+        players.append(Player(0, False, "red")) # AI player
+        players.append(Player(0, True, "green")) # AI player
+        players.append(Player(0, False, "yellow")) # AI player
 
-        self.players.append(Player(0, True, "blue")) # The Player
-        self.players.append(Player(0, False, "red")) # AI player
-        self.players.append(Player(0, False, "green")) # AI player
-        self.players.append(Player(0, False, "yellow")) # AI player
+        self.settings = {
+            'pawn_speed' : 500,
+            'dice_roll_duration' : 500
+        }
 
-        for player in self.players:
+        self.entities = {
+            'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
+            'players': players,
+            'dice': Dice(Vector2D(850,350), Vector2D(64, 64)),
+            'buttons' : {
+                'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,450)).hover("buttons/Start_Active.png").click(None, self.dice_click),
+            },
+        }
+
+        self.turn_state = {
+            'active_player_id' : 0,
+            'dice_rolled_tickstart' : 0,
+            'dice_rolled_finished' : False,
+            'dice_score' : 0,
+            'steps_taken' : 0,
+            'steps_taken_tickstart' : 0
+        }
+
+        for player in self.entities['players']:
             player.position = 1
 
-    # Game bootstrap (inactive)
-    def load(self):
-        font = pygame.font.Font(None, 36)
-        text = font.render("Game", 1, (10, 10, 10))
-        textpos = text.get_rect()
-        textpos.centerx = self.screen.get_rect().centerx
-        self.screen.blit(text, textpos)
-
     def getActivePlayer(self):
-        return self.players[self.active_player_id]
+        return self.entities['players'][self.turn_state['active_player_id']]
 
     def nextTurn(self):
-        self.active_player_id = (self.active_player_id + 1) % len(self.players)
+        self.turn_state = {
+            'active_player_id' : (self.turn_state['active_player_id'] + 1) % len(self.entities['players']),
+            'dice_rolled_tickstart' : 0,
+            'dice_rolled_finished' : False,
+            'dice_score' : 0,
+            'steps_taken' : 0,
+            'steps_taken_tickstart' : 0,
+        }
 
-    def run(self):
+    def dice_click(self):
+        self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
+
+    def update(self):
         # Set application mode to continuously run
-        global event_handler
+        global event_handler, app_state
         event_handler.mode = 'get'
 
         # Get the player who's turn it is
         player = self.getActivePlayer()
-        if player.isRealPlayer:
-            # Let the player click on dice roll 
-            self.dice.roll()
-        else:
-            for i in range(1,10):
-                self.dice.roll()
-                self.draw()
-                sleep(0.05)
-               
-        for i in range(1, self.dice.number):
-            if player.position < 39:
-                player.position = player.position + 1
-            else:
-                player.position = 0
-            self.draw()
-            sleep(0.2)
 
-            
+        if self.turn_state['dice_rolled_finished'] == False:
+
+
+            if not player.isRealPlayer: # IF AI
+                if self.turn_state['dice_rolled_tickstart'] == 0:
+                    self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
+                self.entities['dice'].roll()
+                
+            if player.isRealPlayer:
+                if self.turn_state['dice_rolled_tickstart'] > 0:
+                    self.entities['dice'].roll()
+
+            if self.turn_state['dice_rolled_tickstart'] > 0 and pygame.time.get_ticks() - self.turn_state['dice_rolled_tickstart'] > self.settings['dice_roll_duration']:
+                self.turn_state['dice_score'] = self.entities['dice'].number
+                self.turn_state['dice_rolled_finished'] = True
+        else:
+
+            if self.turn_state['steps_taken_tickstart'] == 0:
+                self.turn_state['steps_taken_tickstart'] = pygame.time.get_ticks()
+
+            if self.turn_state['steps_taken'] < self.turn_state['dice_score']:
+                if pygame.time.get_ticks() - self.turn_state['steps_taken_tickstart'] > self.settings['pawn_speed'] * self.turn_state['steps_taken']:
+                    self.turn_state['steps_taken'] = self.turn_state['steps_taken'] + 1
+                    if player.position < 39:
+                        player.position = player.position + 1
+                    else:
+                        player.position = 0
+                    
+            else:
+                self.nextTurn() 
+
         self.draw()
 
-        # Move player for the amount rolled
-        
-        self.nextTurn()
-
     def draw(self):
-        self.board.draw()
+        self.entities['board'].draw()
+        
+        for player in self.entities['players']:
+            player.draw(self.tiles[player.position].position)
+        
+        if self.getActivePlayer().isRealPlayer and self.turn_state['dice_rolled_tickstart'] == False:
+            self.entities['buttons']['button_roll_dice'].draw()
 
-        self.dice.render(self.screen)
-        for player in self.players:
-            player.drawPawn(self.tiles[player.position].position)
+        self.getActivePlayer().board.draw()
 
-        self.getActivePlayer().drawPawn(Vector2D(840 , 150))
+        self.entities['dice'].draw()
 
     def pause(self):
-        print("Paused")
-        orange = 255, 100, 0 
-        self.background.fill(orange)
-        font = pygame.font.Font(None, 36)
-        text = font.render("Paused!", 1, (10, 10, 10))
-        textpos = text.get_rect()
-        textpos.centerx = self.background.get_rect().centerx
-        self.background.blit(text, textpos)
+        event_handler.mode = 'wait'
+        self.screen.fill((255, 100, 0))
 
+        # Draw elements
+        for element in self.elements_pause:
+            element.draw()
 

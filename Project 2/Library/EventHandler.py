@@ -32,38 +32,51 @@ class EventHandler():
         sleep(self.speed)
         
     def _check_events(self, event = None):
-        event_type = None
-        if event != None:
-            event_type = event.type
+        if Event('esc').type(event):
+            self.app_state.pause()
+
+        elif Event('close').type(event):
+            self.app_state.exit()
 
         for action in self.actions:
-            if action.region.collidepoint(pygame.mouse.get_pos()) and action.type(event_type):
+            if action.region.collidepoint(pygame.mouse.get_pos()) and action.type(event):
                 for function in action.functions:
-                    if function != None:
+                    if function != None and action.parameter != None:
+                        function(action.parameter)
+                    elif function != None:
                         function()
-        
 
     # Add new event
-    def on(self, trigger, action, region, state):
-        self.actions.append(Event(trigger, action, region, state, self.app_state))
+    def on(self, trigger, action, region, state, parameter):
+        self.actions.append(Event(trigger, action, region, state, self.app_state, parameter))
 
 class Event():
-    def __init__(self, trigger, functions = [], region = None, element_state = None, app_state = None):
+    def __init__(self, trigger, functions = [], region = None, element_state = None, app_state = None, parameter = None):
         self.trigger = trigger
         self.functions = functions
         self.region = region
         self.element_state = element_state
         self.app_state = app_state
+        self.parameter = parameter
 
-    def type(self, type):
-        if self.element_state != self.app_state.state:
-            return False
+    def type(self, event):
+        if self.element_state != None:
+            if self.element_state != self.app_state.state:
+                return False
 
         trigger = self.trigger
 
         if trigger == 'hover':
             return True
-        elif trigger == 'click' and type == MOUSEBUTTONUP:
-            return True
+
+        if event != None:
+            if trigger == 'click' and event.type == MOUSEBUTTONUP:
+                return True
+            elif trigger == 'close' and event.type == QUIT:
+                return True
+            elif event.type == KEYDOWN:
+                if trigger == 'esc' and event.key == K_ESCAPE:
+                    return True
+            
 
         return False
