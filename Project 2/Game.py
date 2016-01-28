@@ -62,43 +62,43 @@ class Game:
 
         self.attractions = {
             'ThrillRides' : { # NOT COMPLETE
-                Attraction('3D Cinema', 10000),
+                '3D Cinema' : Attraction('3D Cinema', 10000),
             },
             'WaterRides' : { # NOT COMPLETE
-                Attraction('Boat Hire', 3000),
+                'Boat Hire' : Attraction('Boat Hire', 3000),
             },
             'TransportRides' : {
-                Attraction('Train', 5000),
-                Attraction('Monorail', 12000),
-                Attraction('Chairlift', 8000),
+                'Train' : Attraction('Train', 5000),
+                'Monorail' : Attraction('Monorail', 12000),
+                'Chairlift' : Attraction('Chairlift', 8000),
             },
             'GentleRides' : {
-                Attraction('Haunted House', 3500),
-                Attraction('Ferriswheel', 6000),
-                Attraction('Merrie-go-round', 3000),
-                Attraction('Maze', 7500),
-                Attraction('Dodgems', 7000),
-                Attraction('Monster Trucks', 10000),
-                Attraction('Racing Cars', 11000),
-                Attraction('Circus', 4000),
-                Attraction('Minigold', 8000),
-                Attraction('Observation Tower', 15000),
-                Attraction('Spiral Slide', 2500),
+                'Haunted House' : Attraction('Haunted House', 3500),
+                'Ferriswheel' : Attraction('Ferriswheel', 6000),
+                'Merrie-go-round' : Attraction('Merrie-go-round', 3000),
+                'Maze' : Attraction('Maze', 7500),
+                'Dodgems' : Attraction('Dodgems', 7000),
+                'Monster Trucks' : Attraction('Monster Trucks', 10000),
+                'Racing Cars' : Attraction('Racing Cars', 11000),
+                'Circus' : Attraction('Circus', 4000),
+                'Minigold' : Attraction('Minigold', 8000),
+                'Observation Tower' : Attraction('Observation Tower', 15000),
+                'Spiral Slide' : Attraction('Spiral Slide', 2500),
             },
             'Balloon Stall' : { # NOT COMPLETE
-                Attraction('Balloon Stall', 1900),
+                'Balloon Stall' : Attraction('Balloon Stall', 1900),
             },
             'Rollercoasters' : {
-                Attraction('Bobsleigh Coaster', 18000),
-                Attraction('Corkscrew Rollercoaster', 25000),
-                Attraction('Giga Coaster', 27000),
-                Attraction('Junior Rollercoaster', 7500),
-                Attraction('Looping Rollercoaster', 20000),
-                Attraction('Mine Train Coaster', 12500),
-                Attraction('Stand-up Rollercoaster', 19000),
-                Attraction('Steel Twister Rollercoaster', 30000),
-                Attraction('Wild Mouse', 6500),
-                Attraction('Wooden Rollercoaster', 10000),
+                'Bobsleigh Coaster' : Attraction('Bobsleigh Coaster', 18000),
+                'Corkscrew Rollercoaster' : Attraction('Corkscrew Rollercoaster', 25000),
+                'Giga Coaster' : Attraction('Giga Coaster', 27000),
+                'Junior Rollercoaster' : Attraction('Junior Rollercoaster', 7500),
+                'Looping Rollercoaster' : Attraction('Looping Rollercoaster', 20000),
+                'Mine Train Coaster' : Attraction('Mine Train Coaster', 12500),
+                'Stand-up Rollercoaster' : Attraction('Stand-up Rollercoaster', 19000),
+                'Steel Twister Rollercoaster' : Attraction('Steel Twister Rollercoaster', 30000),
+                'Wild Mouse' : Attraction('Wild Mouse', 6500),
+                'Wooden Rollercoaster' : Attraction('Wooden Rollercoaster', 10000),
             }
         }
 
@@ -186,7 +186,7 @@ class Game:
             pass
         elif interaction == 'WaterRides':
             print ("WaterRides")
-            player.board.attractions.append(self.attractions['WaterRides']['WaterRides'])
+            player.board.attractions.append(self.attractions['WaterRides']['Boat Hire'])
             pass
         elif interaction == 'GentleRides':
             print ("GentleRides")
@@ -246,7 +246,7 @@ class Game:
                     
             else:
                 # BELLOW IS RAN WHEN THE PAWN HAS FINISHED MOVING
-                player.interact(self.tiles[player.position].interaction)
+                self.tile_interact(self.tiles[player.position].interaction)
 
 
                 self.nextTurn() 
