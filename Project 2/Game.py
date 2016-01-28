@@ -107,7 +107,8 @@ class Game:
         if human_players > 0:
             players.append(Player(0, True, "green")) # The Player
         else:
-            players.append(Player(0, False, "green")) # AI player
+            players.append(Player(0, True, "green")) # The Player
+            #players.append(Player(0, False, "green")) # AI player
         if human_players > 1:
             players.append(Player(0, False, "blue")) # The Player
         else:
@@ -122,8 +123,8 @@ class Game:
             players.append(Player(0, False, "yellow")) # AI player
 
         self.settings = {
-            'pawn_speed' : 500,
-            'dice_roll_duration' : 500
+            'pawn_speed' : 50,
+            'dice_roll_duration' : 50
         }
 
         self.elements_pause = [
@@ -139,17 +140,22 @@ class Game:
             'players': players,
             'dice': Dice(Vector2D(850,350), Vector2D(64, 64)),
             'buttons' : {
-                'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,450)).hover("buttons/Start_Active.png").click(None, self.dice_click),
+                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (750,450)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
             },
+            'text_labels' :{
+               'turn_label' : Text("Current turn: ", 20, (0, 0, 0), (750, 50)),
+               'money_label' : Text("$ 0", 20, (0, 90, 0), (750, 75)),
+            }
         }
 
         self.turn_state = {
-            'active_player_id' : 0,
+            'active_player_id'      : 0,
             'dice_rolled_tickstart' : 0,
-            'dice_rolled_finished' : False,
-            'dice_score' : 0,
-            'steps_taken' : 0,
-            'steps_taken_tickstart' : 0
+            'dice_rolled_finished'  : False,
+            'dice_score'            : 0,
+            'steps_taken'           : 0,
+            'steps_taken_tickstart' : 0,
+            'start_position'        : 0
         }
 
 
@@ -158,12 +164,13 @@ class Game:
 
     def nextTurn(self):
         self.turn_state = {
-            'active_player_id' : (self.turn_state['active_player_id'] + 1) % len(self.entities['players']),
+            'active_player_id'      : (self.turn_state['active_player_id'] + 1) % len(self.entities['players']),
             'dice_rolled_tickstart' : 0,
-            'dice_rolled_finished' : False,
-            'dice_score' : 0,
-            'steps_taken' : 0,
+            'dice_rolled_finished'  : False,
+            'dice_score'            : 0,
+            'steps_taken'           : 0,
             'steps_taken_tickstart' : 0,
+            'start_position'        : 0
         }
 
     def dice_click(self):
@@ -174,19 +181,19 @@ class Game:
         player = self.getActivePlayer()
         if interaction == 'ThrillRides':
             print ("ThrillRides")
-            player.board.attractions.append(self.attractions['ThrillRides']['Train'])
+            #player.board.attractions.append(self.attractions['ThrillRides']['Train'])
 
         elif interaction == 'ShopsAndStalls':
             print ("ShopsAndStalls")
-            player.board.attractions.append(self.attractions['ShopsAndStalls']['Balloon Stall'])
+            #player.board.attractions.append(self.attractions['ShopsAndStalls']['Balloon Stall'])
             pass
         elif interaction == 'TransportRides':
             print ("TransportRides")
-            player.board.attractions.append(self.attractions['TransportRides']['Train'])
+            #player.board.attractions.append(self.attractions['TransportRides']['Train'])
             pass
         elif interaction == 'WaterRides':
             print ("WaterRides")
-            player.board.attractions.append(self.attractions['WaterRides']['Boat Hire'])
+            #player.board.attractions.append(self.attractions['WaterRides']['Boat Hire'])
             pass
         elif interaction == 'GentleRides':
             print ("GentleRides")
@@ -231,6 +238,7 @@ class Game:
             if self.turn_state['dice_rolled_tickstart'] > 0 and pygame.time.get_ticks() - self.turn_state['dice_rolled_tickstart'] > self.settings['dice_roll_duration']:
                 self.turn_state['dice_score'] = self.entities['dice'].number
                 self.turn_state['dice_rolled_finished'] = True
+                self.turn_state['start_position'] = player.position
         else: 
             # BELOW IS RAN WHEN DICE ROLL IS FINISHED
             if self.turn_state['steps_taken_tickstart'] == 0:
@@ -246,6 +254,14 @@ class Game:
                     
             else:
                 # BELLOW IS RAN WHEN THE PAWN HAS FINISHED MOVING
+
+
+                # Give the player 20k when landing on start, give 10k when passing start
+                if player.position == 0:
+                    player.money += 20000
+                elif player.position < self.turn_state['start_position']:
+                    player.money += 10000
+                
                 self.tile_interact(self.tiles[player.position].interaction)
 
 
@@ -261,6 +277,11 @@ class Game:
         
         if self.getActivePlayer().isRealPlayer and self.turn_state['dice_rolled_tickstart'] == False:
             self.entities['buttons']['button_roll_dice'].draw()
+
+        self.entities['text_labels']['turn_label'].set_text(self.getActivePlayer().color + '\'s turn' )
+        self.entities['text_labels']['money_label'].set_text('$ ' + str(self.getActivePlayer().money))
+        self.entities['text_labels']['turn_label'].draw()
+        self.entities['text_labels']['money_label'].draw()
 
         self.getActivePlayer().board.draw()
 
