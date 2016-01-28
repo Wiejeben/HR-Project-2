@@ -10,59 +10,65 @@ class Game:
         self.screen = pygame.display.get_surface()
         self.loaded = False
 
+        bottom_y = 600
+        left_x = 5
+        top_y = 5
+        right_x = 667
+
         self.tiles = [
-            GameTile(Vector2D(620,630), 'Start'), 
-            GameTile(Vector2D(565,630), 'Rollercoasters'), 
-            GameTile(Vector2D(510,630), 'WaterRides'), 
-            GameTile(Vector2D(455,630), 'QuestionMark'),
-            GameTile(Vector2D(410,630), 'ShopsAndStalls'), 
+            # Bottom
+            GameTile(Vector2D(640,bottom_y), 'Start'), 
+            GameTile(Vector2D(558,bottom_y), 'Rollercoasters'), 
+            GameTile(Vector2D(503,bottom_y), 'WaterRides'),
+            GameTile(Vector2D(448,bottom_y), 'QuestionMark'),
+            GameTile(Vector2D(393,bottom_y), 'ShopsAndStalls'),
+            GameTile(Vector2D(338,bottom_y), 'CashFine'),
+            GameTile(Vector2D(283,bottom_y), 'TransportRides'),
+            GameTile(Vector2D(228,bottom_y), 'QuestionMark'),
+            GameTile(Vector2D(173,bottom_y), 'ThrillRides'),
+            GameTile(Vector2D(118,bottom_y), 'GentleRides'),
+            GameTile(Vector2D(35,bottom_y), 'Spectator'),
 
-            GameTile(Vector2D(355,630), 'CashFine'), 
-            GameTile(Vector2D(270,630), 'TransportRides'), 
-            GameTile(Vector2D(210,630), 'QuestionMark'),
-            GameTile(Vector2D(150,630), 'ThrillRides'), 
-            GameTile(Vector2D(150,630), 'GentleRides'), 
+            # Left
+            GameTile(Vector2D(left_x,542), 'TransportRides'),
+            GameTile(Vector2D(left_x,488), 'GentleRides'), 
+            GameTile(Vector2D(left_x,434), 'QuestionMark'), 
+            GameTile(Vector2D(left_x,379), 'Rollercoasters'), 
+            GameTile(Vector2D(left_x,323), 'CashFine'),
+            GameTile(Vector2D(left_x,268), 'ThrillRides'), 
+            GameTile(Vector2D(left_x,214), 'QuestionMark'), 
+            GameTile(Vector2D(left_x,159), 'ShopsAndStalls'), 
+            GameTile(Vector2D(left_x,105), 'WaterRides'),
 
-            GameTile(Vector2D(60,630), 'Spectator'), 
-            GameTile(Vector2D(60,610), 'TransportRides'),
-            GameTile(Vector2D(60,550), 'GentleRides'), 
-            GameTile(Vector2D(60,490), 'QuestionMark'), 
-            GameTile(Vector2D(60,430), 'Rollercoasters'), 
+            # Top
+            GameTile(Vector2D(35,top_y), 'CashPrize'), 
+            GameTile(Vector2D(118,top_y), 'WaterRides'), 
+            GameTile(Vector2D(173,top_y), 'ThrillRides'), 
+            GameTile(Vector2D(228,top_y), 'QuestionMark'),
+            GameTile(Vector2D(283,top_y), 'GentleRides'),
+            GameTile(Vector2D(338,top_y), 'CashFine'), 
+            GameTile(Vector2D(393,top_y), 'ShopsAndStalls'), 
+            GameTile(Vector2D(448,top_y), 'QuestionMark'), 
+            GameTile(Vector2D(503,top_y), 'Rollercoasters'),
+            GameTile(Vector2D(558,top_y), 'GentleRides'),
+            GameTile(Vector2D(640,top_y), 'Defect'),
 
-            GameTile(Vector2D(60,370), 'CashFine'),
-            GameTile(Vector2D(60,310), 'ThrillRides'), 
-            GameTile(Vector2D(60,250), 'QuestionMark'), 
-            GameTile(Vector2D(60,190), 'ShopsAndStalls'), 
-            GameTile(Vector2D(60,130), 'WaterRides'),
-
-            GameTile(Vector2D(60,60), 'CashPrize'), 
-            GameTile(Vector2D(140,60), 'WaterRides'), 
-            GameTile(Vector2D(210,60), 'ThrillRides'), 
-            GameTile(Vector2D(270,60), 'QuestionMark'),
-            GameTile(Vector2D(330,60), 'GentleRides'),
-
-            GameTile(Vector2D(390,60), 'CashFine'), 
-            GameTile(Vector2D(450,60), 'ShopsAndStalls'), 
-            GameTile(Vector2D(510,60), 'QuestionMark'), 
-            GameTile(Vector2D(570,60), 'Rollercoasters'),
-            GameTile(Vector2D(630,60), 'GentleRides'),
-
-            GameTile(Vector2D(710,60), ''), 
-            GameTile(Vector2D(710,130), ''), 
-            GameTile(Vector2D(710,190), ''), 
-            GameTile(Vector2D(710,250), ''),
-            GameTile(Vector2D(710,310), ''),
-
-            GameTile(Vector2D(710,370), ''), 
-            GameTile(Vector2D(710,430), ''), 
-            GameTile(Vector2D(710,490), ''), 
-            GameTile(Vector2D(710,550), ''),
-            GameTile(Vector2D(710,610), '')
+            # Right
+            GameTile(Vector2D(right_x,105), 'ShopsAndStalls'), 
+            GameTile(Vector2D(right_x,159), 'WaterRides'), 
+            GameTile(Vector2D(right_x,214), 'QuestionMark'),
+            GameTile(Vector2D(right_x,268), 'ThrillRides'),
+            GameTile(Vector2D(right_x,323), 'CashFine'), 
+            GameTile(Vector2D(right_x,379), 'Rollercoasters'), 
+            GameTile(Vector2D(right_x,434), 'QuestionMark'), 
+            GameTile(Vector2D(right_x,488), 'GentleRides'),
+            GameTile(Vector2D(right_x,542), 'ThrillRides')
         ]
 
         self.attractions = {
             'ThrillRides' : { # NOT COMPLETE
                 '3D Cinema' : Attraction('3D Cinema', 10000),
+                'Train' : Attraction('Train', 10000),
             },
             'WaterRides' : { # NOT COMPLETE
                 'Boat Hire' : Attraction('Boat Hire', 3000),
@@ -85,7 +91,7 @@ class Game:
                 'Observation Tower' : Attraction('Observation Tower', 15000),
                 'Spiral Slide' : Attraction('Spiral Slide', 2500),
             },
-            'Balloon Stall' : { # NOT COMPLETE
+            'ShopsAndStalls' : { # NOT COMPLETE
                 'Balloon Stall' : Attraction('Balloon Stall', 1900),
             },
             'Rollercoasters' : {
@@ -265,6 +271,11 @@ class Game:
         self.getActivePlayer().board.draw()
 
         self.entities['dice'].draw()
+
+        # Debug to adjust pawn position
+        if True == False:
+            for tile in self.tiles:
+                Image("pieces/red/piece.png", 'Game', (tile.position.X, tile.position.Y)).draw()
 
     def pause(self):
         event_handler.mode = 'wait'
