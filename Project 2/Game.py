@@ -253,8 +253,7 @@ class Game:
                         player.position = 0
                     
             else:
-                # BELLOW IS RAN WHEN THE PAWN HAS FINISHED MOVING
-
+                # BELOW IS RAN WHEN THE PAWN HAS FINISHED MOVING
 
                 # Give the player 20k when landing on start, give 10k when passing start
                 if player.position == 0:
@@ -263,7 +262,6 @@ class Game:
                     player.money += 10000
                 
                 self.tile_interact(self.tiles[player.position].interaction)
-
 
                 self.nextTurn() 
 
