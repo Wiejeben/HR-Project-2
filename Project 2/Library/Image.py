@@ -133,7 +133,6 @@ class Image:
 
     # Show image
     def draw(self, state = 'default'):
-
         if self.toggled_state:
             state = 'toggle'
 
