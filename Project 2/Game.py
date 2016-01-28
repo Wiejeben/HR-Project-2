@@ -85,7 +85,7 @@ class Game:
                 'Observation Tower' : Attraction('Observation Tower', 15000),
                 'Spiral Slide' : Attraction('Spiral Slide', 2500),
             },
-            'Balloon Stall' : { # NOT COMPLETE
+            'ShopsAndStalls' : { # NOT COMPLETE
                 'Balloon Stall' : Attraction('Balloon Stall', 1900),
             },
             'Rollercoasters' : {
@@ -102,6 +102,8 @@ class Game:
             }
         }
 
+
+        # REFACTOR APPSTATE > GAME([COLOR PLAYER > REAL PLAYER TRUE / FALSE])
         players = []
         print("Human players: " + str(human_players))
         if human_players > 0:
@@ -123,8 +125,8 @@ class Game:
             players.append(Player(0, False, "yellow")) # AI player
 
         self.settings = {
-            'pawn_speed' : 50,
-            'dice_roll_duration' : 50
+            'pawn_speed' : 500,
+            'dice_roll_duration' : 500
         }
 
         self.elements_pause = [
@@ -158,7 +160,6 @@ class Game:
             'start_position'        : 0
         }
 
-
     def getActivePlayer(self):
         return self.entities['players'][self.turn_state['active_player_id']]
 
@@ -175,45 +176,6 @@ class Game:
 
     def dice_click(self):
         self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
-
-    
-    def tile_interact(self, interaction):
-        player = self.getActivePlayer()
-        if interaction == 'ThrillRides':
-            print ("ThrillRides")
-            #player.board.attractions.append(self.attractions['ThrillRides']['Train'])
-
-        elif interaction == 'ShopsAndStalls':
-            print ("ShopsAndStalls")
-            #player.board.attractions.append(self.attractions['ShopsAndStalls']['Balloon Stall'])
-            pass
-        elif interaction == 'TransportRides':
-            print ("TransportRides")
-            #player.board.attractions.append(self.attractions['TransportRides']['Train'])
-            pass
-        elif interaction == 'WaterRides':
-            print ("WaterRides")
-            #player.board.attractions.append(self.attractions['WaterRides']['Boat Hire'])
-            pass
-        elif interaction == 'GentleRides':
-            print ("GentleRides")
-            pass
-        elif interaction == 'Rollercoasters':
-            print ("Rollercoasters")
-            pass
-        elif interaction == 'QuestionMark':
-            print ("QuestionMark")
-            pass
-        elif interaction == 'CashFine':
-            pass
-        elif interaction == 'Start':
-            pass
-        elif interaction == 'Spectator':
-            pass
-        elif interaction == 'CashPrize':
-            pass
-        elif interaction == 'Defect':
-            pass
 
     def update(self):
         # Set application mode to continuously run
@@ -240,8 +202,10 @@ class Game:
                 self.turn_state['dice_rolled_finished'] = True
                 self.turn_state['start_position'] = player.position
         else: 
+            
             # BELOW IS RAN WHEN DICE ROLL IS FINISHED
             if self.turn_state['steps_taken_tickstart'] == 0:
+                player.calculate_salary() # Calculate one time
                 self.turn_state['steps_taken_tickstart'] = pygame.time.get_ticks()
 
             if self.turn_state['steps_taken'] < self.turn_state['dice_score']:
@@ -284,6 +248,44 @@ class Game:
         self.getActivePlayer().board.draw()
 
         self.entities['dice'].draw()
+
+    def tile_interact(self, interaction):
+        player = self.getActivePlayer()
+        print (self.attractions['WaterRides']['Boat Hire'].name)
+        if interaction == 'ThrillRides':
+            print ("ThrillRides")
+            player.buy_attraction(self.attractions['ThrillRides']['3D Cinema'])
+
+        elif interaction == 'ShopsAndStalls':
+            print ("ShopsAndStalls")
+            player.buy_attraction(self.attractions['ShopsAndStalls']['Balloon Stall'])
+            pass
+        elif interaction == 'TransportRides':
+            print ("TransportRides")
+            player.buy_attraction(self.attractions['TransportRides']['Train'])
+            pass
+        elif interaction == 'WaterRides':
+            player.buy_attraction(self.attractions['WaterRides']['Boat Hire'])
+            pass
+        elif interaction == 'GentleRides':
+            print ("GentleRides")
+            pass
+        elif interaction == 'Rollercoasters':
+            print ("Rollercoasters")
+            pass
+        elif interaction == 'QuestionMark':
+            print ("QuestionMark")
+            pass
+        elif interaction == 'CashFine':
+            pass
+        elif interaction == 'Start':
+            pass
+        elif interaction == 'Spectator':
+            pass
+        elif interaction == 'CashPrize':
+            pass
+        elif interaction == 'Defect':
+            pass
 
     def pause(self):
         event_handler.mode = 'wait'
