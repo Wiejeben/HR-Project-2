@@ -3,6 +3,7 @@
 class AppState:
     def __init__(self):
         self.state = "Menu"
+        self.show_rules = False
         self.temp_state = None
 
     def set_state(self, state):
@@ -12,6 +13,12 @@ class AppState:
         if self.temp_state != None:
             self.state = self.temp_state
             self.temp_state = None
+    
+    def game_rules(self):
+        if self.show_rules:
+            self.show_rules = False
+        else:
+            self.show_rules = True
 
     def menu(self):
         self.set_state("Menu")

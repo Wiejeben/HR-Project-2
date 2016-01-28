@@ -74,9 +74,11 @@ class Game:
         self.entities = {
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
-            'dice': Dice(Vector2D(850,350), Vector2D(64, 64)),
+            'dice': Dice(Vector2D(830,550), Vector2D(64, 64)),
+            'game_rules': Image("board/Help_Text.png", "Game", (700, 100)),
             'buttons' : {
-                'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,450)).hover("buttons/Start_Active.png").click(None, self.dice_click),
+                'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,630)).hover("buttons/Start_Active.png").click(None, self.dice_click),
+                'help_button' : Image("board/Help.png", 'Game', (710,20)).toggle("board/Help_Active.png", app_state.game_rules),
             },
         }
 
@@ -159,8 +161,11 @@ class Game:
             self.entities['buttons']['button_roll_dice'].draw()
 
         self.getActivePlayer().board.draw()
-
+        self.entities['buttons']['help_button'].draw()
         self.entities['dice'].draw()
+
+        if app_state.show_rules:
+            self.entities['game_rules'].draw()
 
     def pause(self):
         event_handler.mode = 'wait'
