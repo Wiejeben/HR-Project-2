@@ -28,6 +28,7 @@ class PlayerBoard:
     def __init__(self):
         self.texture = Image("board/player_board.png", 'Game', (117,334), (471,252))
         self.attractions = {}
+
     def getTexture(self):
         return self.texture
     def set_attraction(self, position, attraction):
