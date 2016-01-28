@@ -152,8 +152,8 @@ class Game:
 
         self.turn_state = {
             'active_player_id'      : 0,
+            'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
-            'dice_rolled_finished'  : False,
             'dice_score'            : 0,
             'steps_taken'           : 0,
             'steps_taken_tickstart' : 0,
@@ -166,12 +166,12 @@ class Game:
     def nextTurn(self):
         self.turn_state = {
             'active_player_id'      : (self.turn_state['active_player_id'] + 1) % len(self.entities['players']),
+            'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
-            'dice_rolled_finished'  : False,
             'dice_score'            : 0,
             'steps_taken'           : 0,
             'steps_taken_tickstart' : 0,
-            'start_position'        : 0
+            'player_start_position' : 0
         }
 
     def dice_click(self):
@@ -185,25 +185,24 @@ class Game:
         # Get the player who's turn it is
         player = self.getActivePlayer()
 
-        if self.turn_state['dice_rolled_finished'] == False:
-            # BELOW IS RAN WHEN DICE HAS TO BE ROLLED
+        if self.turn_state['state'] == 'Dice':
 
             if not player.isRealPlayer: # IF AI
                 if self.turn_state['dice_rolled_tickstart'] == 0:
                     self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
                 self.entities['dice'].roll()
-                
+
             if player.isRealPlayer:
                 if self.turn_state['dice_rolled_tickstart'] > 0:
                     self.entities['dice'].roll()
             
             if self.turn_state['dice_rolled_tickstart'] > 0 and pygame.time.get_ticks() - self.turn_state['dice_rolled_tickstart'] > self.settings['dice_roll_duration']:
                 self.turn_state['dice_score'] = self.entities['dice'].number
-                self.turn_state['dice_rolled_finished'] = True
-                self.turn_state['start_position'] = player.position
-        else: 
+                self.turn_state['state'] = 'MovePawn'
+                self.turn_state['player_start_position'] = player.position
+        
+        if self.turn_state['state'] == 'MovePawn':
             
-            # BELOW IS RAN WHEN DICE ROLL IS FINISHED
             if self.turn_state['steps_taken_tickstart'] == 0:
                 player.calculate_salary() # Calculate one time
                 self.turn_state['steps_taken_tickstart'] = pygame.time.get_ticks()
@@ -215,19 +214,20 @@ class Game:
                         player.position = player.position + 1
                     else:
                         player.position = 0
-                    
             else:
-                # BELOW IS RAN WHEN THE PAWN HAS FINISHED MOVING
+                self.turn_state['state'] = 'Interaction'
+        if self.turn_state['state'] == 'Interaction':
 
-                # Give the player 20k when landing on start, give 10k when passing start
-                if player.position == 0:
-                    player.money += 20000
-                elif player.position < self.turn_state['start_position']:
-                    player.money += 10000
-                
-                self.tile_interact(self.tiles[player.position].interaction)
+            # Give the player 20k when landing on start, give 10k when passing start
+            if player.position == 0:
+                player.money += 20000
+            elif player.position < self.turn_state['player_start_position']:
+                player.money += 10000
+            
+            # TODO : Choose attraction
+            self.tile_interact(self.tiles[player.position].interaction)
 
-                self.nextTurn() 
+            self.nextTurn() 
 
         self.draw()
 
