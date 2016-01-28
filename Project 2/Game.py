@@ -137,8 +137,10 @@ class Game:
         self.entities = {
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
-            'dice': Dice(Vector2D(850,350), Vector2D(64, 64)),
+            'dice': Dice(Vector2D(830,550), Vector2D(64, 64)),
+            'game_rules': Image("board/Help_Text.png", "Game", (700, 100)),
             'buttons' : {
+                'help_button' : Image("board/Help.png", 'Game', (900,35)).toggle("board/Help_Active.png", app_state.game_rules),
                 'button_roll_dice' : Image("buttons/Roll.png", 'Game', (750,450)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
             },
             'text_labels' :{
@@ -243,8 +245,11 @@ class Game:
         self.entities['text_labels']['money_label'].draw()
 
         self.getActivePlayer().board.draw()
-
+        self.entities['buttons']['help_button'].draw()
         self.entities['dice'].draw()
+
+        if app_state.show_rules:
+            self.entities['game_rules'].draw()
 
         # Debug to adjust pawn position
         if True == False:
