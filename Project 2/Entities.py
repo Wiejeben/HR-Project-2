@@ -31,6 +31,10 @@ class Dice():
         self.texture[self.number].draw()
 
 class GameTile:
-    def __init__(self, pawnPosition):
+    def __init__(self, pawnPosition, interaction):
         self.position = pawnPosition
- 
+        self.interaction = interaction
+
+class ChanceCard:
+    def __init(self, texture):
+        self.texture = texture
