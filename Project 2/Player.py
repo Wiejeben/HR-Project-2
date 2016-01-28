@@ -16,10 +16,10 @@ class Player:
             salary += (attraction.price / 20)
         self.money += salary
 
-    def buy_attraction(self, attraction):
+    def buy_attraction(self, attraction, position):
         if self.money > attraction.price:
             self.money -= attraction.price
-            self.board.add_attraction(attraction)
+            self.board.set_attraction(attraction, position)
 
     def draw(self, position):
         Image("pieces/" + self.color + "/piece.png", 'Game', (position.X, position.Y)).draw()
@@ -27,13 +27,11 @@ class Player:
 class PlayerBoard:
     def __init__(self):
         self.texture = Image("board/player_board.png", 'Game', (117,334), (471,252))
-        self.attractions = [
-            Attraction('Bobsleigh Coaster', 18000)
-            ]
+        self.attractions = {}
     def getTexture(self):
         return self.texture
-    def add_attraction(self, attraction):
-        self.attractions.append(attraction)
+    def set_attraction(self, position, attraction):
+        self.attractions[position] = attraction
     def get_attraction(key):
         return self.attractions[key]
     def draw(self):
@@ -41,13 +39,16 @@ class PlayerBoard:
 
         i = 0
         for attraction in self.attractions:
-               attraction.draw(i)
-               i += 1
+            attraction.draw(i)
+            i += 1
 
 class Attraction:
-    def __init__(self, name, price):
+    def __init__(self, name, price, type):
         self.name = name
         self.price = price
-
+        self.type = type
     def draw(self, offset):
-        Image("attractions/gentle_rides.png", 'Game', (115 + offset * 80, 350)).draw()
+        if offset < 6:
+            Image("attractions/"+ str(self.type) +".png", 'Game', (115 + offset * 80, 330)).draw()
+        else:
+            Image("attractions/"+ str(self.type) +".png", 'Game', (115 + offset % 6 * 80, 450)).draw()
