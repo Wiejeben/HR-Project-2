@@ -227,9 +227,7 @@ class Game:
             # TODO : Choose attraction
             self.tile_interact(self.tiles[player.position].interaction)
 
-            self.nextTurn() 
-
-        self.draw()
+            self.nextTurn()
 
     def draw(self):
         self.entities['board'].draw()

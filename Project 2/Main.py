@@ -38,6 +38,7 @@ def Main():
 
         elif app_state.state == "Game":
             game.update()
+            game.draw()
 
         elif app_state.state == "Pause":
             game.pause()
