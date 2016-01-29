@@ -104,11 +104,13 @@ class Game:
         players = []
         player_color = ["green", "blue", "red", "yellow"]
 
+        colorCounter = 0
         for human in human_players:
             if human:
-                players.append(Player(0, True, player_color[human_players.index(human)]))
+                players.append(Player(0, True, player_color[colorCounter]))
             else:
-                players.append(Player(0, False, player_color[human_players.index(human)]))
+                players.append(Player(0, False, player_color[colorCounter]))
+            colorCounter += 1
 
         self.settings = {
             'pawn_speed' : 50,
