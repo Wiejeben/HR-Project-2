@@ -129,7 +129,7 @@ class Game:
             'dice': Dice(Vector2D(830,550), Vector2D(64, 64)),
             'game_rules': Image("board/Help_Text.png", "Game", (700, 120)),
             'buttons' : {
-                'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,630)).hover("buttons/Start_Active.png").click(None, self.dice_click),
+                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (750,630)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
                 'help_button' : Image("board/Help.png", 'Game', (940,35)).toggle("board/Help_Active.png", app_state.game_rules),
             },
             'text_labels' :{
@@ -215,9 +215,7 @@ class Game:
             # TODO : Choose attraction
             self.tile_interact(self.tiles[player.position].interaction)
 
-            self.nextTurn() 
-
-        self.draw()
+            self.nextTurn()
 
     def draw(self):
         self.entities['board'].draw()
