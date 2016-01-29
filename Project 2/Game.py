@@ -66,54 +66,46 @@ class Game:
             GameTile(Vector2D(right_x,542), 'ThrillRides')
         ]
 
-        self.attractions = {
-            'ThrillRides' : { # NOT COMPLETE
-                '3D Cinema' : Attraction('3D Cinema', 10000),
-                'Train' : Attraction('Train', 10000),
-            },
-            'WaterRides' : { # NOT COMPLETE
-                'Boat Hire' : Attraction('Boat Hire', 3000),
-            },
-            'TransportRides' : {
-                'Train' : Attraction('Train', 5000),
-                'Monorail' : Attraction('Monorail', 12000),
-                'Chairlift' : Attraction('Chairlift', 8000),
-            },
-            'GentleRides' : {
-                'Haunted House' : Attraction('Haunted House', 3500),
-                'Ferriswheel' : Attraction('Ferriswheel', 6000),
-                'Merrie-go-round' : Attraction('Merrie-go-round', 3000),
-                'Maze' : Attraction('Maze', 7500),
-                'Dodgems' : Attraction('Dodgems', 7000),
-                'Monster Trucks' : Attraction('Monster Trucks', 10000),
-                'Racing Cars' : Attraction('Racing Cars', 11000),
-                'Circus' : Attraction('Circus', 4000),
-                'Minigold' : Attraction('Minigold', 8000),
-                'Observation Tower' : Attraction('Observation Tower', 15000),
-                'Spiral Slide' : Attraction('Spiral Slide', 2500),
-            },
-            'ShopsAndStalls' : { # NOT COMPLETE
-                'Balloon Stall' : Attraction('Balloon Stall', 1900),
-            },
-            'Rollercoasters' : {
-                'Bobsleigh Coaster' : Attraction('Bobsleigh Coaster', 18000),
-                'Corkscrew Rollercoaster' : Attraction('Corkscrew Rollercoaster', 25000),
-                'Giga Coaster' : Attraction('Giga Coaster', 27000),
-                'Junior Rollercoaster' : Attraction('Junior Rollercoaster', 7500),
-                'Looping Rollercoaster' : Attraction('Looping Rollercoaster', 20000),
-                'Mine Train Coaster' : Attraction('Mine Train Coaster', 12500),
-                'Stand-up Rollercoaster' : Attraction('Stand-up Rollercoaster', 19000),
-                'Steel Twister Rollercoaster' : Attraction('Steel Twister Rollercoaster', 30000),
-                'Wild Mouse' : Attraction('Wild Mouse', 6500),
-                'Wooden Rollercoaster' : Attraction('Wooden Rollercoaster', 10000),
-            }
-        }
+        self.attractions = [
+            Attraction('3D Cinema', 10000, 'thrill_rides'),
+
+            Attraction('Boat Hire', 3000, 'water_rides'),
+
+            Attraction('Train', 5000, 'transport_rides'),
+            Attraction('Monorail', 12000, 'transport_rides'),
+            Attraction('Chairlift', 8000, 'transport_rides'),
+
+            Attraction('Haunted House', 3500, 'gentle_rides'),
+            Attraction('Ferriswheel', 6000, 'gentle_rides'),
+            Attraction('Merrie-go-round', 3000, 'gentle_rides'),
+            Attraction('Maze', 7500, 'gentle_rides'),
+            Attraction('Dodgems', 7000, 'gentle_rides'),
+            Attraction('Monster Trucks', 10000, 'gentle_rides'),
+            Attraction('Racing Cars', 11000, 'gentle_rides'),
+            Attraction('Circus', 4000, 'gentle_rides'),
+            Attraction('Minigold', 8000, 'gentle_rides'),
+            Attraction('Observation Tower', 15000, 'gentle_rides'),
+            Attraction('Spiral Slide', 2500, 'gentle_rides'),
+
+            Attraction('Bobsleigh Coaster', 18000, 'rollercoaster'),
+            Attraction('Corkscrew Rollercoaster', 25000, 'rollercoaster'),
+            Attraction('Giga Coaster', 27000, 'rollercoaster'),
+            Attraction('Junior Rollercoaster', 7500, 'rollercoaster'),
+            Attraction('Looping Rollercoaster', 20000, 'rollercoaster'),
+            Attraction('Mine Train Coaster', 12500, 'rollercoaster'),
+            Attraction('Stand-up Rollercoaster', 19000, 'rollercoaster'),
+            Attraction('Steel Twister Rollercoaster', 30000, 'rollercoaster'),
+            Attraction('Wild Mouse', 6500, 'rollercoaster'),
+            Attraction('Wooden Rollercoaster', 10000, 'rollercoaster'),
+
+            Attraction('Balloon Stall', 1900, 'shops_and_stalls'),
+        ]
 
         # REFACTOR APPSTATE > GAME([COLOR PLAYER > REAL PLAYER TRUE / FALSE])
         players = []
         print("Human players: " + str(human_players))
         if human_players > 0:
-            players.append(Player(0, True, "green")) # The Player
+            players.append(Player(0, False, "green")) # The Player
         else:
             players.append(Player(0, True, "green")) # The Player
             #players.append(Player(0, False, "green")) # AI player
@@ -131,8 +123,8 @@ class Game:
             players.append(Player(0, False, "yellow")) # AI player
 
         self.settings = {
-            'pawn_speed' : 500,
-            'dice_roll_duration' : 500
+            'pawn_speed' : 50,
+            'dice_roll_duration' : 50
         }
 
         self.elements_pause = [
@@ -151,7 +143,6 @@ class Game:
             'buttons' : {
                 'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,630)).hover("buttons/Start_Active.png").click(None, self.dice_click),
                 'help_button' : Image("board/Help.png", 'Game', (940,35)).toggle("board/Help_Active.png", app_state.game_rules),
-                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (750,450)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
             },
             'text_labels' :{
                'turn_label' : Text("Current turn: ", 20, (0, 0, 0), (750, 50)),
@@ -268,27 +259,28 @@ class Game:
 
     def tile_interact(self, interaction):
         player = self.getActivePlayer()
-        print (self.attractions['WaterRides']['Boat Hire'].name)
         if interaction == 'ThrillRides':
             print ("ThrillRides")
-            player.buy_attraction(self.attractions['ThrillRides']['3D Cinema'])
+            player.buy_attraction(self.attractions[0], 0)
 
         elif interaction == 'ShopsAndStalls':
             print ("ShopsAndStalls")
-            player.buy_attraction(self.attractions['ShopsAndStalls']['Balloon Stall'])
+            player.buy_attraction(self.attractions[3], 1)
             pass
         elif interaction == 'TransportRides':
             print ("TransportRides")
-            player.buy_attraction(self.attractions['TransportRides']['Train'])
+            player.buy_attraction(self.attractions[6], 2)
             pass
         elif interaction == 'WaterRides':
-            player.buy_attraction(self.attractions['WaterRides']['Boat Hire'])
+            player.buy_attraction(self.attractions[19], 3)
             pass
         elif interaction == 'GentleRides':
             print ("GentleRides")
+            player.buy_attraction(self.attractions[16], 4)
             pass
         elif interaction == 'Rollercoasters':
             print ("Rollercoasters")
+            player.buy_attraction(self.attractions[15], 5)
             pass
         elif interaction == 'QuestionMark':
             print ("QuestionMark")
