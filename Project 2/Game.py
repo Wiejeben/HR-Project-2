@@ -101,26 +101,14 @@ class Game:
             Attraction('Balloon Stall', 1900, 'shops_and_stalls'),
         ]
 
-        # REFACTOR APPSTATE > GAME([COLOR PLAYER > REAL PLAYER TRUE / FALSE])
         players = []
-        print("Human players: " + str(human_players))
-        if human_players > 0:
-            players.append(Player(0, False, "green")) # The Player
-        else:
-            players.append(Player(0, True, "green")) # The Player
-            #players.append(Player(0, False, "green")) # AI player
-        if human_players > 1:
-            players.append(Player(0, False, "blue")) # The Player
-        else:
-            players.append(Player(0, False, "blue")) # AI player
-        if human_players > 2:
-            players.append(Player(0, False, "red")) # The Player
-        else:
-            players.append(Player(0, False, "red")) # AI player
-        if human_players > 3:
-            players.append(Player(0, False, "yellow")) # The Player
-        else:
-            players.append(Player(0, False, "yellow")) # AI player
+        player_color = ["green", "blue", "red", "yellow"]
+
+        for human in human_players:
+            if human:
+                players.append(Player(0, True, player_color[human_players.index(human)]))
+            else:
+                players.append(Player(0, False, player_color[human_players.index(human)]))
 
         self.settings = {
             'pawn_speed' : 50,
