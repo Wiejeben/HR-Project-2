@@ -7,7 +7,7 @@ class AppState:
         self.state = "Menu"
         self.show_rules = False
         self.temp_state = None
-        self.player_amount = 0
+        self.player_amount = []
 
     def set_state(self, state):
         self.temp_state = state

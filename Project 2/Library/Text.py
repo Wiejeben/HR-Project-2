@@ -18,6 +18,8 @@ class Text():
     def set_text(self, text):
         self._text = pygame.font.Font(None, self.size).render(str(text), 1, self.color, self.background)
 
+        return self
+
     def position(self, position = None):
         if position == None:
             position = self._position

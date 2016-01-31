@@ -55,7 +55,7 @@ class Menu:
             ),
 
             'buttons': (
-                Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start, self.amount_of_human_players),
+                Image("buttons/Start.png", 'PlayerSelect', (900, 680)).hover("buttons/Start_Active.png").click(None, app_state.start, self.human_players),
                 Image("buttons/Return.png", 'PlayerSelect', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu)
             ),
             'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), ('center', 690)),
