@@ -5,6 +5,7 @@ from Library.Text import *
 class Player:
     def __init__(self, isRealPlayer, index = 0):
         self.isRealPlayer = isRealPlayer
+        self.isActive = False
         self.position = 0
         self.money = 10000
 
@@ -17,6 +18,7 @@ class Player:
         # Personal board
         self.inventory_offset = index * 200
         self.board = Image("board/player_board.png", 'Game', (700,self.inventory_offset), (360,200))
+        self.board_active = Image("board/player_board_active.png", 'Game', (700,self.inventory_offset), (360,200))
         self.attractions = {}
         self.labels = {
             'username': Text("Player " + str(index + 1), 25, (0, 0, 0), (1080, self.inventory_offset + 80)),
@@ -53,7 +55,10 @@ class Player:
     def draw(self, position):
         # Draw pawn and personal board
         self.pawn.position((position.X, position.Y)).draw()
-        self.board.draw()
+        if self.isActive:
+            self.board_active.draw()
+        else:
+            self.board.draw()
 
         # Draw all attractions
         for index, attraction in enumerate(self.attractions):

@@ -104,7 +104,12 @@ class Game:
         # Load players
         players = []
         for i, isRealPlayer in enumerate(human_players, start=0):
-            players.append(Player(isRealPlayer, i))
+            player = Player(isRealPlayer, i)
+            
+            if i == 0:
+                player.isActive = True
+
+            players.append(player)
 
         self.settings = {
             'pawn_speed' : 50,
@@ -123,7 +128,7 @@ class Game:
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
             'dice': Dice(Vector2D(135,250), Vector2D(64, 64)),
-            'game_rules': Image("board/Help_Text.png", "Game", (700, 120)),
+            'game_rules': Image("board/Help_Text.png", "Game", (180, 400)),
             'buttons' : {
                 'button_roll_dice' : Image("buttons/Roll.png", 'Game', (450,705)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
                 'help_button' : Image("board/Help.png", 'Game', (520,105)).toggle("board/Help_Active.png", app_state.game_rules),
@@ -131,7 +136,7 @@ class Game:
         }
 
         self.turn_state = {
-            'active_player_id'      : 0,
+            'active_player_index'   : 0,
             'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
             'dice_score'            : 0,
@@ -141,11 +146,13 @@ class Game:
         }
 
     def getActivePlayer(self):
-        return self.entities['players'][self.turn_state['active_player_id']]
+        for player in self.entities['players']:
+            if player.isActive:
+                return player
 
     def nextTurn(self):
         self.turn_state = {
-            'active_player_id'      : (self.turn_state['active_player_id'] + 1) % len(self.entities['players']),
+            'active_player_index'   : (self.turn_state['active_player_index'] + 1) % len(self.entities['players']),
             'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
             'dice_score'            : 0,
@@ -153,6 +160,11 @@ class Game:
             'steps_taken_tickstart' : 0,
             'player_start_position' : 0
         }
+
+        for index, player in enumerate(self.entities['players']):
+            player.isActive = False
+            if index == self.turn_state['active_player_index']:
+                player.isActive = True
 
     def dice_click(self):
         self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
