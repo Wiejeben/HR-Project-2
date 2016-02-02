@@ -8,6 +8,8 @@ class Player:
         self.position = 0
         self.money = 10000
 
+        self.player_class = 1
+
         # Pawn
         self.color = self._get_color(index)
         self.pawn = Image("pieces/" + self.color + "/piece.png", 'Game')
@@ -20,6 +22,18 @@ class Player:
             'username': Text("Player " + str(index + 1), 25, (0, 0, 0), (1080, self.inventory_offset + 80)),
             'money': Text(str(self.money) + "$", 25, (0, 0, 0), (1080, self.inventory_offset + 100))
         }
+
+    def calculate_player_class(self):
+        if self.money <= 10000:
+            self.player_class = 1
+        elif self.money >= 10000 and self.money <= 25000:
+            self.player_class = 2
+        elif self.money >= 25000 and self.money <= 40000:
+            self.player_class = 3
+        elif self.money >= 40000 and self.money <= 65000:
+            self.player_class = 4
+        elif self.money >= 65000:
+            self.player_class = 5
 
     def _get_color(self, index):
         # List of colours

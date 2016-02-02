@@ -197,11 +197,8 @@ class Game:
             else:
                 self.turn_state['state'] = 'Interaction'
         if self.turn_state['state'] == 'Interaction':
-
-            # Give the player 20k when landing on start, give 10k when passing start
-            if player.position == 0:
-                player.money += 20000
-            elif player.position < self.turn_state['player_start_position']:
+  
+            if player.position < self.turn_state['player_start_position']:
                 player.money += 10000
             
             # TODO : Choose attraction
@@ -258,13 +255,16 @@ class Game:
             print ("QuestionMark")
             pass
         elif interaction == 'CashFine':
-            pass
+            player.calculate_player_class()
+            if player.player_class >= 2:
+                print("Fined player money")
+                player.money = player.money - 5000
         elif interaction == 'Start':
-            pass
+            player.money += 20000
         elif interaction == 'Spectator':
-            pass
+            print("Nothing to see here")
         elif interaction == 'CashPrize':
-            pass
+            player.money += 5000
         elif interaction == 'Defect':
             pass
 
