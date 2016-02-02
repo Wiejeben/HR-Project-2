@@ -148,7 +148,7 @@ class Game:
                 'button_roll_dice' : Image("buttons/Roll.png", 'Game', (130,140)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
                 'help_button' : Image("board/Help.png", 'Game', (520,105)).toggle("board/Help_Active.png", app_state.game_rules),
                 'buy' : Image("buttons/Buy.png", 'Game', (5, 705)).hover("buttons/Buy_Active.png"),
-                'skip' : Image("buttons/Skip.png", 'Game', (450, 705)).hover("buttons/Skip_Active.png").click(None, self.skip_attraction)
+                'skip' : Image("buttons/Skip.png", 'Game', (450, 705)).hover("buttons/Skip_Active.png").click(None, self.attraction_skip)
             }
         }
 
@@ -299,46 +299,60 @@ class Game:
             for tile in self.tiles:
                 Image("pieces/red/piece.png", 'Game', (tile.position.X, tile.position.Y)).draw()
 
-    def skip_attraction(self):
+    def attraction_skip(self):
         if self.turn_state['state'] == "BuyAttraction":
             # Reset click action
             self.entities['buttons']['buy'].click()
             self.turn_state['state'] = 'EndTurn'
 
-    def buy_attraction(self, values):
+    def attraction_buy_confirmed(self, values):
         if self.turn_state['state'] == "BuyAttraction":
             self.getActivePlayer().buy_attraction(self.turn_state['interaction'], values[1])
             self.skip_attraction()
 
-    def event_attraction(self, attraction, position):
-        self.turn_state['state'] = "BuyAttraction"
-        # Setup buy click event
-        attraction = self.attractions[attraction]
-        self.entities['buttons']['buy'].click(None, self.buy_attraction, (attraction, position))
+    def buy_attraction(self, attraction, position):
         
-        # Store attraction that we are trying to buy
-        self.turn_state['interaction'] = attraction
+        # First see if player has enough money
+        if self.getActivePlayer().money > attraction.price:
+            # Setup buy click event
+            self.turn_state['state'] = "BuyAttraction"
+            self.entities['buttons']['buy'].click(None, self.attraction_buy_confirmed, (attraction, position))
+        
+            # Store attraction that we are trying to buy
+            self.turn_state['interaction'] = attraction
+
+    def attraction_event(self, id, position):
+        attraction = self.attractions[id]
+
+        if attraction.owner == None:
+            # Buy attraction
+            self.buy_attraction(attraction,position)
+        else:
+            print("Owned by " + attraction.owner.color)
 
     def tile_interact(self, interaction):
         player = self.getActivePlayer()
+        
+        #Debug
         print(interaction)
+
         if interaction == 'ThrillRides':
-            self.event_attraction(0,0)
+            self.attraction_event(0,0)
 
         elif interaction == 'ShopsAndStalls':
-            self.event_attraction(3,1)
+            self.attraction_event(3,1)
 
         elif interaction == 'TransportRides':
-            self.event_attraction(6,2)
+            self.attraction_event(6,2)
 
         elif interaction == 'WaterRides':
-            self.event_attraction(19,3)
+            self.attraction_event(19,3)
 
         elif interaction == 'GentleRides':
-            self.event_attraction(16,4)
+            self.attraction_event(16,4)
 
         elif interaction == 'Rollercoasters':
-            self.event_attraction(15,5)
+            self.attraction_event(15,5)
 
         elif interaction == 'QuestionMark':
             self.turn_state['show_card'] = random.choice(self.chance_cards)

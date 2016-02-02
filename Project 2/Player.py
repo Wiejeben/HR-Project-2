@@ -55,9 +55,9 @@ class Player:
             self.money += int(attraction.price / 20)
 
     def buy_attraction(self, attraction, position):
-        if self.money > attraction.price:
-            self.money -= attraction.price
-            self.attractions[attraction] = position
+        self.money -= attraction.price
+        attraction.owner = self
+        self.attractions[attraction] = position
 
     def draw(self, position):
         # Draw and reposition pawn
@@ -85,6 +85,7 @@ class Attraction:
     def __init__(self, name, price, type):
         self.name = name
         self.price = price
+        self.owner = None
         self.type = type
         self.attraction = Image("attractions/" + str(self.type) + ".png", 'Game', (0,0), (60, 60))
 
