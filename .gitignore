@@ -197,3 +197,5 @@ FakesAssemblies/
 
 # Python
 *.pyc
+
+Thumbs.db
