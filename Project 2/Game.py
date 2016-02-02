@@ -101,26 +101,14 @@ class Game:
             Attraction('Balloon Stall', 1900, 'shops_and_stalls'),
         ]
 
-        # REFACTOR APPSTATE > GAME([COLOR PLAYER > REAL PLAYER TRUE / FALSE])
         players = []
-        print("Human players: " + str(human_players))
-        if human_players > 0:
-            players.append(Player(0, False, "green")) # The Player
-        else:
-            players.append(Player(0, True, "green")) # The Player
-            #players.append(Player(0, False, "green")) # AI player
-        if human_players > 1:
-            players.append(Player(0, False, "blue")) # The Player
-        else:
-            players.append(Player(0, False, "blue")) # AI player
-        if human_players > 2:
-            players.append(Player(0, False, "red")) # The Player
-        else:
-            players.append(Player(0, False, "red")) # AI player
-        if human_players > 3:
-            players.append(Player(0, False, "yellow")) # The Player
-        else:
-            players.append(Player(0, False, "yellow")) # AI player
+        player_color = ["green", "blue", "red", "yellow"]
+
+        for index, human in enumerate(human_players, start=0):
+            if human:
+                players.append(Player(0, True, player_color[index]))
+            else:
+                players.append(Player(0, False, player_color[index]))
 
         self.settings = {
             'pawn_speed' : 500,
@@ -141,7 +129,7 @@ class Game:
             'dice': Dice(Vector2D(830,550), Vector2D(64, 64)),
             'game_rules': Image("board/Help_Text3.png", "Game", (700, 120)),
             'buttons' : {
-                'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,630)).hover("buttons/Start_Active.png").click(None, self.dice_click),
+                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (750,630)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
                 'help_button' : Image("board/Help.png", 'Game', (940,35)).toggle("board/Help_Active.png", app_state.game_rules),
             },
             'text_labels' :{
@@ -226,9 +214,7 @@ class Game:
             
             # TODO : Choose attraction
             self.tile_interact(self.tiles[player.position].interaction)
-
             self.nextTurn() 
-
 
     def draw(self):
         self.entities['board'].draw()
