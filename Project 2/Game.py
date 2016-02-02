@@ -123,7 +123,7 @@ class Game:
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
             'dice': Dice(Vector2D(135,250), Vector2D(64, 64)),
-            'game_rules': Image("board/Help_Text.png", "Game", (700, 120)),
+            'game_rules': Image("board/Help_Text.png", "Game", (180, 400)),
             'buttons' : {
                 'button_roll_dice' : Image("buttons/Roll.png", 'Game', (450,705)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
                 'help_button' : Image("board/Help.png", 'Game', (520,105)).toggle("board/Help_Active.png", app_state.game_rules),
