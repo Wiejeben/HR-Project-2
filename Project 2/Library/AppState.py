@@ -66,6 +66,10 @@ class AppState:
     
     def sound(self, sound_state):
         self.sound_state = sound_state
+        if(self.sound_state):
+            pygame.mixer.music.set_volume(1.0)
+        else:
+            pygame.mixer.music.set_volume(0)
 
     # Resume gameplay
     def resume(self):
