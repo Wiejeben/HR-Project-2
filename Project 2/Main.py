@@ -20,6 +20,8 @@ def Main():
         # Calculate
         # Background white
         pygame.display.get_surface().fill((255, 255, 255))
+        if app_state.state != "Game":
+            pygame.mixer.music.pause()
 
         if app_state.state == "Menu":
             menu.index()
@@ -40,6 +42,7 @@ def Main():
         elif app_state.state == "Game":
             game.update()
             game.draw()
+            pygame.mixer.music.unpause()
 
         elif app_state.state == "Pause":
             game.pause()
