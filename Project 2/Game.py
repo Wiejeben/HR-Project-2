@@ -101,14 +101,10 @@ class Game:
             Attraction('Balloon Stall', 1900, 'shops_and_stalls'),
         ]
 
+        # Load players
         players = []
-        player_color = ["green", "blue", "red", "yellow"]
-
-        for index, human in enumerate(human_players, start=0):
-            if human:
-                players.append(Player(0, True, player_color[index]))
-            else:
-                players.append(Player(0, False, player_color[index]))
+        for i, isRealPlayer in enumerate(human_players, start=0):
+            players.append(Player(isRealPlayer, i))
 
         self.settings = {
             'pawn_speed' : 50,
@@ -126,15 +122,11 @@ class Game:
         self.entities = {
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
-            'dice': Dice(Vector2D(830,550), Vector2D(64, 64)),
+            'dice': Dice(Vector2D(135,250), Vector2D(64, 64)),
             'game_rules': Image("board/Help_Text.png", "Game", (700, 120)),
             'buttons' : {
-                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (750,630)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
-                'help_button' : Image("board/Help.png", 'Game', (940,35)).toggle("board/Help_Active.png", app_state.game_rules),
-            },
-            'text_labels' :{
-               'turn_label' : Text("Current turn: ", 20, (0, 0, 0), (750, 50)),
-               'money_label' : Text("$ 0", 20, (0, 90, 0), (750, 75)),
+                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (450,705)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
+                'help_button' : Image("board/Help.png", 'Game', (520,105)).toggle("board/Help_Active.png", app_state.game_rules),
             }
         }
 
@@ -226,15 +218,9 @@ class Game:
         if self.getActivePlayer().isRealPlayer and self.turn_state['dice_rolled_tickstart'] == False:
             self.entities['buttons']['button_roll_dice'].draw()
 
-        self.entities['text_labels']['turn_label'].set_text(self.getActivePlayer().color + '\'s turn' )
-        self.entities['text_labels']['money_label'].set_text('$ ' + str(self.getActivePlayer().money))
-        self.entities['text_labels']['turn_label'].draw()
-        self.entities['text_labels']['money_label'].draw()
-
-        self.getActivePlayer().board.draw()
-        self.entities['buttons']['help_button'].draw()
         self.entities['dice'].draw()
 
+        self.entities['buttons']['help_button'].draw()
         if app_state.show_rules:
             self.entities['game_rules'].draw()
 

@@ -58,7 +58,7 @@ class Menu:
             ),
 
             'buttons': (
-                Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start, self.human_players),
+                Image("buttons/Start.png", 'PlayerSelect', (900, 680)).hover("buttons/Start_Active.png").click(None, app_state.start, self.human_players),
                 Image("buttons/Return.png", 'PlayerSelect', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu)
             ),
             'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), ('center', 690)),
@@ -77,8 +77,8 @@ class Menu:
         # Set background color
         self.screen.fill((255, 255, 255))
 
-        #pygame.mixer.music.load("coasterscream.wav")
-        #pygame.mixer.music.play()
+        #pygame.mixer.music.load("Content/sounds/coasterscream.wav")
+        #pygame.mixer.music.play(0, 0.0)
 
         for element in self.elements_rules:
             element.draw()
