@@ -10,6 +10,9 @@ class Game:
         self.screen = pygame.display.get_surface()
         self.loaded = False
 
+        pygame.mixer.music.load("Content/sounds/Track1.wav")
+        pygame.mixer.music.play(-1, 0.0)
+
         # Temp vars for positioning pawn tile positions
         bottom_y = 600
         left_x = 5
