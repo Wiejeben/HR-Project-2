@@ -5,8 +5,11 @@ from Library.Text import *
 class Player:
     def __init__(self, isRealPlayer, index = 0):
         self.isRealPlayer = isRealPlayer
+        self.isActive = False
         self.position = 0
         self.money = 10000
+
+        self.player_class = 1
 
         # Pawn
         self.color = self._get_color(index)
@@ -15,11 +18,24 @@ class Player:
         # Personal board
         self.inventory_offset = index * 200
         self.board = Image("board/player_board.png", 'Game', (700,self.inventory_offset), (360,200))
+        self.board_active = Image("board/player_board_active.png", 'Game', (700,self.inventory_offset), (360,200))
         self.attractions = {}
         self.labels = {
             'username': Text("Player " + str(index + 1), 25, (0, 0, 0), (1080, self.inventory_offset + 80)),
             'money': Text(str(self.money) + "$", 25, (0, 0, 0), (1080, self.inventory_offset + 100))
         }
+
+    def calculate_player_class(self):
+        if self.money <= 10000:
+            self.player_class = 1
+        elif self.money >= 10000 and self.money <= 25000:
+            self.player_class = 2
+        elif self.money >= 25000 and self.money <= 40000:
+            self.player_class = 3
+        elif self.money >= 40000 and self.money <= 65000:
+            self.player_class = 4
+        elif self.money >= 65000:
+            self.player_class = 5
 
     def _get_color(self, index):
         # List of colours
@@ -39,7 +55,10 @@ class Player:
     def draw(self, position):
         # Draw pawn and personal board
         self.pawn.position((position.X, position.Y)).draw()
-        self.board.draw()
+        if self.isActive:
+            self.board_active.draw()
+        else:
+            self.board.draw()
 
         # Draw all attractions
         for index, attraction in enumerate(self.attractions):

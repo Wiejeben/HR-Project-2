@@ -107,7 +107,12 @@ class Game:
         # Load players
         players = []
         for i, isRealPlayer in enumerate(human_players, start=0):
-            players.append(Player(isRealPlayer, i))
+            player = Player(isRealPlayer, i)
+            
+            if i == 0:
+                player.isActive = True
+
+            players.append(player)
 
         self.settings = {
             'pawn_speed' : 50,
@@ -134,7 +139,7 @@ class Game:
         }
 
         self.turn_state = {
-            'active_player_id'      : 0,
+            'active_player_index'   : 0,
             'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
             'dice_score'            : 0,
@@ -144,11 +149,13 @@ class Game:
         }
 
     def getActivePlayer(self):
-        return self.entities['players'][self.turn_state['active_player_id']]
+        for player in self.entities['players']:
+            if player.isActive:
+                return player
 
     def nextTurn(self):
         self.turn_state = {
-            'active_player_id'      : (self.turn_state['active_player_id'] + 1) % len(self.entities['players']),
+            'active_player_index'   : (self.turn_state['active_player_index'] + 1) % len(self.entities['players']),
             'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
             'dice_score'            : 0,
@@ -156,6 +163,11 @@ class Game:
             'steps_taken_tickstart' : 0,
             'player_start_position' : 0
         }
+
+        for index, player in enumerate(self.entities['players']):
+            player.isActive = False
+            if index == self.turn_state['active_player_index']:
+                player.isActive = True
 
     def dice_click(self):
         self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
@@ -200,11 +212,8 @@ class Game:
             else:
                 self.turn_state['state'] = 'Interaction'
         if self.turn_state['state'] == 'Interaction':
-
-            # Give the player 20k when landing on start, give 10k when passing start
-            if player.position == 0:
-                player.money += 20000
-            elif player.position < self.turn_state['player_start_position']:
+  
+            if player.position < self.turn_state['player_start_position']:
                 player.money += 10000
             
             # TODO : Choose attraction
@@ -261,13 +270,16 @@ class Game:
             print ("QuestionMark")
             pass
         elif interaction == 'CashFine':
-            pass
+            player.calculate_player_class()
+            if player.player_class >= 2:
+                print("Fined player money")
+                player.money = player.money - 5000
         elif interaction == 'Start':
-            pass
+            player.money += 20000
         elif interaction == 'Spectator':
-            pass
+            print("Nothing to see here")
         elif interaction == 'CashPrize':
-            pass
+            player.money += 5000
         elif interaction == 'Defect':
             pass
 
