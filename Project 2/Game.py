@@ -123,8 +123,8 @@ class Game:
             players.append(Player(0, False, "yellow")) # AI player
 
         self.settings = {
-            'pawn_speed' : 50,
-            'dice_roll_duration' : 50
+            'pawn_speed' : 500,
+            'dice_roll_duration' : 500
         }
 
         self.elements_pause = [
@@ -139,7 +139,7 @@ class Game:
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
             'dice': Dice(Vector2D(830,550), Vector2D(64, 64)),
-            'game_rules': Image("board/Help_Text.png", "Game", (700, 120)),
+            'game_rules': Image("board/Help_Text3.png", "Game", (700, 120)),
             'buttons' : {
                 'button_roll_dice' : Image("buttons/Start.png", 'Game', (750,630)).hover("buttons/Start_Active.png").click(None, self.dice_click),
                 'help_button' : Image("board/Help.png", 'Game', (940,35)).toggle("board/Help_Active.png", app_state.game_rules),
@@ -229,7 +229,6 @@ class Game:
 
             self.nextTurn() 
 
-        self.draw()
 
     def draw(self):
         self.entities['board'].draw()
