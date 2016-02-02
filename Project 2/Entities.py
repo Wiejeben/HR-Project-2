@@ -36,5 +36,8 @@ class GameTile:
         self.interaction = interaction
 
 class ChanceCard:
-    def __init(self, texture):
-        self.texture = texture
+    def __init__(self, texture, money):
+        self.texture = Image(texture, 'Game', (180,350))
+        self.money = money
+    def draw(self):
+        self.texture.draw()

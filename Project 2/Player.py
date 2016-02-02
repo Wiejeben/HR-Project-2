@@ -10,6 +10,7 @@ class Player:
         self.money = 10000
 
         self.player_class = 1
+        self.defect_turn = 0
 
         # Pawn
         self.color = self._get_color(index)
