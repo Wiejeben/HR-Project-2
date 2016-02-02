@@ -7,7 +7,8 @@ class AppState:
         self.state = "Menu"
         self.show_rules = False
         self.temp_state = None
-        self.player_amount = 0
+        self.player_amount = []
+        self.sound_state = True
 
     def set_state(self, state):
         self.temp_state = state
@@ -63,6 +64,13 @@ class AppState:
 
         self.next()
     
+    def sound(self, sound_state):
+        self.sound_state = sound_state
+        if(self.sound_state):
+            pygame.mixer.music.set_volume(1.0)
+        else:
+            pygame.mixer.music.set_volume(0)
+
     # Resume gameplay
     def resume(self):
         self.paused = False

@@ -13,6 +13,7 @@ def Main():
     # Create initial game instance
     menu = Menu()
     game = None
+    pygame.mixer.init()
 
     # Event loop
     while True:
@@ -38,6 +39,7 @@ def Main():
 
         elif app_state.state == "Game":
             game.update()
+            game.draw()
 
         elif app_state.state == "Pause":
             game.pause()

@@ -9,6 +9,7 @@ class Menu:
         self.screen = pygame.display.get_surface()
         self.amount_of_human_players = 0
         self.human_players = [False, False, False, False]
+        self.sound_state = True
 
         self.buttons_index = [
             Image("buttons/Start.png", 'Menu', ('center', 300)).hover("buttons/Start_Active.png").click(None, app_state.player_select),
@@ -35,8 +36,10 @@ class Menu:
         ]
 
         self.elements_options = [
-            Image("buttons/Return.png",  'Options', ('center', 400)).hover("buttons/Return_Active.png").click(None, app_state.menu),
-            Text("Opties", 50, (100, 10, 10), ('center', 10))
+            Text("Sound", 40, (0,0,0), (450, 200)),
+            Image("buttons/checkbox_checked.png", 'Options', (575, 185)).toggle("buttons/checkbox_unchecked.png", self.sound_toggle),         
+            Image("buttons/Return.png",  'Options', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu),
+            Text("Options", 50, (100, 10, 10), ('center', 10))
         ]
 
         self.elements_player_select = {
@@ -55,7 +58,7 @@ class Menu:
             ),
 
             'buttons': (
-                Image("buttons/Start.png", 'PlayerSelect', (750, 680)).hover("buttons/Start_Active.png").click(None, app_state.start, self.amount_of_human_players),
+                Image("buttons/Start.png", 'PlayerSelect', (900, 680)).hover("buttons/Start_Active.png").click(None, app_state.start, self.human_players),
                 Image("buttons/Return.png", 'PlayerSelect', (30, 680)).hover("buttons/Return_Active.png").click(None, app_state.menu)
             ),
             'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), ('center', 690)),
@@ -73,9 +76,6 @@ class Menu:
     def rules(self):
         # Set background color
         self.screen.fill((255, 255, 255))
-
-        #pygame.mixer.music.load("coasterscream.wav")
-        #pygame.mixer.music.play()
 
         for element in self.elements_rules:
             element.draw()
@@ -97,6 +97,9 @@ class Menu:
 
        self.elements_player_select['amount'].set_text("Human players: " + str(self.amount_of_human_players))
 
+    def sound_toggle(self):
+        self.sound_state = not self.sound_state
+        app_state.sound(self.sound_state)
 
     def playerSelect(self):
         self.screen.fill((255,230,200))

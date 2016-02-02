@@ -32,7 +32,6 @@ class EventHandler():
         
     def _check_events(self, event = None):
         if Event('esc').type(event):
-            print('Pause')
             self.app_state.pause()
 
         elif Event('close').type(event):

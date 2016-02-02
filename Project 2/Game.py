@@ -10,6 +10,10 @@ class Game:
         self.screen = pygame.display.get_surface()
         self.loaded = False
 
+        pygame.mixer.music.load("Content/sounds/Track1.wav")
+        pygame.mixer.music.play(-1, 0.0)
+
+        # Temp vars for positioning pawn tile positions
         bottom_y = 600
         left_x = 5
         top_y = 5
@@ -108,30 +112,20 @@ class Game:
             Attraction('Balloon Stall', 1900, 'shops_and_stalls'),
         ]
 
-        # REFACTOR APPSTATE > GAME([COLOR PLAYER > REAL PLAYER TRUE / FALSE])
+        # Load players
         players = []
-        print("Human players: " + str(human_players))
-        if human_players > 0:
-            players.append(Player(0, False, "green")) # The Player
-        else:
-            players.append(Player(0, True, "green")) # The Player
-            #players.append(Player(0, False, "green")) # AI player
-        if human_players > 1:
-            players.append(Player(0, False, "blue")) # The Player
-        else:
-            players.append(Player(0, False, "blue")) # AI player
-        if human_players > 2:
-            players.append(Player(0, False, "red")) # The Player
-        else:
-            players.append(Player(0, False, "red")) # AI player
-        if human_players > 3:
-            players.append(Player(0, False, "yellow")) # The Player
-        else:
-            players.append(Player(0, False, "yellow")) # AI player
+        for i, isRealPlayer in enumerate(human_players, start=0):
+            player = Player(isRealPlayer, i)
+            
+            if i == 0:
+                player.isActive = True
+
+            players.append(player)
 
         self.settings = {
             'pawn_speed' : 50,
-            'dice_roll_duration' : 50
+            'dice_roll_duration' : 50,
+            'interaction_duration' : 2500
         }
 
         self.elements_pause = [
@@ -145,20 +139,16 @@ class Game:
         self.entities = {
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
-            'dice': Dice(Vector2D(830,550), Vector2D(64, 64)),
-            'game_rules': Image("board/Help_Text.png", "Game", (700, 100)),
+            'dice': Dice(Vector2D(135,250), Vector2D(64, 64)),
+            'game_rules': Image("board/Help_Text.png", "Game", (180, 400)),
             'buttons' : {
-                'help_button' : Image("board/Help.png", 'Game', (900,35)).toggle("board/Help_Active.png", app_state.game_rules),
-                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (750,450)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
-            },
-            'text_labels' :{
-               'turn_label' : Text("Current turn: ", 20, (0, 0, 0), (750, 50)),
-               'money_label' : Text("$ 0", 20, (0, 90, 0), (750, 75)),
+                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (450,705)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
+                'help_button' : Image("board/Help.png", 'Game', (520,105)).toggle("board/Help_Active.png", app_state.game_rules),
             }
         }
 
         self.turn_state = {
-            'active_player_id'      : 0,
+            'active_player_index'   : 0,
             'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
             'dice_score'            : 0,
@@ -171,11 +161,13 @@ class Game:
         }
 
     def getActivePlayer(self):
-        return self.entities['players'][self.turn_state['active_player_id']]
+        for player in self.entities['players']:
+            if player.isActive:
+                return player
 
     def nextTurn(self):
         self.turn_state = {
-            'active_player_id'      : (self.turn_state['active_player_id'] + 1) % len(self.entities['players']),
+            'active_player_index'   : (self.turn_state['active_player_index'] + 1) % len(self.entities['players']),
             'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
             'dice_score'            : 0,
@@ -186,6 +178,11 @@ class Game:
             'show_card'             : 0,
             'interaction_tickstart' : 0,
         }
+
+        for index, player in enumerate(self.entities['players']):
+            player.isActive = False
+            if index == self.turn_state['active_player_index']:
+                player.isActive = True
 
     def dice_click(self):
         self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
@@ -230,20 +227,16 @@ class Game:
             else:
                 self.turn_state['state'] = 'Interaction'
         if self.turn_state['state'] == 'Interaction':
-
-            # Give the player 20k when landing on start, give 10k when passing start
-            if player.position == 0:
-                player.money += 20000
-            elif player.position < self.turn_state['player_start_position']:
+  
+            if player.position < self.turn_state['player_start_position']:
                 player.money += 10000
             
             # TODO : Choose attraction
             if self.turn_state['interaction'] == False:
                 self.turn_state['interaction'] = True
                 self.tile_interact(self.tiles[player.position].interaction)
-            elif pygame.time.get_ticks() - self.turn_state['interaction_tickstart'] > 5000:
+            elif pygame.time.get_ticks() - self.turn_state['interaction_tickstart'] > self.settings['interaction_duration']:
                 self.turn_state['state'] = 'EndTurn'
-            
 
         if self.turn_state['state'] == 'EndTurn':
             self.nextTurn() 
@@ -259,15 +252,9 @@ class Game:
         if self.getActivePlayer().isRealPlayer and self.turn_state['dice_rolled_tickstart'] == False:
             self.entities['buttons']['button_roll_dice'].draw()
 
-        self.entities['text_labels']['turn_label'].set_text(self.getActivePlayer().color + '\'s turn' )
-        self.entities['text_labels']['money_label'].set_text('$ ' + str(self.getActivePlayer().money))
-        self.entities['text_labels']['turn_label'].draw()
-        self.entities['text_labels']['money_label'].draw()
-
-        self.getActivePlayer().board.draw()
-        self.entities['buttons']['help_button'].draw()
         self.entities['dice'].draw()
 
+        self.entities['buttons']['help_button'].draw()
         if app_state.show_rules:
             self.entities['game_rules'].draw()
 
@@ -310,13 +297,16 @@ class Game:
             self.turn_state['interaction_tickstart'] = pygame.time.get_ticks()
             pass
         elif interaction == 'CashFine':
-            pass
+            player.calculate_player_class()
+            if player.player_class >= 2:
+                print("Fined player money")
+                player.money = player.money - 5000
         elif interaction == 'Start':
-            pass
+            player.money += 20000
         elif interaction == 'Spectator':
-            pass
+            print("Nothing to see here")
         elif interaction == 'CashPrize':
-            pass
+            player.money += 5000
         elif interaction == 'Defect':
             pass
 
