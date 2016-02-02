@@ -45,7 +45,7 @@ class Player:
 
     def calculate_salary(self):
         for attraction in self.attractions:
-            self.money += (attraction.price / 20)
+            self.money += int(attraction.price / 20)
 
     def buy_attraction(self, attraction, position):
         if self.money > attraction.price:
