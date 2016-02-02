@@ -227,13 +227,14 @@ class Game:
             else:
                 self.turn_state['state'] = 'Interaction'
         if self.turn_state['state'] == 'Interaction':
-  
-            if player.position < self.turn_state['player_start_position']:
-                player.money += 10000
-            
+
             # TODO : Choose attraction
             if self.turn_state['interaction'] == False:
+
                 self.turn_state['interaction'] = True
+                if player.position < self.turn_state['player_start_position']:
+                    player.money += 10000
+
                 self.tile_interact(self.tiles[player.position].interaction)
             elif pygame.time.get_ticks() - self.turn_state['interaction_tickstart'] > self.settings['interaction_duration']:
                 self.turn_state['state'] = 'EndTurn'
@@ -302,7 +303,7 @@ class Game:
                 print("Fined player money")
                 player.money = player.money - 5000
         elif interaction == 'Start':
-            player.money += 20000
+            player.money += 10000
         elif interaction == 'Spectator':
             print("Nothing to see here")
         elif interaction == 'CashPrize':
