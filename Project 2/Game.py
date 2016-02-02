@@ -11,7 +11,7 @@ class Game:
 
         # Initialize music
         pygame.mixer.music.load("Content/sounds/Track1.wav")
-        #pygame.mixer.music.play(-1, 0.0)
+        pygame.mixer.music.play(-1, 0.0)
 
         # Some temp tile positions
         bottom_y = 600
