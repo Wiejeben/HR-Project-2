@@ -131,10 +131,10 @@ class Game:
         }
 
         self.elements_pause = [
-            Text("Pause menu", 50, (100, 10, 10), ('center', 10)),
+            Text("Pause menu", 50, (255, 255, 255), ('center', 230)),
 
-            Image("buttons/Menu.png",  'Pause', ('center', 300)).hover("buttons/Menu_Active.png").click(None, app_state.menu),
-            Image("buttons/Resume.png",  'Pause', ('center', 400)).hover("buttons/Resume_Active.png").click(None, app_state.pause),
+            Image("buttons/Resume.png",  'Pause', ('center', 300)).hover("buttons/Resume_Active.png").click(None, app_state.pause),
+            Image("buttons/Menu.png",  'Pause', ('center', 400)).hover("buttons/Menu_Active.png").click(None, app_state.menu),
             Image("buttons/Exit.png", 'Pause', ('center', 500)).hover("buttons/Exit_Active.png").click(None, app_state.exit)
         ]
 
