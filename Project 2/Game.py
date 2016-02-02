@@ -65,6 +65,14 @@ class Game:
             GameTile(Vector2D(right_x,542), 'ThrillRides')
         ]
 
+        self.chance_cards = [
+            ChanceCard('cards/card01.png', 5000),
+            ChanceCard('cards/card02.png', 6000),
+            ChanceCard('cards/card03.png', 10000),
+            ChanceCard('cards/card04.png', 2000),
+            ChanceCard('cards/card05.png', 3000)
+        ]
+
         self.attractions = [
             Attraction('3D Cinema', 10000, 'thrill_rides'),
 
@@ -156,7 +164,10 @@ class Game:
             'dice_score'            : 0,
             'steps_taken'           : 0,
             'steps_taken_tickstart' : 0,
-            'start_position'        : 0
+            'start_position'        : 0,
+            'interaction'           : False,
+            'show_card'             : 0,
+            'interaction_tickstart' : 0,
         }
 
     def getActivePlayer(self):
@@ -170,7 +181,10 @@ class Game:
             'dice_score'            : 0,
             'steps_taken'           : 0,
             'steps_taken_tickstart' : 0,
-            'player_start_position' : 0
+            'player_start_position' : 0,
+            'interaction'           : False,
+            'show_card'             : 0,
+            'interaction_tickstart' : 0,
         }
 
     def dice_click(self):
@@ -224,8 +238,14 @@ class Game:
                 player.money += 10000
             
             # TODO : Choose attraction
-            self.tile_interact(self.tiles[player.position].interaction)
+            if self.turn_state['interaction'] == False:
+                self.turn_state['interaction'] = True
+                self.tile_interact(self.tiles[player.position].interaction)
+            elif pygame.time.get_ticks() - self.turn_state['interaction_tickstart'] > 5000:
+                self.turn_state['state'] = 'EndTurn'
+            
 
+        if self.turn_state['state'] == 'EndTurn':
             self.nextTurn() 
 
         self.draw()
@@ -250,6 +270,9 @@ class Game:
 
         if app_state.show_rules:
             self.entities['game_rules'].draw()
+
+        if self.turn_state['state'] == 'Interaction' and self.turn_state['show_card'] != 0:
+            self.turn_state['show_card'].draw()
 
         # Debug to adjust pawn position
         if True == False:
@@ -283,6 +306,8 @@ class Game:
             pass
         elif interaction == 'QuestionMark':
             print ("QuestionMark")
+            self.turn_state['show_card'] = random.choice(self.chance_cards)
+            self.turn_state['interaction_tickstart'] = pygame.time.get_ticks()
             pass
         elif interaction == 'CashFine':
             pass
