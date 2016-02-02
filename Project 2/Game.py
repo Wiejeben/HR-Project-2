@@ -10,7 +10,8 @@ class Game:
         self.screen = pygame.display.get_surface()
         self.loaded = False
 
-        self.turn_count = 0
+        pygame.mixer.music.load("Content/sounds/Track1.wav")
+        pygame.mixer.music.play(-1, 0.0)
 
         # Temp vars for positioning pawn tile positions
         bottom_y = 600
@@ -68,6 +69,14 @@ class Game:
             GameTile(Vector2D(right_x,542), 'ThrillRides')
         ]
 
+        self.chance_cards = [
+            ChanceCard('cards/card01.png', 5000),
+            ChanceCard('cards/card02.png', 6000),
+            ChanceCard('cards/card03.png', 10000),
+            ChanceCard('cards/card04.png', 2000),
+            ChanceCard('cards/card05.png', 3000)
+        ]
+
         self.attractions = [
             Attraction('3D Cinema', 10000, 'thrill_rides'),
 
@@ -114,8 +123,9 @@ class Game:
             players.append(player)
 
         self.settings = {
-            'pawn_speed' : 200,
-            'dice_roll_duration' : 500
+            'pawn_speed' : 50,
+            'dice_roll_duration' : 50,
+            'interaction_duration' : 2500
         }
 
         self.elements_pause = [
@@ -144,7 +154,10 @@ class Game:
             'dice_score'            : 0,
             'steps_taken'           : 0,
             'steps_taken_tickstart' : 0,
-            'start_position'        : 0
+            'start_position'        : 0,
+            'interaction'           : False,
+            'show_card'             : 0,
+            'interaction_tickstart' : 0,
         }
 
     def getActivePlayer(self):
@@ -160,15 +173,16 @@ class Game:
             'dice_score'            : 0,
             'steps_taken'           : 0,
             'steps_taken_tickstart' : 0,
-            'player_start_position' : 0
+            'player_start_position' : 0,
+            'interaction'           : False,
+            'show_card'             : 0,
+            'interaction_tickstart' : 0,
         }
 
         for index, player in enumerate(self.entities['players']):
             player.isActive = False
             if index == self.turn_state['active_player_index']:
                 player.isActive = True
-
-        self.turn_count += 1
 
     def dice_click(self):
         self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
@@ -180,50 +194,54 @@ class Game:
 
         # Get the player who's turn it is
         player = self.getActivePlayer()
-        if player.defect_turn >= 1:
-            player.defect_turn -= 1
-            self.nextTurn()
-        else:
-            if self.turn_state['state'] == 'Dice':
 
-                if not player.isRealPlayer: # IF AI
-                    if self.turn_state['dice_rolled_tickstart'] == 0:
-                        self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
+        if self.turn_state['state'] == 'Dice':
+
+            if not player.isRealPlayer: # IF AI
+                if self.turn_state['dice_rolled_tickstart'] == 0:
+                    self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
+                self.entities['dice'].roll()
+
+            if player.isRealPlayer:
+                if self.turn_state['dice_rolled_tickstart'] > 0:
                     self.entities['dice'].roll()
-
-                if player.isRealPlayer:
-                    if self.turn_state['dice_rolled_tickstart'] > 0:
-                        self.entities['dice'].roll()
             
-                if self.turn_state['dice_rolled_tickstart'] > 0 and pygame.time.get_ticks() - self.turn_state['dice_rolled_tickstart'] > self.settings['dice_roll_duration']:
-                    self.turn_state['dice_score'] = self.entities['dice'].number
-                    self.turn_state['state'] = 'MovePawn'
-                    self.turn_state['player_start_position'] = player.position
+            if self.turn_state['dice_rolled_tickstart'] > 0 and pygame.time.get_ticks() - self.turn_state['dice_rolled_tickstart'] > self.settings['dice_roll_duration']:
+                self.turn_state['dice_score'] = self.entities['dice'].number
+                self.turn_state['state'] = 'MovePawn'
+                self.turn_state['player_start_position'] = player.position
         
-            if self.turn_state['state'] == 'MovePawn':
+        if self.turn_state['state'] == 'MovePawn':
             
-                if self.turn_state['steps_taken_tickstart'] == 0:
-                    player.calculate_salary() # Calculate one time
-                    self.turn_state['steps_taken_tickstart'] = pygame.time.get_ticks()
+            if self.turn_state['steps_taken_tickstart'] == 0:
+                player.calculate_salary() # Calculate one time
+                self.turn_state['steps_taken_tickstart'] = pygame.time.get_ticks()
 
-                if self.turn_state['steps_taken'] < self.turn_state['dice_score']:
-                    if pygame.time.get_ticks() - self.turn_state['steps_taken_tickstart'] > self.settings['pawn_speed'] * self.turn_state['steps_taken']:
-                        self.turn_state['steps_taken'] = self.turn_state['steps_taken'] + 1
-                        if player.position < 39:
-                            player.position = player.position + 1
-                        else:
-                            player.position = 0
-                else:
-                    self.turn_state['state'] = 'Interaction'
-            if self.turn_state['state'] == 'Interaction':
+            if self.turn_state['steps_taken'] < self.turn_state['dice_score']:
+                if pygame.time.get_ticks() - self.turn_state['steps_taken_tickstart'] > self.settings['pawn_speed'] * self.turn_state['steps_taken']:
+                    self.turn_state['steps_taken'] = self.turn_state['steps_taken'] + 1
+                    if player.position < 39:
+                        player.position = player.position + 1
+                    else:
+                        player.position = 0
+            else:
+                self.turn_state['state'] = 'Interaction'
+        if self.turn_state['state'] == 'Interaction':
   
-                if player.position < self.turn_state['player_start_position']:
-                    player.money += 10000
+            if player.position < self.turn_state['player_start_position']:
+                player.money += 10000
             
-                # TODO : Choose attraction
+            # TODO : Choose attraction
+            if self.turn_state['interaction'] == False:
+                self.turn_state['interaction'] = True
                 self.tile_interact(self.tiles[player.position].interaction)
+            elif pygame.time.get_ticks() - self.turn_state['interaction_tickstart'] > self.settings['interaction_duration']:
+                self.turn_state['state'] = 'EndTurn'
 
-                self.nextTurn()
+        if self.turn_state['state'] == 'EndTurn':
+            self.nextTurn() 
+
+        self.draw()
 
     def draw(self):
         self.entities['board'].draw()
@@ -240,6 +258,9 @@ class Game:
         if app_state.show_rules:
             self.entities['game_rules'].draw()
 
+        if self.turn_state['state'] == 'Interaction' and self.turn_state['show_card'] != 0:
+            self.turn_state['show_card'].draw()
+
         # Debug to adjust pawn position
         if True == False:
             for tile in self.tiles:
@@ -250,6 +271,7 @@ class Game:
         if interaction == 'ThrillRides':
             print ("ThrillRides")
             player.buy_attraction(self.attractions[0], 0)
+
         elif interaction == 'ShopsAndStalls':
             print ("ShopsAndStalls")
             player.buy_attraction(self.attractions[3], 1)
@@ -271,6 +293,8 @@ class Game:
             pass
         elif interaction == 'QuestionMark':
             print ("QuestionMark")
+            self.turn_state['show_card'] = random.choice(self.chance_cards)
+            self.turn_state['interaction_tickstart'] = pygame.time.get_ticks()
             pass
         elif interaction == 'CashFine':
             player.calculate_player_class()
@@ -284,8 +308,6 @@ class Game:
         elif interaction == 'CashPrize':
             player.money += 5000
         elif interaction == 'Defect':
-            if player.defect_turn == 0:
-                player.defect_turn = 2
             pass
 
     def pause(self):

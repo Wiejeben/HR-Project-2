@@ -77,9 +77,6 @@ class Menu:
         # Set background color
         self.screen.fill((255, 255, 255))
 
-        #pygame.mixer.music.load("Content/sounds/coasterscream.wav")
-        #pygame.mixer.music.play(0, 0.0)
-
         for element in self.elements_rules:
             element.draw()
 

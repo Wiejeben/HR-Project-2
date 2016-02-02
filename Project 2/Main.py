@@ -13,6 +13,7 @@ def Main():
     # Create initial game instance
     menu = Menu()
     game = None
+    pygame.mixer.init()
 
     # Event loop
     while True:
