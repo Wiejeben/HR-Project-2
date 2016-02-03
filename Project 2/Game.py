@@ -8,7 +8,8 @@ from Library.Text import *
 class Game:
     def __init__(self, human_players):
         self.screen = pygame.display.get_surface()
-
+        self.winning_player = None
+        self.elements_won = None
         # Initialize music
         pygame.mixer.music.load("Content/sounds/Track1.wav")
         pygame.mixer.music.play(-1, 0.0)
@@ -220,7 +221,7 @@ class Game:
         event_handler.mode = 'get'
 
         player = self.getActivePlayer()
-        
+
         # If skipping a turn
         if player.defect_turn >= 1:
             # Skippung turn
@@ -287,6 +288,11 @@ class Game:
 
                 if pygame.time.get_ticks() - self.turn_state['endturn_tickstart'] > self.settings['endturn_duration']:
                     self.nextTurn()
+
+        if(player.money >= 100000):
+            self.winning_player = player
+            app_state.game_won()
+            return
 
     def draw(self):
         self.entities['board'].draw()
@@ -395,7 +401,9 @@ class Game:
 
             if player.player_class >= 2:
                 print("Fined player money")
-                player.money = player.money - 5000
+                player.money -= 5000
+            else:
+                print("Player class too low")
 
         elif interaction == 'Start':
             player.money += 10000
@@ -415,4 +423,21 @@ class Game:
 
         # Draw elements
         for element in self.elements_pause:
+            element.draw()
+
+    def game_won(self):
+        app_state.next()
+        #avoid ugly shit
+        if self.elements_won == None:
+            self.elements_won = [
+            Text("You win!", 50, (255,255,255), ('center', 230)),
+            Text("Congratulations to the " + self.winning_player.color + " player", 25, (255,255,255), ('center', 350)),
+            Text("This player won with $" + str(self.winning_player.money), 25, (255,255,255), ('center', 368)),            
+            Image("buttons/Menu.png",  'Won', ('center', 400)).hover("buttons/Menu_Active.png").click(None, app_state.menu)
+            ]
+
+        event_handler.mode = 'wait'
+        self.screen.fill((255, 100, 0))
+
+        for element in self.elements_won:
             element.draw()

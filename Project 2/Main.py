@@ -46,6 +46,8 @@ def Main():
 
         elif app_state.state == "Pause":
             game.pause()
+        elif app_state.state == "Won":
+            game.game_won()
 
         event_handler.run()
 
