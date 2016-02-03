@@ -378,7 +378,9 @@ class Game:
 
             if player.player_class >= 2:
                 print("Fined player money")
-                player.money = player.money - 5000
+                player.money -= 5000
+            else:
+                print("Player class too low")
 
         elif interaction == 'Start':
             player.money += 20000

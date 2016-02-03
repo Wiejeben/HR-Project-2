@@ -64,7 +64,7 @@ class Menu:
             ),
             'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), ('center', 690)),
 
-            'misc': (Text("Select amount of Human players", 50, (100,10,10), ('center', 5)))
+            'misc': (Text("Select amount of Human players", 50, (0,0,0), ('center', 150)))
         }        
 
     def index(self):
