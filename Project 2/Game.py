@@ -233,7 +233,7 @@ class Game:
             if self.turn_state['state'] == 'Interaction':
   
                 if player.position < self.turn_state['player_start_position']:
-                    player.money += 10000
+                    player.money += 10000 # Went past start
             
                 # TODO : Choose attraction
                 if self.turn_state['interaction'] == False:
@@ -306,7 +306,7 @@ class Game:
                 print("Fined player money")
                 player.money = player.money - 5000
         elif interaction == 'Start':
-            player.money += 20000
+            player.money += 10000
         elif interaction == 'Spectator':
             print("Nothing to see here")
         elif interaction == 'CashPrize':
