@@ -40,6 +40,10 @@ class AppState:
         self.set_state("PlayerSelect")
         self.next()
 
+    def game_won(self):
+        self.set_state("Won")
+        self.next()
+
     # Go to next frame
     def next(self):
         pygame.event.post(pygame.event.Event(pygame.locals.USEREVENT))

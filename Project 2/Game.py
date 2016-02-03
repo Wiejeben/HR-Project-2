@@ -8,7 +8,8 @@ from Library.Text import *
 class Game:
     def __init__(self, human_players):
         self.screen = pygame.display.get_surface()
-
+        self.winning_player = None
+        self.elements_won = None
         # Initialize music
         pygame.mixer.music.load("Content/sounds/Track1.wav")
         pygame.mixer.music.play(-1, 0.0)
@@ -202,7 +203,7 @@ class Game:
         event_handler.mode = 'get'
 
         player = self.getActivePlayer()
-        
+
         # If skipping a turn
         if player.defect_turn >= 1:
             # Skippung turn
@@ -253,7 +254,7 @@ class Game:
             elif self.turn_state['state'] == 'Interaction':
   
                 if player.position < self.turn_state['player_start_position']:
-                    player.money += 10000
+                    player.money += 100000
             
                 # TODO : Choose attraction
                 if self.turn_state['interaction'] == False:
@@ -266,6 +267,11 @@ class Game:
             # Go to the next turn
             if self.turn_state['state'] == 'EndTurn':
                 self.nextTurn()
+
+        if(player.money >= 100000):
+            self.winning_player = player
+            app_state.game_won()
+            return
 
     def draw(self):
         self.entities['board'].draw()
@@ -384,4 +390,20 @@ class Game:
 
         # Draw elements
         for element in self.elements_pause:
+            element.draw()
+
+    def game_won(self):
+        #avoid ugly shit
+        if self.elements_won == None:
+            self.elements_won = [
+            Text("You win!", 50, (255,255,255), ('center', 230)),
+            Text("Congratulations to the " + self.winning_player.color + " player", 25, (255,255,255), ('center', 350)),
+            Text("He won with $" + str(self.winning_player.money), 25, (255,255,255), ('center', 365)),            
+            Image("buttons/Menu.png",  'Won', ('center', 400)).hover("buttons/Menu_Active.png").click(None, app_state.menu)
+            ]
+
+        event_handler.mode = 'wait'
+        self.screen.fill((255, 100, 0))
+
+        for element in self.elements_won:
             element.draw()
