@@ -21,7 +21,8 @@ class Player:
         self.inventory_offset = index * 194
         self.board = Image("board/player_board.png", 'Game', (700,self.inventory_offset), (360,194))
         self.board_active = Image("board/player_board_active.png", 'Game', (700,self.inventory_offset), (360,194))
-        self.attractions = {}
+        
+        self.attractions = []
         self.labels = {
             'username': Text(self._get_color(index).capitalize(), 25, (0, 0, 0), (1080, self.inventory_offset + 40)),
             'money': Text(str(self.money) + "$", 25, (0, 0, 0), (1083, self.inventory_offset + 60))
@@ -55,10 +56,10 @@ class Player:
         for attraction in self.attractions:
             self.money += int(attraction.price / 20)
 
-    def attraction_buy(self, attraction, position):
+    def attraction_buy(self, attraction):
         self.money -= attraction.price
         attraction.owner = self
-        self.attractions[attraction] = position
+        self.attractions.append(attraction)
 
     def draw(self, position):
         # Draw and reposition pawn
@@ -88,25 +89,3 @@ class Player:
         # Draw player name with money amount
         for index, value in self.labels.items():
             value.draw()
-
-class Attraction:
-    def __init__(self, name, price, type):
-        self.name = name
-        self.price = price
-        self.owner = None
-        self.type = type
-        self.attraction = Image("attractions/" + str(self.type) + ".png", 'Game', (0,0), (60, 60))
-        self.labels = [
-            Text("Ticket price " + str(int(self.price / 20)), 25, (0,0,0), (280, 725)),
-            Text(str(self.price) + "$", 25, (255,255,255), (75, 725))
-        ]
-
-    def draw(self, index, top):
-        # Move to next row
-        if index >= 6:
-            top = top + 105
-
-        self.attraction.position((700 + (index % 6 * 60), top)).draw()
-
-    def draw_specs(self, player_class):
-        self.ticket_price.draw()

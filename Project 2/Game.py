@@ -53,57 +53,57 @@ class Game:
         self.tiles = [
             # Bottom
             GameTile(Vector2D(640,bottom_y), 'Start'), 
-            GameTile(Vector2D(558,bottom_y), 'Rollercoasters'), 
-            GameTile(Vector2D(503,bottom_y), 'WaterRides'),
+            GameTile(Vector2D(558,bottom_y), 'Rollercoasters', 'attraction'), 
+            GameTile(Vector2D(503,bottom_y), 'WaterRides', 'attraction'),
             GameTile(Vector2D(448,bottom_y), 'QuestionMark'),
-            GameTile(Vector2D(393,bottom_y), 'ShopsAndStalls'),
+            GameTile(Vector2D(393,bottom_y), 'ShopsAndStalls', 'attraction'),
             GameTile(Vector2D(338,bottom_y), 'CashFine'),
-            GameTile(Vector2D(283,bottom_y), 'TransportRides'),
+            GameTile(Vector2D(283,bottom_y), 'TransportRides', 'attraction'),
             GameTile(Vector2D(228,bottom_y), 'QuestionMark'),
-            GameTile(Vector2D(173,bottom_y), 'ThrillRides'),
-            GameTile(Vector2D(118,bottom_y), 'GentleRides'),
+            GameTile(Vector2D(173,bottom_y), 'ThrillRides', 'attraction'),
+            GameTile(Vector2D(118,bottom_y), 'GentleRides', 'attraction'),
             GameTile(Vector2D(35,bottom_y), 'Spectator'),
 
             # Left
-            GameTile(Vector2D(left_x,542), 'TransportRides'),
-            GameTile(Vector2D(left_x,488), 'GentleRides'), 
-            GameTile(Vector2D(left_x,434), 'QuestionMark'), 
-            GameTile(Vector2D(left_x,379), 'Rollercoasters'), 
+            GameTile(Vector2D(left_x,542), 'TransportRides', 'attraction'),
+            GameTile(Vector2D(left_x,488), 'GentleRides', 'attraction'), 
+            GameTile(Vector2D(left_x,434), 'QuestionMark'),
+            GameTile(Vector2D(left_x,379), 'Rollercoasters', 'attraction'), 
             GameTile(Vector2D(left_x,323), 'CashFine'),
-            GameTile(Vector2D(left_x,268), 'ThrillRides'), 
-            GameTile(Vector2D(left_x,214), 'QuestionMark'), 
-            GameTile(Vector2D(left_x,159), 'ShopsAndStalls'), 
-            GameTile(Vector2D(left_x,105), 'WaterRides'),
+            GameTile(Vector2D(left_x,268), 'ThrillRides', 'attraction'), 
+            GameTile(Vector2D(left_x,214), 'QuestionMark'),
+            GameTile(Vector2D(left_x,159), 'ShopsAndStalls', 'attraction'),
+            GameTile(Vector2D(left_x,105), 'WaterRides', 'attraction'),
 
             # Top
-            GameTile(Vector2D(35,top_y), 'CashPrize'), 
-            GameTile(Vector2D(118,top_y), 'WaterRides'), 
-            GameTile(Vector2D(173,top_y), 'ThrillRides'), 
+            GameTile(Vector2D(35,top_y), 'CashPrize'),
+            GameTile(Vector2D(118,top_y), 'WaterRides', 'attraction'),
+            GameTile(Vector2D(173,top_y), 'ThrillRides', 'attraction'),
             GameTile(Vector2D(228,top_y), 'QuestionMark'),
-            GameTile(Vector2D(283,top_y), 'GentleRides'),
+            GameTile(Vector2D(283,top_y), 'GentleRides', 'attraction'),
             GameTile(Vector2D(338,top_y), 'CashFine'), 
-            GameTile(Vector2D(393,top_y), 'ShopsAndStalls'), 
+            GameTile(Vector2D(393,top_y), 'ShopsAndStalls', 'attraction'), 
             GameTile(Vector2D(448,top_y), 'QuestionMark'), 
-            GameTile(Vector2D(503,top_y), 'Rollercoasters'),
-            GameTile(Vector2D(558,top_y), 'GentleRides'),
+            GameTile(Vector2D(503,top_y), 'Rollercoasters', 'attraction'),
+            GameTile(Vector2D(558,top_y), 'GentleRides', 'attraction'),
             GameTile(Vector2D(640,top_y), 'Defect'),
 
             # Right
-            GameTile(Vector2D(right_x,105), 'ShopsAndStalls'), 
-            GameTile(Vector2D(right_x,159), 'WaterRides'), 
+            GameTile(Vector2D(right_x,105), 'ShopsAndStalls', 'attraction'),
+            GameTile(Vector2D(right_x,159), 'WaterRides', 'attraction'), 
             GameTile(Vector2D(right_x,214), 'QuestionMark'),
-            GameTile(Vector2D(right_x,268), 'ThrillRides'),
-            GameTile(Vector2D(right_x,323), 'CashFine'), 
-            GameTile(Vector2D(right_x,379), 'Rollercoasters'), 
-            GameTile(Vector2D(right_x,434), 'QuestionMark'), 
-            GameTile(Vector2D(right_x,488), 'GentleRides'),
-            GameTile(Vector2D(right_x,542), 'ThrillRides')
+            GameTile(Vector2D(right_x,268), 'ThrillRides', 'attraction'),
+            GameTile(Vector2D(right_x,323), 'CashFine'),
+            GameTile(Vector2D(right_x,379), 'Rollercoasters', 'attraction'),
+            GameTile(Vector2D(right_x,434), 'QuestionMark'),
+            GameTile(Vector2D(right_x,488), 'GentleRides', 'attraction'),
+            GameTile(Vector2D(right_x,542), 'ThrillRides', 'attraction')
         ]
 
         self.chance_cards = [
-            #ChanceCard('cards/card01.png', -5000),
-            #ChanceCard('cards/card02.png', -6000),
-            #ChanceCard('cards/card03.png', -10000),
+            ChanceCard('cards/card01.png', -5000),
+            ChanceCard('cards/card02.png', -6000),
+            ChanceCard('cards/card03.png', -10000),
             ChanceCard('cards/card04.png', 2000),
             ChanceCard('cards/card05.png', -3000),
             ChanceCard('cards/card06.png', -4000),
@@ -123,41 +123,40 @@ class Game:
             ChanceCard('cards/card28.png', -5000),
         ]
 
-        self.attractions = [
-            Attraction('3D Cinema', 10000, 'thrill_rides'),
-            Attraction('Boat Hire', 3000, 'water_rides'),
-            Attraction('Train', 5000, 'transport_rides'),
-            Attraction('Maze', 7500, 'gentle_rides'),
-            Attraction('Mine Train Coaster', 12500, 'rollercoaster'),
-            Attraction('Balloon Stall', 1900, 'shops_and_stalls'),
+        # TODO: Implement other attractions
+        # self.attractions = [
+        #     Attraction('3D Cinema', 10000, 'thrill_rides'),
+        #     Attraction('Boat Hire', 3000, 'water_rides'),
+        #     Attraction('Train', 5000, 'transport_rides'),
+        #     Attraction('Maze', 7500, 'gentle_rides'),
+        #     Attraction('Mine Train Coaster', 12500, 'rollercoaster'),
+        #     Attraction('Balloon Stall', 1900, 'shops_and_stalls'),
 
+        #     Attraction('Monorail', 12000, 'transport_rides'),
+        #     Attraction('Chairlift', 8000, 'transport_rides'),
 
-            # TODO: Implement other facilities
-            # Attraction('Monorail', 12000, 'transport_rides'),
-            # Attraction('Chairlift', 8000, 'transport_rides'),
+        #     Attraction('Haunted House', 3500, 'gentle_rides'),
+        #     Attraction('Ferriswheel', 6000, 'gentle_rides'),
+        #     Attraction('Merrie-go-round', 3000, 'gentle_rides'),
+        #     Attraction('Dodgems', 7000, 'gentle_rides'),
+        #     Attraction('Monster Trucks', 10000, 'gentle_rides'),
+        #     Attraction('Racing Cars', 11000, 'gentle_rides'),
+        #     Attraction('Circus', 4000, 'gentle_rides'),
+        #     Attraction('Minigold', 8000, 'gentle_rides'),
+        #     Attraction('Observation Tower', 15000, 'gentle_rides'),
+        #     Attraction('Spiral Slide', 2500, 'gentle_rides'),
 
-            # Attraction('Haunted House', 3500, 'gentle_rides'),
-            # Attraction('Ferriswheel', 6000, 'gentle_rides'),
-            # Attraction('Merrie-go-round', 3000, 'gentle_rides'),
-            # Attraction('Dodgems', 7000, 'gentle_rides'),
-            # Attraction('Monster Trucks', 10000, 'gentle_rides'),
-            # Attraction('Racing Cars', 11000, 'gentle_rides'),
-            # Attraction('Circus', 4000, 'gentle_rides'),
-            # Attraction('Minigold', 8000, 'gentle_rides'),
-            # Attraction('Observation Tower', 15000, 'gentle_rides'),
-            # Attraction('Spiral Slide', 2500, 'gentle_rides'),
-
-            # Attraction('Bobsleigh Coaster', 18000, 'rollercoaster'),
-            # Attraction('Corkscrew Rollercoaster', 25000, 'rollercoaster'),
-            # Attraction('Giga Coaster', 27000, 'rollercoaster'),
-            # Attraction('Junior Rollercoaster', 7500, 'rollercoaster'),
-            # Attraction('Looping Rollercoaster', 20000, 'rollercoaster'),
+        #     Attraction('Bobsleigh Coaster', 18000, 'rollercoaster'),
+        #     Attraction('Corkscrew Rollercoaster', 25000, 'rollercoaster'),
+        #     Attraction('Giga Coaster', 27000, 'rollercoaster'),
+        #     Attraction('Junior Rollercoaster', 7500, 'rollercoaster'),
+        #     Attraction('Looping Rollercoaster', 20000, 'rollercoaster'),
             
-            # Attraction('Stand-up Rollercoaster', 19000, 'rollercoaster'),
-            # Attraction('Steel Twister Rollercoaster', 30000, 'rollercoaster'),
-            # Attraction('Wild Mouse', 6500, 'rollercoaster'),
-            # Attraction('Wooden Rollercoaster', 10000, 'rollercoaster'),
-        ]
+        #     Attraction('Stand-up Rollercoaster', 19000, 'rollercoaster'),
+        #     Attraction('Steel Twister Rollercoaster', 30000, 'rollercoaster'),
+        #     Attraction('Wild Mouse', 6500, 'rollercoaster'),
+        #     Attraction('Wooden Rollercoaster', 10000, 'rollercoaster'),
+        # ]
 
         self.elements_pause = [
             Text("Pause menu", 50, (255, 255, 255), ('center', 230)),
@@ -224,16 +223,14 @@ class Game:
         self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
 
     # Attraction methods
-    def attraction_event(self, id, position):
-        attraction = self.attractions[id]
-
+    def attraction_event(self, attraction):
         if attraction.owner == None:
             # Buy attraction
-            self.attraction_buy(attraction,position)
+            self.attraction_buy(attraction)
         else:
             print("Owned by " + attraction.owner.color)
 
-    def attraction_buy(self, attraction, position):
+    def attraction_buy(self, attraction):
         player = self.get_active_player()
 
         # First see if player has enough money
@@ -246,55 +243,41 @@ class Game:
                 # 80% odds that the AI is going to buy
                 if random.randint(0,10) < 8:
                     print("Buy attraction")
-                    self.attraction_buy_confirmed(position)
+                    self.attraction_buy_confirmed()
                 else:
                     print("Skip attraction")
                     self.attraction_skip()
             else:
                 # Setup buy click event
-                self.entities['buttons']['buy'].click(None, self.attraction_buy_confirmed, position)
+                self.entities['buttons']['buy'].click(None, self.attraction_buy_confirmed)
 
-    def attraction_buy_confirmed(self, position):
+    def attraction_buy_confirmed(self):
         if self.turn_state['state'] == "BuyAttraction":
-            self.get_active_player().attraction_buy(self.turn_state['interaction'], position)
+            self.get_active_player().attraction_buy(self.turn_state['interaction'])
             self.attraction_skip()
 
     def attraction_skip(self):
         if self.turn_state['state'] == "BuyAttraction":
+            
             # Reset click action
             self.entities['buttons']['buy'].click()
             self.turn_state['state'] = 'EndTurn'
 
-    def tile_interact(self, interaction):
+    def tile_trigger(self, tile):
         player = self.get_active_player()
-        
+
         #Debug
-        print(interaction)
+        # print(interaction)
 
-        if interaction == 'ThrillRides':
-            self.attraction_event(0,0)
+        if tile.type == 'attraction':
+            self.attraction_event(tile.entity)
 
-        elif interaction == 'WaterRides':
-            self.attraction_event(1,3)
-
-        elif interaction == 'TransportRides':
-            self.attraction_event(2,2)
-
-        elif interaction == 'GentleRides':
-            self.attraction_event(3,4)
-
-        elif interaction == 'Rollercoasters':
-            self.attraction_event(4,5)
-
-        elif interaction == 'ShopsAndStalls':
-            self.attraction_event(5,1)
-
-        elif interaction == 'QuestionMark':
+        elif tile.interaction == 'QuestionMark':
             self.turn_state['show_card'] = random.choice(self.chance_cards)
             player.money += self.turn_state['show_card'].money
             self.turn_state['interaction_tickstart'] = pygame.time.get_ticks()
 
-        elif interaction == 'CashFine':
+        elif tile.interaction == 'CashFine':
             player.calculate_player_class()
 
             if player.player_class >= 2:
@@ -303,15 +286,17 @@ class Game:
             else:
                 print("Player class too low")
 
-        elif interaction == 'Start':
+        elif tile.interaction == 'Start':
             player.money += 10000
-        elif interaction == 'Spectator':
+
+        elif tile.interaction == 'Spectator':
             pass
 
-        elif interaction == 'CashPrize':
+        elif tile.interaction == 'CashPrize':
             player.money += 5000
 
-        elif interaction == 'Defect':
+        # Keep player at the same position for 2 turns
+        elif tile.interaction == 'Defect':
             if player.defect_turn == 0:
                 player.defect_turn = 2
 
@@ -402,7 +387,7 @@ class Game:
                 if player.position < self.turn_state['player_start_position']:
                     player.money += 10000 # Went past start
                     
-                self.tile_interact(self.tiles[player.position].interaction)
+                self.tile_trigger(self.tiles[player.position])
 
             elif pygame.time.get_ticks() - self.turn_state['interaction_tickstart'] > self.settings['interaction_duration']:
                 self.turn_state['state'] = 'EndTurn'
