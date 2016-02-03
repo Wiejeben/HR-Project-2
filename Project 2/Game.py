@@ -308,7 +308,7 @@ class Game:
     def attraction_buy_confirmed(self, values):
         if self.turn_state['state'] == "BuyAttraction":
             self.getActivePlayer().buy_attraction(self.turn_state['interaction'], values[1])
-            self.skip_attraction()
+            self.attraction_skip()
 
     def buy_attraction(self, attraction, position):
         
