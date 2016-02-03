@@ -54,7 +54,7 @@ class Player:
         for attraction in self.attractions:
             self.money += int(attraction.price / 20)
 
-    def buy_attraction(self, attraction, position):
+    def attraction_buy(self, attraction, position):
         self.money -= attraction.price
         attraction.owner = self
         self.attractions[attraction] = position
