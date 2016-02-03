@@ -253,7 +253,7 @@ class Game:
             elif self.turn_state['state'] == 'Interaction':
   
                 if player.position < self.turn_state['player_start_position']:
-                    player.money += 100000
+                    player.money += 10000
             
                 # TODO : Choose attraction
                 if self.turn_state['interaction'] == False:
@@ -402,12 +402,13 @@ class Game:
             element.draw()
 
     def game_won(self):
+        app_state.next()
         #avoid ugly shit
         if self.elements_won == None:
             self.elements_won = [
             Text("You win!", 50, (255,255,255), ('center', 230)),
             Text("Congratulations to the " + self.winning_player.color + " player", 25, (255,255,255), ('center', 350)),
-            Text("He won with $" + str(self.winning_player.money), 25, (255,255,255), ('center', 365)),            
+            Text("This player won with $" + str(self.winning_player.money), 25, (255,255,255), ('center', 368)),            
             Image("buttons/Menu.png",  'Won', ('center', 400)).hover("buttons/Menu_Active.png").click(None, app_state.menu)
             ]
 
