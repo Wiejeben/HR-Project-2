@@ -8,17 +8,18 @@ from Library.Text import *
 class Game:
     def __init__(self, human_players):
         self.screen = pygame.display.get_surface()
-        self.loaded = False
 
+        # Initialize music
         pygame.mixer.music.load("Content/sounds/Track1.wav")
         pygame.mixer.music.play(-1, 0.0)
 
-        # Temp vars for positioning pawn tile positions
+        # Some temp tile positions
         bottom_y = 600
         left_x = 5
         top_y = 5
         right_x = 667
 
+        # Board tiles
         self.tiles = [
             # Bottom
             GameTile(Vector2D(640,bottom_y), 'Start'), 
@@ -112,41 +113,46 @@ class Game:
             Attraction('Balloon Stall', 1900, 'shops_and_stalls'),
         ]
 
-        # Load players
         players = []
+        # Load players
         for i, isRealPlayer in enumerate(human_players, start=0):
             player = Player(isRealPlayer, i)
-            
+
+            # Set first player to be active
             if i == 0:
                 player.isActive = True
 
             players.append(player)
 
         self.settings = {
-            'pawn_speed' : 50,
-            'dice_roll_duration' : 50,
+            'pawn_speed' : 125,
+            'dice_roll_duration' : 500,
             'interaction_duration' : 2500
         }
 
         self.elements_pause = [
-            Text("Pause menu", 50, (100, 10, 10), ('center', 10)),
+            Text("Pause menu", 50, (255, 255, 255), ('center', 230)),
 
-            Image("buttons/Menu.png",  'Pause', ('center', 300)).hover("buttons/Menu_Active.png").click(None, app_state.menu),
-            Image("buttons/Resume.png",  'Pause', ('center', 400)).hover("buttons/Resume_Active.png").click(None, app_state.pause),
+            Image("buttons/Resume.png",  'Pause', ('center', 300)).hover("buttons/Resume_Active.png").click(None, app_state.pause),
+            Image("buttons/Menu.png",  'Pause', ('center', 400)).hover("buttons/Menu_Active.png").click(None, app_state.menu),
             Image("buttons/Exit.png", 'Pause', ('center', 500)).hover("buttons/Exit_Active.png").click(None, app_state.exit)
         ]
 
+        # Visible elements
         self.entities = {
             'board': Image("board/game_board.png", 'Game', (0,0), (700,700)),
             'players': players,
             'dice': Dice(Vector2D(135,250), Vector2D(64, 64)),
             'game_rules': Image("board/Help_Text.png", "Game", (180, 400)),
             'buttons' : {
-                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (450,705)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
+                'button_roll_dice' : Image("buttons/Roll.png", 'Game', (130,140)).hover("buttons/Roll_Active.png").click(None, self.dice_click),
                 'help_button' : Image("board/Help.png", 'Game', (520,105)).toggle("board/Help_Active.png", app_state.game_rules),
+                'buy' : Image("buttons/Buy.png", 'Game', (5, 705)).hover("buttons/Buy_Active.png"),
+                'skip' : Image("buttons/Skip.png", 'Game', (450, 705)).hover("buttons/Skip_Active.png").click(None, self.attraction_skip)
             }
         }
 
+        # Current turn perferences
         self.turn_state = {
             'active_player_index'   : 0,
             'state'                 : 'Dice',
@@ -166,8 +172,9 @@ class Game:
                 return player
 
     def nextTurn(self):
+        # Reset turn perferences
         self.turn_state = {
-            'active_player_index'   : (self.turn_state['active_player_index'] + 1) % len(self.entities['players']),
+            'active_player_index'   : (self.turn_state['active_player_index'] + 1) % len(self.entities['players']), # Go to the next player
             'state'                 : 'Dice',
             'dice_rolled_tickstart' : 0,
             'dice_score'            : 0,
@@ -179,10 +186,12 @@ class Game:
             'interaction_tickstart' : 0,
         }
 
+        # Set next player to be active
         for index, player in enumerate(self.entities['players']):
-            player.isActive = False
             if index == self.turn_state['active_player_index']:
                 player.isActive = True
+            else:
+                player.isActive = False
 
     def dice_click(self):
         self.turn_state['dice_rolled_tickstart'] = pygame.time.get_ticks()
@@ -192,13 +201,16 @@ class Game:
         global event_handler, app_state
         event_handler.mode = 'get'
 
-        # Get the player who's turn it is
         player = self.getActivePlayer()
+        
+        # If skipping a turn
         if player.defect_turn >= 1:
+            # Skippung turn
             print("Skipping: " + player.color + " turn")
             player.defect_turn -= 1
             self.nextTurn()
         else:
+            # Rolling the dice
             if self.turn_state['state'] == 'Dice':
 
                 if not player.isRealPlayer: # IF AI
@@ -215,7 +227,13 @@ class Game:
                     self.turn_state['state'] = 'MovePawn'
                     self.turn_state['player_start_position'] = player.position
         
-            if self.turn_state['state'] == 'MovePawn':
+            # Buying an attraction
+            elif self.turn_state['state'] == 'BuyAttraction':
+                pass
+                #self.turn_state['state'] = 'EndTurn'
+
+            # Pawn moving animation
+            elif self.turn_state['state'] == 'MovePawn':
             
                 if self.turn_state['steps_taken_tickstart'] == 0:
                     player.calculate_salary() # Calculate one time
@@ -230,26 +248,28 @@ class Game:
                             player.position = 0
                 else:
                     self.turn_state['state'] = 'Interaction'
-            if self.turn_state['state'] == 'Interaction':
-  
-                if player.position < self.turn_state['player_start_position']:
-                    player.money += 10000 # Went past start
             
+            # NOTE : Michael what does this exactly?
+            elif self.turn_state['state'] == 'Interaction':
+  
                 # TODO : Choose attraction
                 if self.turn_state['interaction'] == False:
                     self.turn_state['interaction'] = True
+                    if player.position < self.turn_state['player_start_position']:
+                        player.money += 10000 # Went past start
                     self.tile_interact(self.tiles[player.position].interaction)
+
                 elif pygame.time.get_ticks() - self.turn_state['interaction_tickstart'] > self.settings['interaction_duration']:
                     self.turn_state['state'] = 'EndTurn'
 
+            # Go to the next turn
             if self.turn_state['state'] == 'EndTurn':
-                self.nextTurn() 
-
-        self.draw()
+                self.nextTurn()
 
     def draw(self):
         self.entities['board'].draw()
         
+        # Reposition players
         for player in self.entities['players']:
             player.draw(self.tiles[player.position].position)
         
@@ -258,7 +278,15 @@ class Game:
 
         self.entities['dice'].draw()
 
+        # show buy and skip buttons
+        if self.turn_state['state'] == "BuyAttraction":
+            self.entities['buttons']['buy'].draw()
+            self.entities['buttons']['skip'].draw()
+
+            Text(str(self.turn_state['interaction'].price) + "$", 25, (255,255,255), (75, 725)).draw()
+
         self.entities['buttons']['help_button'].draw()
+        # show game rules
         if app_state.show_rules:
             self.entities['game_rules'].draw()
 
@@ -270,47 +298,80 @@ class Game:
             for tile in self.tiles:
                 Image("pieces/red/piece.png", 'Game', (tile.position.X, tile.position.Y)).draw()
 
+    def attraction_skip(self):
+        if self.turn_state['state'] == "BuyAttraction":
+            # Reset click action
+            self.entities['buttons']['buy'].click()
+            self.turn_state['state'] = 'EndTurn'
+
+    def attraction_buy_confirmed(self, values):
+        if self.turn_state['state'] == "BuyAttraction":
+            self.getActivePlayer().buy_attraction(self.turn_state['interaction'], values[1])
+            self.attraction_skip()
+
+    def buy_attraction(self, attraction, position):
+        
+        # First see if player has enough money
+        if self.getActivePlayer().money > attraction.price:
+            # Setup buy click event
+            self.turn_state['state'] = "BuyAttraction"
+            self.entities['buttons']['buy'].click(None, self.attraction_buy_confirmed, (attraction, position))
+        
+            # Store attraction that we are trying to buy
+            self.turn_state['interaction'] = attraction
+
+    def attraction_event(self, id, position):
+        attraction = self.attractions[id]
+
+        if attraction.owner == None:
+            # Buy attraction
+            self.buy_attraction(attraction,position)
+        else:
+            print("Owned by " + attraction.owner.color)
+
     def tile_interact(self, interaction):
         player = self.getActivePlayer()
+        
+        #Debug
+        print(interaction)
+
         if interaction == 'ThrillRides':
-            print ("ThrillRides")
-            player.buy_attraction(self.attractions[0], 0)
+            self.attraction_event(0,0)
 
         elif interaction == 'ShopsAndStalls':
-            print ("ShopsAndStalls")
-            player.buy_attraction(self.attractions[3], 1)
-            pass
+            self.attraction_event(3,1)
+
         elif interaction == 'TransportRides':
-            print ("TransportRides")
-            player.buy_attraction(self.attractions[6], 2)
-            pass
+            self.attraction_event(6,2)
+
         elif interaction == 'WaterRides':
-            player.buy_attraction(self.attractions[19], 3)
-            pass
+            self.attraction_event(19,3)
+
         elif interaction == 'GentleRides':
-            print ("GentleRides")
-            player.buy_attraction(self.attractions[16], 4)
-            pass
+            self.attraction_event(16,4)
+
         elif interaction == 'Rollercoasters':
-            print ("Rollercoasters")
-            player.buy_attraction(self.attractions[15], 5)
-            pass
+            self.attraction_event(15,5)
+
         elif interaction == 'QuestionMark':
-            print ("QuestionMark")
             self.turn_state['show_card'] = random.choice(self.chance_cards)
             self.turn_state['interaction_tickstart'] = pygame.time.get_ticks()
-            pass
+
         elif interaction == 'CashFine':
             player.calculate_player_class()
+
             if player.player_class >= 2:
                 print("Fined player money")
                 player.money = player.money - 5000
+
         elif interaction == 'Start':
             player.money += 10000
         elif interaction == 'Spectator':
-            print("Nothing to see here")
+            pass
+
         elif interaction == 'CashPrize':
             player.money += 5000
+
         elif interaction == 'Defect':
             if player.defect_turn == 0:
                 player.defect_turn = 2

@@ -17,24 +17,30 @@ class Player:
         self.pawn = Image("pieces/" + self.color + "/piece.png", 'Game')
 
         # Personal board
-        self.inventory_offset = index * 200
-        self.board = Image("board/player_board.png", 'Game', (700,self.inventory_offset), (360,200))
-        self.board_active = Image("board/player_board_active.png", 'Game', (700,self.inventory_offset), (360,200))
+        self.inventory_offset = index * 194
+        self.board = Image("board/player_board.png", 'Game', (700,self.inventory_offset), (360,194))
+        self.board_active = Image("board/player_board_active.png", 'Game', (700,self.inventory_offset), (360,194))
         self.attractions = {}
         self.labels = {
-            'username': Text("Player " + str(index + 1), 25, (0, 0, 0), (1080, self.inventory_offset + 80)),
-            'money': Text(str(self.money) + "$", 25, (0, 0, 0), (1080, self.inventory_offset + 100))
+            'username': Text("Player " + str(index + 1), 25, (0, 0, 0), (1080, self.inventory_offset + 40)),
+            'money': Text(str(self.money) + "$", 25, (0, 0, 0), (1083, self.inventory_offset + 60))
         }
+
+        self.pawn_icon = Image("pieces/" + self.color + "/piece.png", 'Game', (1100, self.inventory_offset + 110))
 
     def calculate_player_class(self):
         if self.money <= 10000:
             self.player_class = 1
+
         elif self.money >= 10000 and self.money <= 25000:
             self.player_class = 2
+
         elif self.money >= 25000 and self.money <= 40000:
             self.player_class = 3
+
         elif self.money >= 40000 and self.money <= 65000:
             self.player_class = 4
+
         elif self.money >= 65000:
             self.player_class = 5
 
@@ -46,18 +52,21 @@ class Player:
 
     def calculate_salary(self):
         for attraction in self.attractions:
-            self.money += (attraction.price / 20)
+            self.money += int(attraction.price / 20)
 
     def buy_attraction(self, attraction, position):
-        if self.money > attraction.price:
-            self.money -= attraction.price
-            self.attractions[attraction] = position
+        self.money -= attraction.price
+        attraction.owner = self
+        self.attractions[attraction] = position
 
     def draw(self, position):
-        # Draw pawn and personal board
+        # Draw and reposition pawn
         self.pawn.position((position.X, position.Y)).draw()
+
+        # Draw personal board
         if self.isActive:
             self.board_active.draw()
+            self.pawn_icon.draw()
         else:
             self.board.draw()
 
@@ -76,6 +85,7 @@ class Attraction:
     def __init__(self, name, price, type):
         self.name = name
         self.price = price
+        self.owner = None
         self.type = type
         self.attraction = Image("attractions/" + str(self.type) + ".png", 'Game', (0,0), (60, 60))
 
