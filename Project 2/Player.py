@@ -23,7 +23,7 @@ class Player:
         self.board_active = Image("board/player_board_active.png", 'Game', (700,self.inventory_offset), (360,194))
         self.attractions = {}
         self.labels = {
-            'username': Text("Player " + str(index + 1), 25, (0, 0, 0), (1080, self.inventory_offset + 40)),
+            'username': Text(self._get_color(index).capitalize(), 25, (0, 0, 0), (1080, self.inventory_offset + 40)),
             'money': Text(str(self.money) + "$", 25, (0, 0, 0), (1083, self.inventory_offset + 60))
         }
 
@@ -47,7 +47,7 @@ class Player:
 
     def _get_color(self, index):
         # List of colours
-        player_color = ["green", "blue", "red", "yellow"]
+        player_color = ["green", "blue", "orange", "yellow"]
 
         return player_color[index]
 
