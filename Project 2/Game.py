@@ -72,11 +72,26 @@ class Game:
         ]
 
         self.chance_cards = [
-            ChanceCard('cards/card01.png', 5000),
-            ChanceCard('cards/card02.png', 6000),
-            ChanceCard('cards/card03.png', 10000),
+            #ChanceCard('cards/card01.png', -5000),
+            #ChanceCard('cards/card02.png', -6000),
+            #ChanceCard('cards/card03.png', -10000),
             ChanceCard('cards/card04.png', 2000),
-            ChanceCard('cards/card05.png', 3000)
+            ChanceCard('cards/card05.png', -3000),
+            ChanceCard('cards/card06.png', -4000),
+            ChanceCard('cards/card07.png', -3000),
+            ChanceCard('cards/card08.png', -2000),
+            ChanceCard('cards/card10.png', 2000),
+            ChanceCard('cards/card11.png', -3000),
+            ChanceCard('cards/card12.png', -7000),
+            ChanceCard('cards/card17.png', -6000),
+            ChanceCard('cards/card19.png', 1500),
+            ChanceCard('cards/card21.png', -2000),
+            ChanceCard('cards/card22.png', 3000),
+            ChanceCard('cards/card23.png', 3000),
+            ChanceCard('cards/card24.png', 3000),
+            ChanceCard('cards/card25.png', 2500),
+            ChanceCard('cards/card26.png', 1500),
+            ChanceCard('cards/card28.png', -5000),
         ]
 
         self.attractions = [
@@ -126,9 +141,10 @@ class Game:
             players.append(player)
 
         self.settings = {
-            'pawn_speed' : 50,
-            'dice_roll_duration' : 50,
-            'interaction_duration' : 2500
+            'pawn_speed' : 150,
+            'dice_roll_duration' : 1500,
+            'interaction_duration' : 2500,
+            'endturn_duration' : 1000
         }
 
         self.elements_pause = [
@@ -165,6 +181,7 @@ class Game:
             'interaction'           : False,
             'show_card'             : 0,
             'interaction_tickstart' : 0,
+            'endturn_tickstart'     : 0,
         }
 
     def getActivePlayer(self):
@@ -185,6 +202,7 @@ class Game:
             'interaction'           : False,
             'show_card'             : 0,
             'interaction_tickstart' : 0,
+            'endturn_tickstart'     : 0
         }
 
         # Set next player to be active
@@ -252,12 +270,11 @@ class Game:
             # NOTE : Michael what does this exactly?
             elif self.turn_state['state'] == 'Interaction':
   
-                if player.position < self.turn_state['player_start_position']:
-                    player.money += 10000
-            
                 # TODO : Choose attraction
                 if self.turn_state['interaction'] == False:
                     self.turn_state['interaction'] = True
+                    if player.position < self.turn_state['player_start_position']:
+                        player.money += 10000 # Went past start
                     self.tile_interact(self.tiles[player.position].interaction)
 
                 elif pygame.time.get_ticks() - self.turn_state['interaction_tickstart'] > self.settings['interaction_duration']:
@@ -265,7 +282,12 @@ class Game:
 
             # Go to the next turn
             if self.turn_state['state'] == 'EndTurn':
-                self.nextTurn()
+
+                if self.turn_state['endturn_tickstart'] == 0:
+                    self.turn_state['endturn_tickstart'] = pygame.time.get_ticks()
+
+                if pygame.time.get_ticks() - self.turn_state['endturn_tickstart'] > self.settings['endturn_duration']:
+                    self.nextTurn()
 
         if(player.money >= 100000):
             self.winning_player = player
@@ -373,6 +395,7 @@ class Game:
 
         elif interaction == 'QuestionMark':
             self.turn_state['show_card'] = random.choice(self.chance_cards)
+            player.money += self.turn_state['show_card'].money
             self.turn_state['interaction_tickstart'] = pygame.time.get_ticks()
 
         elif interaction == 'CashFine':
@@ -385,8 +408,7 @@ class Game:
                 print("Player class too low")
 
         elif interaction == 'Start':
-            player.money += 20000
-
+            player.money += 10000
         elif interaction == 'Spectator':
             pass
 
