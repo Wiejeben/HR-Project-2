@@ -12,10 +12,11 @@ class Menu:
         self.sound_state = True
 
         self.buttons_index = [
-            Image("buttons/Start.png", 'Menu', ('center', 300)).hover("buttons/Start_Active.png").click(None, app_state.player_select),
-            Image("buttons/Rules.png", 'Menu', ('center', 400)).hover("buttons/Rules_Active.png").click(None, app_state.rules),
-            Image("buttons/Options.png", 'Menu', ('center', 500)).hover("buttons/Options_Active.png").click(None, app_state.options),
-            Image("buttons/Exit.png", 'Menu', ('center', 600)).hover("buttons/Exit_Active.png").click(None, app_state.exit)
+            Image("board/Logo.png", 'Menu', ('center', 20)),
+            Image("buttons/Start.png", 'Menu', ('center', 350)).hover("buttons/Start_Active.png").click(None, app_state.player_select),
+            Image("buttons/Rules.png", 'Menu', ('center', 450)).hover("buttons/Rules_Active.png").click(None, app_state.rules),
+            Image("buttons/Options.png", 'Menu', ('center', 550)).hover("buttons/Options_Active.png").click(None, app_state.options),
+            Image("buttons/Exit.png", 'Menu', ('center', 650)).hover("buttons/Exit_Active.png").click(None, app_state.exit)
         ]
 
         self.elements_rules = [
