@@ -289,7 +289,9 @@ class Game:
             self.entities['buttons']['buy'].draw()
             self.entities['buttons']['skip'].draw()
 
-            Text(str(self.turn_state['interaction'].price) + "$", 25, (255,255,255), (75, 725)).draw()
+            # Show pricing
+            for label in self.turn_state['interaction'].labels:
+                label.draw()
 
         self.entities['buttons']['help_button'].draw()
         # show game rules
