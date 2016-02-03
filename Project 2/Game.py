@@ -324,7 +324,7 @@ class Game:
         # Debug to adjust pawn position
         if True == False:
             for tile in self.tiles:
-                Image("pieces/red/piece.png", 'Game', (tile.position.X, tile.position.Y)).draw()
+                Image("pieces/orange/piece.png", 'Game', (tile.position.X, tile.position.Y)).draw()
 
     def attraction_skip(self):
         if self.turn_state['state'] == "BuyAttraction":

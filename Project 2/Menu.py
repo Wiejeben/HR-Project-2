@@ -45,17 +45,17 @@ class Menu:
 
         self.elements_player_select = {
             'checkboxes': (
-                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (210, 200)).toggle("buttons/checkbox_checked.png", self.select_players, 0),                
-                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (210, 260)).toggle("buttons/checkbox_checked.png", self.select_players, 1),
-                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (210, 320)).toggle("buttons/checkbox_checked.png", self.select_players, 2),
-                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (210, 380)).toggle("buttons/checkbox_checked.png", self.select_players, 3)
+                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (320, 200)).toggle("buttons/checkbox_checked.png", self.select_players, 0),                
+                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (320, 260)).toggle("buttons/checkbox_checked.png", self.select_players, 1),
+                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (320, 320)).toggle("buttons/checkbox_checked.png", self.select_players, 2),
+                Image("buttons/checkbox_unchecked.png", 'PlayerSelect', (320, 380)).toggle("buttons/checkbox_checked.png", self.select_players, 3)
             ),
 
             'checkboxes_labels': (
-                Text("Player 1: ", 60, (0,0,0), (10, 205)),
-                Text("Player 2: ", 60, (0,0,0), (10, 265)),
-                Text("Player 3: ", 60, (0,0,0), (10, 325)),
-                Text("Player 4: ", 60, (0,0,0), (10, 385))
+                Text("Green Player ", 60, (0,0,0), (10, 205)),
+                Text("Blue Player ", 60, (0,0,0), (10, 265)),
+                Text("Orange Player ", 60, (0,0,0), (10, 325)),
+                Text("Yellow Player ", 60, (0,0,0), (10, 385))
             ),
 
             'buttons': (
@@ -64,7 +64,7 @@ class Menu:
             ),
             'amount': Text("Human players: " + str(self.amount_of_human_players), 50, (100,10,10), ('center', 690)),
 
-            'misc': (Text("Select amount of Human players", 50, (0,0,0), ('center', 150)))
+            'misc': (Text("Select amount of Human players", 50, (0,0,0), ('center', 0)))
         }        
 
     def index(self):
