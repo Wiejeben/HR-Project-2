@@ -141,10 +141,10 @@ class Game:
             players.append(player)
 
         self.settings = {
-            'pawn_speed' : 150,
-            'dice_roll_duration' : 1500,
-            'interaction_duration' : 2500,
-            'endturn_duration' : 1000
+            'pawn_speed' : 900,
+            'dice_roll_duration' : 2500,
+            'interaction_duration' : 7500,
+            'endturn_duration' : 2000
         }
 
         self.elements_pause = [
