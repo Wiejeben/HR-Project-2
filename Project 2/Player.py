@@ -96,6 +96,10 @@ class Attraction:
         self.owner = None
         self.type = type
         self.attraction = Image("attractions/" + str(self.type) + ".png", 'Game', (0,0), (60, 60))
+        self.labels = [
+            Text("Ticket price " + str(int(self.price / 20)), 25, (0,0,0), (280, 725)),
+            Text(str(self.price) + "$", 25, (255,255,255), (75, 725))
+        ]
 
     def draw(self, index, top):
         # Move to next row
@@ -103,3 +107,6 @@ class Attraction:
             top = top + 105
 
         self.attraction.position((700 + (index % 6 * 60), top)).draw()
+
+    def draw_specs(self, player_class):
+        self.ticket_price.draw()

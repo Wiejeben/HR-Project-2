@@ -7,17 +7,14 @@ from Game import *
 from Menu import *
 
 # Screen title
-pygame.display.set_caption("Groep 3: Buy a Ride")
+pygame.display.set_caption("Monocoasterweg by Groep 3")
 
 def Main():
     # Create initial game instance
     menu = Menu()
     game = None
-    pygame.mixer.init()
 
-    # Event loop
     while True:
-        # Calculate
         # Background white
         pygame.display.get_surface().fill((255, 255, 255))
         if app_state.state != "Game":
