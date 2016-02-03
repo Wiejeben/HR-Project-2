@@ -40,7 +40,7 @@ class AppState:
         self.set_state("PlayerSelect")
         self.next()
 
-    def game_won(self):
+    def screen_winner(self):
         self.set_state("Won")
         self.next()
 

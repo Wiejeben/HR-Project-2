@@ -15,12 +15,19 @@ def Main():
     game = None
 
     while True:
-        # Background white
+        # Clear surface
         pygame.display.get_surface().fill((255, 255, 255))
+
+        # Pause when we are not ingame
         if app_state.state != "Game":
             pygame.mixer.music.pause()
 
-        if app_state.state == "Menu":
+        if app_state.state == "Game":
+            game.update()
+            game.draw()
+            pygame.mixer.music.unpause()
+
+        elif app_state.state == "Menu":
             menu.index()
 
         elif app_state.state == "Rules":
@@ -36,15 +43,11 @@ def Main():
             game = Game(app_state.player_amount)
             app_state.state = "Game"
 
-        elif app_state.state == "Game":
-            game.update()
-            game.draw()
-            pygame.mixer.music.unpause()
-
         elif app_state.state == "Pause":
-            game.pause()
+            game.screen_pause()
+
         elif app_state.state == "Won":
-            game.game_won()
+            game.screen_winner()
 
         event_handler.run()
 
