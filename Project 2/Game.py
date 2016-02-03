@@ -231,7 +231,6 @@ class Game:
             # Buying an attraction
             elif self.turn_state['state'] == 'BuyAttraction':
                 pass
-                #self.turn_state['state'] = 'EndTurn'
 
             # Pawn moving animation
             elif self.turn_state['state'] == 'MovePawn':
@@ -311,28 +310,38 @@ class Game:
             self.entities['buttons']['buy'].click()
             self.turn_state['state'] = 'EndTurn'
 
-    def attraction_buy_confirmed(self, values):
+    def attraction_buy_confirmed(self, position):
         if self.turn_state['state'] == "BuyAttraction":
-            self.getActivePlayer().buy_attraction(self.turn_state['interaction'], values[1])
+            self.getActivePlayer().attraction_buy(self.turn_state['interaction'], position)
             self.attraction_skip()
 
-    def buy_attraction(self, attraction, position):
-        
+    def attraction_buy(self, attraction, position):
+        player = self.getActivePlayer()
+
         # First see if player has enough money
-        if self.getActivePlayer().money > attraction.price:
-            # Setup buy click event
-            self.turn_state['state'] = "BuyAttraction"
-            self.entities['buttons']['buy'].click(None, self.attraction_buy_confirmed, (attraction, position))
-        
+        if player.money > attraction.price:
             # Store attraction that we are trying to buy
+            self.turn_state['state'] = "BuyAttraction"
             self.turn_state['interaction'] = attraction
+
+            if not player.isRealPlayer: # IF AI
+                # 80% odds that the AI is going to buy
+                if random.randint(0,10) < 8:
+                    print("Buy attraction")
+                    self.attraction_buy_confirmed(position)
+                else:
+                    print("Skip attraction")
+                    self.attraction_skip()
+            else:
+                # Setup buy click event
+                self.entities['buttons']['buy'].click(None, self.attraction_buy_confirmed, position)
 
     def attraction_event(self, id, position):
         attraction = self.attractions[id]
 
         if attraction.owner == None:
             # Buy attraction
-            self.buy_attraction(attraction,position)
+            self.attraction_buy(attraction,position)
         else:
             print("Owned by " + attraction.owner.color)
 
