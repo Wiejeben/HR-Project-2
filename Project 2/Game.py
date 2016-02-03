@@ -71,11 +71,26 @@ class Game:
         ]
 
         self.chance_cards = [
-            ChanceCard('cards/card01.png', 5000),
-            ChanceCard('cards/card02.png', 6000),
-            ChanceCard('cards/card03.png', 10000),
+            ChanceCard('cards/card01.png', -5000),
+            ChanceCard('cards/card02.png', -6000),
+            ChanceCard('cards/card03.png', -10000),
             ChanceCard('cards/card04.png', 2000),
-            ChanceCard('cards/card05.png', 3000)
+            ChanceCard('cards/card05.png', -3000),
+            ChanceCard('cards/card06.png', -4000),
+            ChanceCard('cards/card07.png', -3000),
+            ChanceCard('cards/card08.png', -2000),
+            ChanceCard('cards/card10.png', 2000),
+            ChanceCard('cards/card11.png', -3000),
+            ChanceCard('cards/card12.png', -7000),
+            ChanceCard('cards/card17.png', -6000),
+            ChanceCard('cards/card19.png', 1500),
+            ChanceCard('cards/card21.png', -2000),
+            ChanceCard('cards/card22.png', 3000),
+            ChanceCard('cards/card23.png', 3000),
+            ChanceCard('cards/card24.png', 3000),
+            ChanceCard('cards/card25.png', 2500),
+            ChanceCard('cards/card26.png', 1500),
+            ChanceCard('cards/card28.png', -5000),
         ]
 
         self.attractions = [
@@ -126,8 +141,9 @@ class Game:
 
         self.settings = {
             'pawn_speed' : 125,
-            'dice_roll_duration' : 500,
-            'interaction_duration' : 2500
+            'dice_roll_duration' : 1500,
+            'interaction_duration' : 2500,
+            'endturn_duration' : 2500
         }
 
         self.elements_pause = [
@@ -164,6 +180,7 @@ class Game:
             'interaction'           : False,
             'show_card'             : 0,
             'interaction_tickstart' : 0,
+            'endturn_tickstart'     : 0,
         }
 
     def getActivePlayer(self):
@@ -184,6 +201,7 @@ class Game:
             'interaction'           : False,
             'show_card'             : 0,
             'interaction_tickstart' : 0,
+            'endturn_tickstart'     : 0
         }
 
         # Set next player to be active
@@ -264,7 +282,12 @@ class Game:
 
             # Go to the next turn
             if self.turn_state['state'] == 'EndTurn':
-                self.nextTurn()
+
+                if self.turn_state['endturn_tickstart'] == 0:
+                    self.turn_state['endturn_tickstart'] = pygame.time.get_ticks()
+
+                if pygame.time.get_ticks() - self.turn_state['endturn_tickstart'] > self.settings['endturn_duration']:
+                    self.nextTurn()
 
     def draw(self):
         self.entities['board'].draw()
