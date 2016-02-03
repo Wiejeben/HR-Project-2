@@ -8,6 +8,7 @@ class Player:
         self.isActive = False
         self.position = 0
         self.money = 10000
+        self.index = index
 
         self.player_class = 1
         self.defect_turn = 0
@@ -61,7 +62,14 @@ class Player:
 
     def draw(self, position):
         # Draw and reposition pawn
-        self.pawn.position((position.X, position.Y)).draw()
+        if self.position < 10:
+            self.pawn.position((position.X, position.Y + self.index * 15)).draw()
+        elif self.position < 20:
+            self.pawn.position((position.X + self.index * 15, position.Y)).draw()
+        elif self.position < 30:
+            self.pawn.position((position.X, position.Y + self.index * 15)).draw()
+        elif self.position < 40:
+            self.pawn.position((position.X - 45 + self.index * 15, position.Y + self.index)).draw()
 
         # Draw personal board
         if self.isActive:

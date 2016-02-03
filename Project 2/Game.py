@@ -71,9 +71,9 @@ class Game:
         ]
 
         self.chance_cards = [
-            ChanceCard('cards/card01.png', -5000),
-            ChanceCard('cards/card02.png', -6000),
-            ChanceCard('cards/card03.png', -10000),
+            #ChanceCard('cards/card01.png', -5000),
+            #ChanceCard('cards/card02.png', -6000),
+            #ChanceCard('cards/card03.png', -10000),
             ChanceCard('cards/card04.png', 2000),
             ChanceCard('cards/card05.png', -3000),
             ChanceCard('cards/card06.png', -4000),
@@ -140,10 +140,10 @@ class Game:
             players.append(player)
 
         self.settings = {
-            'pawn_speed' : 125,
+            'pawn_speed' : 150,
             'dice_roll_duration' : 1500,
             'interaction_duration' : 2500,
-            'endturn_duration' : 2500
+            'endturn_duration' : 1000
         }
 
         self.elements_pause = [
@@ -387,6 +387,7 @@ class Game:
 
         elif interaction == 'QuestionMark':
             self.turn_state['show_card'] = random.choice(self.chance_cards)
+            player.money += self.turn_state['show_card'].money
             self.turn_state['interaction_tickstart'] = pygame.time.get_ticks()
 
         elif interaction == 'CashFine':
